@@ -9,6 +9,8 @@
 \usepackage{graphicx}
 \usepackage[margin=3cm]{geometry}
 \usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{proof}
 
 \begin{document}
 
@@ -359,28 +361,110 @@ La prima clausola $\{\neg B_{1,1}, P_{1,2}, P_{2,1}\}$ e  $\{P_{1,2} \}$ sono so
 La seconda clausola $\{\neg P_{1,2}, B_{1,1}\}$ diventa unitaria, $B_{1,1}$=True. A questo punto $\{\neg P_{1,2}, B_{1,1}\}$ e $\{\neg P_{2,1}, B_{1,1}\}$ sono soddisfatte, ma $\{\neg B_{1,1}\}$ no. FAIL! \newline Non esistono modelli, quindi $\neg P_{1,2}$ è conseguenza logica della KB.
 \subsubsection{Miglioramenti DPLL}
 DPLL è completo e termina sempre. Alcuni miglioramenti: Analisi di componenti (se le variabili possono essere suddivise in sotto-insiemi disgiunti (senza simboli in comune)), Ordinamento di variabili e valori (scegliere la variabile che compare in più clausole), Backtracking intelligente e altre ottimizzazioni...
-\subsection{Algoritmo SAT}
+\subsection{Algoritmo WALK-SAT}
+Gli stati sono assegnamenti completi, l’obiettivo è un assegnamento che soddisfa tutte le clausole (un modello) partendo da un assegnamento casuale. Ad ogni passo si cambia il valore di una proposizione (flip). Gli stati sono valutati contando il numero di clausole non soddisfatte [o soddisfatte] (meno sono meglio è). Ci sono molti minimi locali, per non incapparci serve introdurre perturbazioni casuali, come Hill climbing con riavvio casuale o Simulated Annealing. WALK-SAT è uno degli algoritmi più semplici ed efficaci. \newline 
+WalkSAT ad ogni passo: 
+\begin{itemize}
+    \item Sceglie a caso una clausola non ancora soddisfatta
+    \item Sceglie un simbolo da modificare (flip) scegliendo con probabilità p (di solito 0,5) tra una delle due: \begin{itemize}
+        \item Passo casuale: un simbolo a caso
+        \item Passo di ottimizzazione: sceglie quello che rende più clausole soddisfatte
+    \end{itemize}
+    \item Si arrende dopo un certo numero di flip predefinito (variabile max-flips)
+\end{itemize}
+\subsubsection{Esempio WALK-SAT}
+Come euristica usiamo il numero di clausole soddisfatte (valore da massimizzare). \newline
+\textcolor{red}{Rosso: passo casuale} \newline
+\textcolor{blue}{Blu: passo di ottimizzazione} \newline
+$(1)\{\neg B_{1,1}, P_{1,2}, P_{2,1}\} (2)\{\neg P_{1,2}, B_{1,1}\} (3)\{\neg P_{2,1}, B_{1,1}\} (4)\{\neg B_{1,1}\}$ \newline
+[$B_{1,1}=F, P_{1,2}=T, P_{2,1}=T$] \textcolor{red}{clausole 2, 3 F; scelgo clausola 2; a caso eseguo flip $B_{1,1}$} \newline
+[$B_{1,1}=T, P_{1,2}=T, P_{2,1}=T$] \textcolor{blue}{clausola 4 F; scelgo 4; ottimizzazione: flip $B_{1,1}$ (unica scelta)}\newline
+[$B_{1,1}=F, P_{1,2}=T, P_{2,1}=T$] \textcolor{red}{clausole 2, 3 F; scelgo clausola 2; a caso eseguo flip $P_{1,2}$}\newline
+[$B_{1,1}=F, P_{1,2}=F, P_{2,1}=T$] \textcolor{blue}{clausola 3 F; scelgo 3; ottimizzazione: flip $P_{2,1}$}\newline
+[$B_{1,1}=F, P_{1,2}=F, P_{2,1}=F$]   modello\newline
+\subsection{Analisi WALK-SAT}
+Se max-flips = $\infty$ e l’insieme di clausole è soddisfacibile prima o poi termina. Va bene per cercare un modello, sapendo che esiste, ma se è insoddisfacibile non termina. Non può essere usato per verificare l’insoddisfacibilità, il problema quindi è decidibile ma l’algoritmo non è completo. \newline
+\subsubsection{Problemi SAT difficili}
+Se un problema ha molte soluzioni (problema sotto-vincolato) è più probabile che WALK-SAT ne trovi una in tempi brevi. Ad esempio: esistono 16 soluzioni su 32 assegnamenti possibili, un assegnamento ha il 50\% di probabilità di essere giusto: 2 passi in media!
+Un altro esempio che si può fare è che in questa istanza: \newline $(\neg D \lor \neg B \lor C) \land (B \lor \neg A \lor \neg C) \land (\neg C \lor \neg B \lor E) \land (E \lor \neg D \lor B) \land (B \lor E \lor \neg C)$ \newline quello che conta è il rapporto m/n, dove m è il numero di clausole (vincoli) e n il numero di simboli. In questo esempio 5/5=1, più è grande il rapporto, più vincolato è il problema.
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.35]{Images/rateomn.png}
+\end{figure}
+\subsection{Inferenza come deduzione}
+Un altro modo per decidere se KB $\models$ A è usare un meccanismo di dimostrazione (deduzione). Si scrive KB $\vdash$ A  (A è deducibile da KB). La deduzione avviene specificando delle regole di inferenza.
+\begin{itemize}
+    \item Correttezza: Se KB $\vdash$ A allora KB $\models$ A. Tutto ciò che è derivabile è conseguenza logica.
+    \item Completezza: Se KB $\models$ A allora KB $\vdash$ A. Tutto ciò che è conseguenza logica è ottenibile tramite il meccanismo di inferenza.
+\end{itemize}
+Nota: questa nozione di completezza (detta anche completezza semantica) si riferisce al teorema di completezza di Godel. Il teorema di incompletezza di Godel non asserisce che non esistono sistemi deduttivi completi per il FOL, ma che una logica abbastanza potente da assiomatizzare l’aritmetica non è in grado di dimostrare tutte le asserzioni vere sui numeri.
+\subsubsection{Alcune regole di inferenza}
+Modus Ponens \quad
+\infer{\beta}{
+    \alpha \rightarrow \beta
+    & \deduce{\alpha}
+} \newline
+Eliminazione dell'AND \quad
+\infer{\alpha}{
+    \alpha \land \beta
+} \newline
+Eliminazione doppia implicazione \quad
+\infer{(\alpha \Rightarrow \beta) \land (\beta \Rightarrow \alpha)}{
+    \alpha \Leftrightarrow \beta
+} \newline
+Introduzione doppia implicazione \quad
+\infer{\alpha \Leftrightarrow \beta}{
+    (\alpha \Rightarrow \beta) \land (\beta \Rightarrow \alpha)
+} \newline
 
+Come decidere ad ogni passo qual è la regola di inferenza da applicare? e a quali premesse applicarla? Nasce quindi un problema di esplorazione di uno spazio di stati. Una procedura di dimostrazione definisce quindi sia la direzione della ricerca che una strategia di ricerca.
 
+\subsubsection{Direzione della ricerca}
+Nella dimostrazione di teoremi conviene procedere all’indietro. Se si vuole dimostrare A $\land$ B si cerca di dimostrare A e poi B, se si vuole dimostrare A $\Rightarrow$ B, si assume A e si cerca di dimostrare B.
+\subsubsection{Strategia di ricerca}
+Completezza: Le regole della deduzione naturale sono un insieme di regole di inferenza completo, se l’algoritmo di ricerca è completo siamo a posto! \newline
+Efficienza: La complessità è alta, è un problema decidibile ma NP-completo.
+\subsection{Regola di risoluzione}
+Un’unica regola: la regola di risoluzione (presuppone forma a clausole). Esempio: \newline
+\infer{\{Q,R\}}{
+    \{P,Q\}
+    & \deduce{\{\neg P,R\}}
+} \quad 
+\infer{Q \lor R}{
+    P \lor Q
+    & \deduce{\neg P \lor R}
+}
+\subsubsection{Regola di risoluzione in generale}
+\quad
+\infer{\{ I_1,I_2, ..., I_i, ..., I_k \} \{ M_1,M_2, ..., M_j, ..., M_n \}}{
+    \{ I_1,I_2, ..., I_{i-1}, I_{i+1} ..., I_k, M_1,M_2, ..., M_{j-1},M_{j+1} ..., M_n \}
+} \newline
+Gli "I" e "M" sono letterali, simboli di proposizione positivi o negativi, la cosa fondamentale da sapere è che $I_i$ e $M_j$ sono simboli uguali ma di segno opposto.
+Un caso particolare avviene quando ci troviamo in questa situazione: \newline
+\quad
+\infer{\{\} //clausola vuota \rightarrow contraddizione}{
+    \{P\}
+    & \deduce{\{\neg P\}}
+}
+\subsubsection{Esempio grafo di risoluzione}
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{Images/esgraforisoluzione.png}
+\end{figure}
+ATTENZIONE:
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{Images/danger.png}
+\end{figure}
+\subsubsection{Refutazione}
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{Images/refutazione.png}
+\end{figure}
+\subsubsection{Osservazioni}
+Abbiamo una singola regola di inferenza, ma è sufficiente? Siamo sicuri che applicando la regola in tutti i modi possibili riesco a dedurre A quando è conseguenza logica? Vale la completezza? No. 
+Per fortuna il teorema di refutazione ci offre un modo alternativo di procedere: se voglio vedere se A è $\models$ KB, aggiungo $\neg A$ a KB e vedo se l’insieme ottenuto è insoddisfacibile. La correttezza della regola ci dice anche che se da tale insieme derivo la clausola vuota allora in effetti l’insieme è insoddisfacibile. Inoltre abbiano un altro risultato, il teorema di risoluzione, che ci garantisce che se KB è insoddisfacibile allora la clausola vuota sono sempre in grado di trovarla con applicazioni della regola di risoluzione. Concludendo procedere per refutazione ci garantisce la completezza (naturalmente se la procedura applica la regola in maniera sistematica).
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\bibliographystyle{plain}
-\bibliography{references}
+%\bibliographystyle{plain}
+%\bibliography{references}
 \end{document}
