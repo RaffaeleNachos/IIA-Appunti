@@ -11,6 +11,7 @@
 \usepackage{amssymb}
 \usepackage{xcolor}
 \usepackage{proof}
+\usepackage{float}
 
 \begin{document}
 
@@ -464,6 +465,241 @@ ATTENZIONE:
 \subsubsection{Osservazioni}
 Abbiamo una singola regola di inferenza, ma è sufficiente? Siamo sicuri che applicando la regola in tutti i modi possibili riesco a dedurre A quando è conseguenza logica? Vale la completezza? No. 
 Per fortuna il teorema di refutazione ci offre un modo alternativo di procedere: se voglio vedere se A è $\models$ KB, aggiungo $\neg A$ a KB e vedo se l’insieme ottenuto è insoddisfacibile. La correttezza della regola ci dice anche che se da tale insieme derivo la clausola vuota allora in effetti l’insieme è insoddisfacibile. Inoltre abbiano un altro risultato, il teorema di risoluzione, che ci garantisce che se KB è insoddisfacibile allora la clausola vuota sono sempre in grado di trovarla con applicazioni della regola di risoluzione. Concludendo procedere per refutazione ci garantisce la completezza (naturalmente se la procedura applica la regola in maniera sistematica).
+
+\section{Agenti Logici: Logica del prim'ordine}
+Nella logica dei predicati abbiamo assunzioni che comprendono gli oggetti, le proprietà e le relazioni. Si inizia con una concettualizzazione, cioè si tratta di decidere quali sono le cose di cui si vuole parlare. 
+\begin{itemize}
+    \item Gli oggetti: un libro, un evento, una persona... Possono essere identificati con simboli o relativamente ad altri oggetti, mediante funzioni: “la madre di Pietro”. L’insieme degli oggetti rilevanti costituiscono il dominio del discorso. Il dominio potrebbe essere infinito! 
+    \item Le proprietà: “la madre di Pietro è simpatica”
+    \item Le relazioni tra gli oggetti: “Pietro è amico di Paolo”
+\end{itemize} 
+\subsubsection{Esempio: il mondo dei blocchi}
+\begin{itemize}
+    \item Dominio: \{a, b, c, d, e\} (blocchi veri)
+    \item Le funzioni: si individuano le funzioni rilevanti che servono anch’esse per identificare oggetti. Ad esempio la funzione "Hat(x)" che dato un blocco "x" identifica il blocco ad esso superiore.
+    \item Le relazioni: si individuano le relazioni interessanti. \begin{itemize}
+        \item On = $\{<a, b>, <b, c>, <d, e>\}$ //a è su b, b è su c, d è su e
+        \item Clear = \{a, d\} //non hanno nulla sopra di loro
+        \item Table = \{c, e\} //sono poggiati sul tavolo
+        \item Block = \{a, b, c, d, e\} //sono blocchi
+    \end{itemize} 
+\end{itemize}
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{Images/blocks.png}
+\end{figure}
+\subsubsection{Concettualizzazioni}
+Otteniamo così la concettualizzazione del problema definita come \newline $<\{a, b, c, d, e\}, \{Hat\}, \{On, Clear, Table, Block\}>$ \newline
+Le concettualizzazioni possibili sono infinite, un aspetto importante è il livello di astrazione giusto per gli scopi della rappresentazione. Se fosse rilevante il colore o la grandezza dei blocchi dovremmo introdurre predicati anche per questi aspetti.
+\subsection{FOL}
+\subsubsection{Predicati}
+\begin{itemize}
+    \item Connettivo: $\land | \lor | \neg | \Rightarrow | \Leftrightarrow | \Leftarrow$
+    \item Quantificatore: $\forall | \exists $
+    \item Variabile: $x | y | ...$
+    \item Costante: $A | B | Mario | 2 ...$
+    \item Funzione: $Hat | + | - ...$
+    \item Predicato: $On | Clear | > | < | ...$
+\end{itemize}
+\subsubsection{Termini}
+\begin{itemize}
+    \item Termine: $Costante | Variabile | Funzione(Termine,...)$
+\end{itemize}
+\subsubsection{Formule}
+\begin{itemize}
+    \item Formula-Atomica: $True | False | Termine=Termine | Predicato(Termine,...)$
+    \item Formula: $Formula-Atomica | Formula Connettivo Formula | Quantificatore Variabile Formula | \neg Formula$
+\end{itemize}
+Di solito le variabili sono usate nell’ambito di quantificatori. In tal caso le occorrenze si dicono legate. Se non sono legate, si dicono libere. \newline
+    Mela(x) $\Rightarrow$ Rossa(x) \quad x è libera in entrambe le occorrenze \newline
+	$\forall$ x Mela(x) $\Rightarrow$ Rossa(x) \quad x è legata \newline
+	Mela(x) $\Rightarrow \exists$x Rossa(x) \quad la prima x è libera, la seconda legata. \newline
+Formula chiusa: una formula che non contiene occorrenze di variabili libere, altrimenti è detta aperta.\newline
+Formula ground: una formula che non contiene variabili.
+\subsubsection{Iterpretazione}
+La semantica dichiarativa consiste nello stabilire una corrispondenza tra i termini del linguaggio e gli oggetti del mondo. \newline
+Una interpretazione I stabilisce una corrispondenza precisa tra elementi atomici del linguaggio ed elementi della concettualizzazione. I interpreta:
+\begin{itemize}
+    \item i simboli di costante come elementi del dominio
+    \item i simboli di funzione come funzioni da n-uple di D $\rightarrow$ D
+    \item i simboli di predicato come insiemi di n-uple
+\end{itemize}
+\subsubsection{Sematica composizionale}
+Il significato di un termine o di una formula composta è determinato in funzione del significato dei suoi componenti.
+\begin{itemize}
+    \item Semantica $\forall$:  $\forall x$ A(x) è vera se per ciascun elemento del dominio A è vera di quell’elemento. Se il dominio è finito equivale a un grosso $\land$. Tipicamente, siccome difficilmente una proprietà è universale, $\forall$ si usa quasi sempre insieme a $\Rightarrow$. (Es: $\forall x$ Persona(x) $\Rightarrow$ Mortale(x).
+    \item Semantica $\exists$: $\exists x$ A(x) è vera se esiste almeno un elemento del dominio per cui A è vera. Se il dominio è finito equivale a un grosso $\lor$. Tipicamente $\exists$ si usa con $\land$ (Es: $\exist$x Persona(x) $\land$ Speciale(x).
+\end{itemize}
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{Images/foarallexistsrelation.png}
+\caption{Relazione tra $\forall$ ed $\exists$}
+\end{figure}
+\subsubsection{Semantica Standard VS Semantica database}
+\begin{itemize}
+    \item Standard: Ci permette di inferire.
+    \item Database: simboli distinti, oggetti distinti, mondo chiuso cioè tutto ciò di cui non si sa che è vero è falso, infine esistono solo gli oggetti di cui si parla
+\end{itemize}
+\subsection{Interazione con la KB tramite FOL}
+\begin{itemize}
+    \item Asserzioni: vengono aggiunte le informazioni alla KB, esempio TELL(KB, King(John)) oppure TELL(KB, $\forall x$ King(x) $\Rightarrow$ Person(x))
+    \item Conseguenze logiche: ASK(KB, Person(John)) risponde si, se KB $\models$ Person(John) altro esempio è ASK(KB, $\exists$ x Person(x)) risponde con una lista di sostituzioni o legami: [\{x/John\} \{x/George\} …]
+\end{itemize}
+Il metodo di risoluzione per FOL si basa sulla trasformazione in forma a clausole e poi sull'unificazione. Ci sono dei casi particolari come il Backward chaining e programmazione logica o il Forward chaining e basi di dati deduttive.
+\subsection{Regola di inferenza per $\forall$}
+Istanziazione dell’Universale (eliminazione del $\forall$) \quad
+\infer{A[g]}{
+    \forall x A[x]
+} \newline
+dove g è un termine ground (non già presente) e A[g] è il risultato della sostituzione di g per x in A. \newline
+Ad esempio: $\forall x King(x) \land Greedy(x) \Rightarrow Evil(x)$ si ottiene $ King(John) \land Greedy(John) \Rightarrow Evil(John)$
+\subsection{Regola di inferenza per $\exists$}
+Istanziazione dell’esistenziale (eliminazione del $\exists$) \quad 
+\infer{A[k]}{
+    \exists x A[x]
+} \newline
+se $\exists$ non compare nell’ambito di $\forall$, k è una costante nuova (costante di Skolem) es: $\exists x Padre(x,G)$ diventa Padre(k,G) altrimenti va introdotta una funzione (di Skolem) nelle variabili quantificate universalmente ad esempio $\forll x \exists y Padre(x, y)$ diventa $ \forall x Padre(x, p(x))$
+\subsubsection{Riduzione a inferenza proposizionale}
+Proposizionalizzazione: creare tante istanze delle formule quantificate universalmente quanti sono gli oggetti menzionati ed eliminare i quantificatori esistenziali skolemizzando. A questo punto possiamo trattare la KB come proposizionale e applicare gli algoritmi visti. Ma ci sono dei problemi? Si, le costanti sono in numero finito ma se ci sono funzioni, il numero di istanze da creare è infinito: John, Padre(John), Padre(Padre(John))... 
+\subsubsection{Teorema di Herbrand} 
+Se KB $\models$ A allora c'è una dimostrazione che coinvolge solo un sotto-insieme finito della KB proposizionalizzata. Si può procedere incrementalmente, iniziando col creare le istanze con le costanti, creare poi quelle con un solo livello di annidamento Padre(John), Madre(John) ed infine quelle con due livelli di annidamento Padre(Padre(John)), Padre(Madre(John))... Se KB $\nvDash$ A il processo non termina. (Semidecidibile)
+\subsection{Metodo di risoluzione per il FOL}
+Per trovare un metodo di risoluzione, come abbiamo fatto per il PROP, dobbiamo estendere al FOL la trasformazione in forma a clausole e dobbiamo introdurre il concetto di unificazione.
+\subsubsection{Forma a clausole}
+Una clausola è un insieme di letterali, che rappresenta la loro disgiunzione:
+\begin{itemize}
+    \item Clausola: {Letterale, ..., Letterale}
+    \item Letterale: Formula-Atomica $| \neg$ Formula-Atomica
+\end{itemize}
+Una KB è un insieme di clausole.\newline
+Teorema: per ogni formula chiusa $\alpha$ del FOL è possibile trovare in maniera effettiva un insieme di clausole FC($\alpha$) che è soddisfacibile sse $\alpha$ lo era [o insoddisfacibile sse $\alpha$ lo era].
+\subsubsection{Esempio di trasformazione (passo passo)}
+Esempio di trasformazione in dettaglio per la frase “Tutti coloro che amano tutti gli animali sono amati da qualcuno” \newline il nostro risultato sarà: $\forall x ( \forall y Animale(y) \Rightarrow Ama(x,y)) \Rightarrow (\exists y Ama(y, x))$
+\begin{enumerate}
+    \item Eliminazione delle implicazioni ($\Rightarrow$):
+    \begin{itemize}
+        \item A $\Rightarrow$ B diventa	$\neg A \lor B$
+        \item A $\Leftrightarrow$ B diventa $(\neg A \lor B) \land (\neg B \lor A)$
+    \end{itemize}
+    \item Negazioni all'interno:
+    \begin{itemize}
+        \item $\neg \neg A$ diventa A
+        \item $\neg (A \land B)$ diventa $\neg A \lor \neg B)$
+        \item $\neg (A \lor B)$ diventa $\neg A \land \neg B)$
+        \item $\neg \forall x A$ diventa $\exists x \neg A$
+        \item $\neg \exists x A $ diventa $\forall x \neg A$
+    \end{itemize}
+    \item Standardizzazione delle variabili: ogni quantificatore una variabile diversa
+    \item Skolemizzazione: eliminazione dei quantificatori esistenziali
+    \item Eliminazione quantificatori universali: 
+    \item Forma normale congiuntiva (congiunzione di disgiunzioni di letterali):
+    \item Notazione a clausole
+    \item Separazione delle variabili: clausole diverse, variabili diverse
+\end{enumerate}
+\subsubsection{Sostituzione}
+Possiamo eseguire la sostituzione in un insieme finito di associazioni tra variabili e termini, in cui ogni variabile compare una sola volta sulla sinistra. Ad esempio $\{x_1/A, x_2/f(x_3), x_3/B\}$, significa che A va sostituita a $x_1$, f($x_3$) va sostituito a $x_2$ e B a $x_3$ (nota: sulla sinistra sono solo variabili)
+Sia $\sigma$ una sostituzione e A un’ espressione: $A \sigma$ è l'istanza generata dalla sostituzione (delle variabili con le corrispondenti espressioni). Possiamo scriverlo anche come Subst($\sigma$, A). \newline
+Esempio:
+Subst(\{x/A, y/f(B), z/w\}, P(x, x, y, v)) = P(A, A, f(B), v) \newline
+Subst(\{x/g(y), y/z, z/f(x)\}, Q(x, y, z)) = Q(g(y), z, f(x)) \newline
+\subsubsection{Unificazione}
+L'unificazione è una operazione mediante la quale si determina se due espressioni possono essere rese identiche mediante una sostituzione di termini a variabili. Il risultato è la sostituzione che rende le due espressioni identiche detta unificatore, oppure restituisce FAIL se le espressioni non sono unificabili. \newline
+Ad esempio P(A, y, z) e P(x, B, z) sono unificabili con $\tau$=\{x/A, y/B, z/C\} possiamo notare come $\tau$ sia un unificatore, ma non l’unico, un altro è $\sigma$=\{x/A, y/B\}. Possiamo infine notare come $\sigma$ è più generale di $\tau$ cioè istanzia ‘meno’ variabili. Noi però vorremmo l’unificatore più generale di tutti (MostGeneralUnifier) e abbiamo un teorema che dice che l’unificatore più generale è unico, a parte i nomi delle variabili (l’ordine non conta).
+\subsubsection{Algoritmo di unificazione}
+L’algoritmo di unicazione prende in input due espressioni p, q e restituisce un MGU $\Sigma$ se esiste. Possiamo chiamare l'algoritmo come UNIFY(p, q)= $\Sigma$ tale che SUBST($\Sigma$, p)= SUBST($\Sigma$, q), altrimenti FAIL. L’algoritmo esplora in parallelo le due espressioni e costruisce l’unificatore strada facendo. Appena trova espressioni non unificabili fallisce. Una causa di fallimento sono sostituzioni del tipo x=f(x), cioè sostituzioni in cui x occorre già all'interno dell'espressione. Questo controllo si chiama occurr check e in tal caso FAIL. (È un controllo di complessità quadratica)
+\subsection{Esempi}
+Esempio 1
+\begin{itemize}
+    \item UNIFY(P(A, y, z), P(x, B, z), \{\})
+    \item UNIFY((A, y, z), (x, B, z), UNIFY(P, P, \{\}))
+    \item UNIFY((A, y, z), (x, B, z), \{ \})
+    \item UNIFY((y, z), (B, z), UNIFY(A, x, \{\}))
+    \item UNIFY((y, z), (B, z), UNIFY(x, A, \{\}))
+    \item UNIFY((y, z), (B, z), UNIFY-VAR(x, A, \{\}))
+    \item UNIFY((y, z), (B, z), \{x/A\})
+    \item UNIFY((z), (z), \{y/B, x/A\})
+    \item UNIFY(z, z, \{y/B, x/A\})
+    \item \{y/B, x/A\}	
+\end{itemize}
+Esempio 2
+\begin{itemize}
+    \item UNIFY(P(f(x), x), P(z, z), \{\})
+    \item UNIFY((f(x), x), (z, z),UNIFY(P, P, \{\}))
+    \item UNIFY((f(x), x), (z, z), \{\})
+    \item UNIFY((x), (z), UNIFY(f(x), z, \{\})
+    \item UNIFY((x), (z), UNIFY(z, f(x), \{\}))
+    \item UNIFY((x), (z), \{z/f(x)\})
+    \item UNIFY-VAR(x, z, \{z/f(x)\})
+    \item UNIFY(x, f(x), \{z/f(x)\})
+    \item OCCUR-CHECK(x, f(x))
+    \item FAIL
+\end{itemize}
+\subsubsection{Metodo di risoluzione per FOL}
+Siamo ora in grado di definire in generale la regola di risoluzione per FOL. \newline
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{Images/FOLresolmethod.png}
+\end{figure}
+\subsubsection{Esempio metodo di risoluzione}
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{Images/FOLresexample.png}
+\caption{Esempio di grafo di risoluzione}
+\end{figure}
+\subsubsection{Problemi}
+Le seguenti clausole dovrebbero produrre la clausola vuota invece...\newline
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.2]{Images/problem_a.png}
+\end{figure}
+Se un sottoinsieme dei letterali di una clausola può essere unificato allora la clausola ottenuta dopo tale unificazione si dice fattore della clausola originaria.\newline
+Il metodo di risoluzione va applicato ai fattori delle clausole:
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.2]{Images/problem_b.png}
+\end{figure}
+\subsubsection{Completezza del metodo di risoluzione}
+La deduzione per risoluzione è corretta	Correttezza: Se $\Gamma \vdash _{RES}$ A allora $\Gamma \models A$ \newline
+La deduzione per risoluzione non è completa: può essere che $\Gamma \models A$ e non $\Gamma \vdash _{RES}$ A \newline
+Un esempio è \{ \} $\models$ \{P, $\neg$P\} ma non è vero che \{ \} $\vdash _{RES}$ \{P, $\neg$P\} 
+\subsubsection{Refutazione}
+Come per PROP, il teorema di refutazione ci suggerisce un metodo alternativo completo. 
+Il teorema di refutazione dice che $\Gamma \cup \{\neg A\}$ è insoddisfacibile sse $\Gamma \models A$. \newline
+Possiamo dire quindi che $\Gamma$ è insoddisfacibile sse $\Gamma \vdash _{RES} \{\}$. Abbiamo quindi un metodo meccanizzabile, corretto e completo: basta aggiungere il negato della formula da dimostrare e provare a generare la clausola vuota.
+\subsubsection{Esempio di Refutazione}
+La nostra KB è formata da:
+\begin{itemize}
+    \item \{P(A, J)\} A è padre di J
+    \item \{M(B, J)\} B è madre di J
+    \item \{$\neg$P(x, y), G(x, y)\} padre implica genitore
+    \item \{$\neg$M(v, w), G(v, w)\} madre implica genitore
+\end{itemize} \clearpage
+Il nostro goal è sapere se A è genitore di J, in forma a clausole se G(A, J) appartiene alla KB, per refutazione possiamo quindi aggiungere alla KB la negazione del goal \{$\neg$G(A, J)\} e proviamo a dedurre la clausola vuota.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{Images/refutazioneesempio.png}
+\end{figure}
+E per domande del tipo "trova...?" come ad esempio "chi sono i genitori di J? \newline
+Si cerca di dimostrare che $\exists z G(z,J) \rightarrow \{\neg G(z,J)\}$ e la risposta sono tutti i possibili legami per z che consentono di ottenere la clausola vuota.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{Images/refutazioneesempio2.png}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 %\bibliographystyle{plain}
 %\bibliography{references}
