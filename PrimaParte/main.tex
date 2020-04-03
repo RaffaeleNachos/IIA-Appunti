@@ -1,0 +1,456 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\title{Appunti di Introduzione all'Intelligenza Artificiale Unipi - Parte 1}
+\author{Raffaele Apetino}
+\date{Marzo 2020}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage[margin=3cm]{geometry}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{proof}
+\usepackage{float}
+\usepackage{tipa}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents{}
+\clearpage
+\section{Premessa}
+Questi appunti sono stati scritti e controllati più volte, ma come ben si sa:
+\begin{quote}
+    Sa chi sa che nulla sa, e chi sa che nulla sa ne sa più di chi ne sa.
+\end{quote}
+Quindi è bene non prendere queste mie parole come leggi, ma anzi, vi invito a guardare per bene le slide del corso e studiare su quelle. Magari utilizzate questi appunti per un ripasso veloce prima della gogna. Per segnalare errori o migliorie mandatemi una mail a r.apetino at studenti.unipi.it o fate una bella Pull Request su GitHub!
+
+\section{Introduzione}
+L'intelligenza artificiale si occupa della comprensione e riproduzione del comportamento intelligente. L'approccio psicologico (psicologia cognitiva) ha come obiettivo la comprensione dell'intelligenza umana e quindi risolvere i problemi con gli stessi processi usati dall'uomo. L'approccio informatico è quello di costruire entità dotate di razionalità e quindi si occupa dell'automazione del comportamento intelligente. Quest'ultimo viene eseguito attraverso la meccanizzazione del ragionamento, comprensione mediante modelli computazionali della psicologia e del comportamento degli uomini. \newline 
+C'è però una domanda molto importante riguardo a cosa sia l'intelligenza: capacità di ragionamento? Buon senso? Capacità sociali e di comunicazione? Capacità di comprendere e provare emozioni?
+
+\subsection{Test di Turing}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{Images/testdituring.png}
+\end{figure}
+In due stanze separate ci sono una persona ed un computer, fuori da queste due stanze c'è una seconda persona che fa domande ad entrambi ad entrambi con la porta chiusa. Il test di Turing si basa su dopo quanto tempo l'uomo esterno riesce a capire chi è uomo e chi macchina. \newline
+Da qui ci viene una domanda fondamentale, dobbiamo dotare i computer di senso comune? (esistono già dei progetti nominati CYC e OpenMind) Una definizione di senso comune possiamo darla, è la capacità di un uomo di poter riconoscere in modo immediato ricorrendo all'uso della ragione naturale. Quindi possiamo anche dare una definizione di intelligenza: è la qualità mentale che consiste nell'abilità di apprendere dall'esperienza, di adattarsi a nuove situazioni, comprendere e gestire concetti astratti, utilizzare la conoscenza per agire sul proprio ambiente.
+
+\subsection{Deep Learning}
+L'apprendimento profondo (deep learning) è quel campo di ricerca dell'apprendimento automatico (machine learning) e dell'intelligenza artificiale che si basa su diversi livelli di rappresentazione, corrispondenti a gerarchie di caratteristiche di fattori o concetti, dove i concetti di alto livello sono definiti sulla base di quelli di basso. In altre parole, per apprendimento profondo si intende un insieme di tecniche basate su reti neurali artificiali organizzate in diversi strati, dove ogni strato calcola i valori per quello successivo affinché l'informazione venga elaborata in maniera sempre più completa. L'apprendimento automatico si basa sull'estrazione di modelli statistici predittivi da immense quantità di dati (data mining).
+\begin{quote}
+    L'intelligenza artificiale è pericolosa? Andrebbe regolata? Le macchine dovrebbero avere un etica? Ma su quale etica dovrebbero basarsi? L'intelligenza collettiva può essere estratta o inferita dai dati?
+\end{quote}
+
+\section{Agenti Intelligenti}
+L'approccio moderno dell'IA si basa sulla costruzione di agenti intelligenti e sulla creazione del programma agente da parte del programmatore. La visione ad agenti ci offre un quadro di riferimento e una prospettiva diversa dall'analisi dei sistemi software. Il nostro primo obiettivo è realizzare agenti per la risoluzione di problemi vista come ricerca in uno spazio di stati.
+
+\subsection{Test di Turing}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.3]{Images/AgentiAIMA.png}
+\end{figure}
+Agenti Intelligenti: 
+\begin{itemize}
+    \item Sono situati: ricevono percezioni da un ambiente (tramite input dei sensori), agiscono sull'ambiente mediante azioni (sfruttando gli attuatori). La sequenza percettiva è la storia completa delle percezioni. La scelta dell'azione è funzione unicamente della sequenza percettiva
+    \item Gli agenti hanno abilità sociale: sono capaci di comunicare, collaborare, difendersi da altri agenti.
+    \item Gli agenti hanno credenze, obiettivi, intenzioni...
+    \item Gli agenti sono embodied: hanno un corpo, fino a considerare i meccanismi delle emozioni.
+\end{itemize}
+La funzione agente definisce l’azione da compiere per ogni sequenza percettiva ed è implementata da un programma agente, come dicevamo prima, il nostro compito è proprio quello di progettare il programma agente.
+
+\subsection{Agenti Razionali}
+Un agente razionale interagisce con il suo ambiente in maniera efficace cioè "fa la cosa giusta". Serve quindi un criterio di valutazione oggettivo dell'effetto delle azioni dell'agente (vedremo che l'azione ha come conseguenza la creazione di un nuovo stato) come può essere il costo minimo di un cammino per arrivare alla soluzione. La razionalità è relativa alla misura delle prestazioni, alle conoscenze pregresse dell'ambiente e alle capacità dell'agente.
+\begin{quote}
+    Definizione agente razionale: \newline
+    Per ogni sequenza di percezioni compie l'azione che massimizza il valore atteso della misura delle prestazioni, considerando le sue percezioni passate e la sua conoscenza pregressa.
+\end{quote}
+Raramente tutta la conoscenza sull'ambiente può essere fornita "a priori", l'agente razionale deve essere in grado di modificare il proprio comportamento con l'esperienza (percezioni passate oppure percezioni che è in grado di apprendere in futuro). \newline
+
+\subsection{Agenti Autonomi}
+Modificare il proprio comportamento con l'esperienza implica la creazione di agenti autonomi:
+\begin{quote}
+    Un agente è autonomo nella misura in cui il suo comportamento dipende dalla sua esperienza.Un agente il cui comportamento fosse determinato solo dalla sua conoscenza built-in, sarebbe non autonomo e poco flessibile
+\end{quote}
+
+\section{Ambienti}
+Definire un problema per un agente significa caratterizzare l'ambiente in cui l'agente opera
+
+\subsection{Descrizione PEAS dei problemi}
+\begin{itemize}
+    \item Performance (prestazione, obiettivo)
+    \item Envoirment (ambiente, dove attua le sue azioni)
+    \item Actuators (attuatori, meccanismi con cui agisco sull'ambiente)
+    \item Sensor (sensori, percezioni)
+\end{itemize}
+\clearpage
+
+\subsection{Proprietà dell'ambiente}
+\begin{itemize}
+    \item L'ambiente è osservato dall'agente che ne apprende le sue caratteristiche.
+        \begin{itemize}
+            \item Completamente osservabile: conoscenza completa dell'ambiente, non c'è bisogno di mantenere uno stato del mondo esterno.
+            \item Parzialmente osservabile: sono presenti limiti o inaccuratezze che riguardano la conoscenza del mondo.
+        \end{itemize}
+    \item Il mondo può cambiare anche per eventi, non necessariamente per azioni di agenti.
+        \begin{itemize}
+            \item Agente singolo.
+            \item Multi-agente: può essere a sua volta competitivo oppure cooperativo quindi con lo tesso obiettivo (comunicano).
+        \end{itemize}
+    \item Si possono predire i cambiamenti del mondo.
+        \begin{itemize}
+            \item Deterministico: se lo stato successivo è completamente determinato dallo stato corrente e dall'azione.
+            \item Stocastico: esistono elementi di incertezza con associata probabilità.
+            \item Non deterministico: non si può sapere come evolve il mondo quindi si tiene traccia di più stati possibili risultanti da una azione eseguita.
+        \end{itemize}
+    \item
+        \begin{itemize}
+            \item Episodico: l'esperienza dell'agente è divisa in episodi atomici indipendenti.
+            \item Sequenziale: ogni decisione influenza le successive.
+        \end{itemize}
+    \item
+        \begin{itemize}
+            \item Statico: il mondo non cambia mente l'agente è fermo e sta decidendo l'azione.
+            \item Dinamico: il mondo cambia nel tempo, tardare equivale a non agire.
+            \item Semi-dinamico: l'ambiente non cambia ma la valutazione dell'agente si.
+        \end{itemize}
+    \item  
+        \begin{itemize}
+            \item Discreto: i valori del mondo sono limitati (ad esempio gli stati possono essere di numero finito)
+            \item Continuo: i valori del mondo possono essere infiniti (ad esempio il tempo può essere infinito)
+        \end{itemize}
+    \item Lo stato di conoscenza dell'agente può essere:
+        \begin{itemize}
+            \item Noto: conosco l'ambiente, questo non significa che sia osservabile (ad esempio in un gioco di carte, le carte sono note ma se sono coperte non sono osservabili)!
+            \item Ignoto: devo compiere azioni esplorative per conoscerlo tutto.
+        \end{itemize}
+\end{itemize}
+Gli ambienti reali sono parzialmente osservabili, stocastici, sequenziali, dinamici, continui, multi-agente, ignoti.
+
+\subsection{Simulatore di ambienti}
+E' uno strumento software che si occupa di generare stimoli per gli agenti, raccogliere le azioni di risposta, aggiornare lo stato dell'ambiente e valutare le prestazioni dell'agente.
+\clearpage
+
+\section{Agenti - Struttura di un agente}
+Struttura Agente = Architettura + Programma \newline
+Funzione Agente \footnote{La funzione agente definisce l'azione da compiere per ogni sequenza percettiva} = Ag : Percezioni $\rightarrow$ Azioni \newline
+Il programma dell'agente implementa la funzione Ag.
+
+\subsection{Agente basato su tabella}
+La scelta dell'azione è un accesso a una tabella che associa un’azione ad ogni possibile sequenza di percezioni. Ci sono ovvi problemi:
+\begin{enumerate}
+    \item Dimensione: Per giocare a scacchi la tabella ha un numero di righe molto maggiore di $10^{80}$ perciò la situazione è ingestibile.
+    \item Difficile da costruire.
+    \item Nessuna autonomia.
+    \item Di difficile aggiornamento, apprendimento complesso.
+\end{enumerate}
+
+\subsection{Agenti reattivi semplici}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{Images/agentireattivisemplici.png}
+\end{figure}
+Sono presenti delle regole if-then costruite a priori che mi dicono quale azione fare in base allo stato e alle regole in quel dato istante.
+\clearpage
+
+\subsection{Agenti basati su modello}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{Images/agentibasatisumodello.png}
+\end{figure}
+E' presente un modello del mondo che comprende lo stato aggiornato con la storia delle percezioni. Sono ancora presenti le regole if-then.
+
+\subsection{Agenti con obiettivo}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{Images/agenticonobiettivo.png}
+\end{figure}
+Sono agenti guidati da un obiettivo nella scelta dell'azione (viene fornito un goal esplicito, ad esempio raggiungere una città). L'azione migliore dipende da quale obiettivo bisogna raggiungere e pianificano le proprie azioni in base al goal. L'agente si preoccupa di capire come sarà il mondo dopo aver eseguito una azione.
+
+\subsection{Agenti con valutazione di utilità}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{Images/agentivalutazioneutilita.png}
+\end{figure}
+Ci sono obiettivi alternativi magari più facilmente raggiungibili. L'agente deve decidere verso quali di questi muoversi. E' necessaria una funzione di utilità che associa ad uno stato un numero reale. La funzione di utilità tiene conto anche della probabilità di successo e di utilità attesa.
+
+\subsection{Agenti che apprendono}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{Images/agenticheapprendono.png}
+\end{figure}
+E' presente una componente di apprendimento che produce cambiamenti al programma agente, migliora le prestazioni adattando i suoi componenti, apprendendo dall'ambiente. L'elemento esecutivo è il programma agente, l'elemento critico osserva e dà feedback sul comportamento. Infine è presente un generatore di problemi, suggerisce nuove situazioni da esplorare.
+
+\section{Agenti risolutori di problemi}
+Adottano il paradigma della risoluzione di problemi come ricerca in uno spazio di stati. Sono agenti con modello che adottano una rappresentazione atomica dello stato, hanno un obiettivo e pianificano l'intera sequenza di mosse prima di agire. \newline
+Passi da seguire:
+\begin{enumerate}
+    \item Determinare un obiettivo (un insieme di stati tali che l'obiettivo è soddisfatto)
+    \item Formulare un problema (rappresentazione degli stati e delle azioni)
+    \item Determinare soluzione mediante ricerca
+    \item Esecuzione soluzione
+\end{enumerate}
+L'ambiente è statico, osservabile, discreto e deterministico.
+
+\subsection{Formulazione di un problema}
+Un problema può essere definito formalmente mediante 5 componenti:
+\begin{enumerate}
+    \item Stato iniziale
+    \item Azioni possibili nello stato
+    \item Modello di transizione: Risultato(stato, azione) = nuovo stato
+    \item Test obiettivo: insieme di stati obiettivo
+    \item Costo del cammino: somma dei costi delle azioni, costo di passo definito come c(s,a,s')
+\end{enumerate}
+1, 2 e 3 definiscono implicitamente lo spazio degli stati.
+
+\subsection{Algoritmi di ricerca}
+\begin{quote}
+    Il processo che cerca una sequenza di azioni che raggiunge l'obiettivo è detto ricerca.
+\end{quote}
+Gli algoritmi di ricerca prendono in input un problema e restituiscono un cammino soluzione. La misura delle prestazioni è definita come: Costo totale = costo della ricerca + costo del cammino soluzione. Valuteremo algoritmi riguardo la ricerca ottimizzando il cammino soluzione.
+
+\subsection{Il problema dell'itinerario}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.35]{Images/itinerarioproblema.png}
+\end{figure}
+Il problema dell'itinerario riguarda la ricerca del percorso più breve da una città di partenza a una città di arrivo.
+
+\subsubsection{Formulazione del problema dell'itinerario}
+\begin{enumerate}
+    \item Stati: le città
+    \item Stato iniziale: la città da cui si parte (In(Arad))
+    \item Azioni: spostarsi su una città vicina collegata (Azioni(In(Arad)) = \{Go(Sibiu), Go(Zerind), ...\}
+    \item Modello di transizione (Risultato(In(Arad), Go(Sibiu)) = In(Sibiu))
+    \item Test obiettivo \{In(Bucarest)\}
+    \item Costo del cammino: somma delle lunghezze delle strade
+\end{enumerate}
+Lo spazio degli stati coincide con la rete (grafo) di collegamenti tra città.
+
+\subsection{Il problema dell'aspirapolvere}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{Images/problemaaspirapolvere.png}
+\end{figure}
+Il problema dell'aspirapolvere riguarda la pulizia di due stanze adiacenti con il minimo sforzo.
+
+\subsubsection{Formulazione del problema dell'aspirapolvere}
+\begin{enumerate}
+    \item Stati: 
+        \begin{figure}[H]
+            \centering
+            \includegraphics[scale=0.2]{Images/statiaspirapolvere.png}
+        \end{figure}
+    \item Stato iniziale: stati 1 o 2 del grafo 
+    \item Percezioni: Sporco - Non sporco
+    \item Azioni: Sinistra (L) - Destra (R) - Aspira (S)
+    \item Modello di transizione: Aspira(stanza) -> stanza pulita, Destra -> si sposta nella stanza a destra, Sinistra -> si sposta nella stanza a sinistra
+    \item Test obiettivo: rimuovere lo sporco (stati 7 o 8)
+    \item Costo del cammino: ogni azione ha costo 1
+\end{enumerate}
+
+\section{Ricerca della soluzione}
+Si tratta di generare un albero di ricerca sovrapposto allo spazio degli stati (generato da possibili sequenze di azioni) senza controllare se i nodi (stati) siano già stati esplorati. Questo controllo lo vedremo sui grafi. \newline 
+Un nodo n è una struttura dati con quattro componenti:
+\begin{enumerate}
+    \item Uno stato: n.stato
+    \item Il nodo padre: n.padre
+    \item L'azione effettuata per generarlo: n.azione
+    \item Il costo del cammino a partire dal nodo iniziale: n.costocammino $\rightarrow$ g(n)=n.padre.costocammino + costo dell'ultimo passo
+\end{enumerate}
+La frontiera è lista dei nodi in attesa di essere espansi (le foglie dell'albero di ricerca). Essa è implementata come una coda FIFO (viene estratto l'elemento più vecchio), LIFO (viene estratto quello più recentemente inserito) o con priorità (viene estratto quello con priorità più alta). Su di essa sono definite le seguenti operazioni:
+\begin{itemize}
+    \item Vuota(coda) // mi dice se la coda è vuota
+    \item Pop(coda) //estrae il primo elemento dalla coda in base alla strategia utilizzata
+    \item Inserisci(elemento,coda) //inserisce un elemento della coda
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{Images/alberocitta.png}
+\end{figure}
+Per prima cosa inizializzo la frontiera con lo stato iniziale (Arad), ad ogni ciclo controllo se la frontiera è vuota, se lo è FAIL altrimenti scelgo un nodo della frontiera e lo rimuovo. Se il nodo rimosso è contenuto negli stati obiettivo OK altrimenti espando il nodo e aggiungo i successori alla frontiera. \newline
+Il problema quindi è quale tra i nodi della frontiera scelgo?
+\clearpage
+
+\subsection{Strategie non informate VS Strategie informate "euristiche"}
+Strategie non informate:
+\begin{itemize}
+    \item Ricerca in ampiezza (BF)
+    \item Ricerca in profondità (DF)
+    \item Ricerca di costo uniforme (UC)
+    \item Ricerca in profondità limitata (DL)
+    \item Ricerca con approfondimento iterativo (ID)
+\end{itemize}
+Le strategie informate "euristiche" le vedremo dopo, fanno uso di informazioni riguardo alla distanza stimata dalla soluzione.
+
+\subsection{Valutazione di una strategia}
+\begin{itemize}
+    \item Completezza: se la soluzione viene trovata, quindi esiste
+    \item Ottimalità (ammissibilità): trova la soluzione migliore con costo minore
+    \item Complessità in tempo: tempo richiesto per trovare la soluzione
+    \item Complessità in spazio: memoria richiesta
+\end{itemize}
+
+\subsection{Ricerca in ampiezza - BF}
+Esplorare il grafo dello spazio degli stati a livelli progressivi di stessa profondità. La frontiera è implementata con una coda che inserisce alla fine (FIFO).
+\subsubsection{BF-Albero}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{Images/BFA.png}
+\end{figure}
+
+\subsubsection{BF-Grafo}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{Images/BFG.png}
+\end{figure}
+"esplorati" è una lista dei nodi già visitati. Prima di espandere un nodo si controlla se lo stato era già stato incontrato o è già nella frontiera.
+
+\subsubsection{Analisi complessità BF}
+\begin{quote}
+    Assumiamo che: \newline
+    b = fattore di ramificazione (branching) \newline
+    d = profondità del nodo obiettivo più superficiale (depth) \newline
+    m = lunghezza massima dei cammini nello spazio degli stati (max) \newline
+\end{quote}
+
+\begin{itemize}
+    \item Strategia Completa: SI
+    \item Strategia Ottimale: SI se gli operatori hanno tutti lo stesso costo k \footnote{cioè g(n) = k*depth(n) dove g(n) è il costo del cammino per arrivare a n}
+    \item Complessità Tempo: $O(b^d)$ (b figli per ogni nodo)
+    \item Complessità Spazio: $O(b^d)$ (occupa un sacco di memoria)
+\end{itemize}
+\clearpage
+
+\subsection{Ricerca in profondità - DF}
+Esplorare il grafo dello spazio degli stati arrivando in profondità per ogni nodo. La frontiera è implementata con una coda che inserisce i successori in testa alla lista (LIFO). Cancella rami già completamente esplorarti ma tiene tutti i fratelli del path corrente, occupa così in memoria solo b*m.
+
+\subsubsection{Analisi complessità DF-Albero}
+\begin{itemize}
+    \item Strategia Completa: NO, si possono creare dei loop
+    \item Strategia Ottimale: NO
+    \item Complessità Tempo: $O(b^m)$ (che può essere maggiore di $O(b^d)$)
+    \item Complessità Spazio: $O(b*m)$ (drastico risparmio di memoria)
+\end{itemize}
+In caso di DF con visita su grafo si perdono i vantaggi della memoria: la memoria torna ad essere $O(b^d)$ ma così DF diventa completa su spazi degli stati finiti (al caso pessimo estende tutti i nodi) resta comunque non completa su spazi infiniti.
+
+\subsection{Ricerca in profondità ricorsiva - RecursiveDF}
+Ancora più efficiente in occupazione di memoria perché mantiene in memoria solo il cammino corrente (solo m nodi al caso pessimo). L'algoritmo è realizzato con "backtracking" che non necessita di tenere in memoria b nodi per ogni livello, ma salva lo stato su uno stack a cui torna in caso di fallimento per fare altri tentativi.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{Images/DFR.png}
+\end{figure}
+
+\subsection{Ricerca in profondità limitata - DL}
+Si procede in profondità fino ad un certo livello predefinito l.
+\subsubsection{Analisi complessità DL}
+\begin{itemize}
+    \item Strategia Completa: solo per problemi in cui si conosce un limite superiore per la profondità della soluzione cioè se $d < l$
+    \item Strategia Ottimale: NO
+    \item Complessità Tempo: $O(b^l)$
+    \item Complessità Spazio: $O(bl)$
+\end{itemize}
+
+\subsection{Approfondimento Iterativo - ID}
+Ad ogni iterazione aumento il limite della ricerca in profondità limitata e rincomincio dalla radice.
+\subsubsection{Analisi complessità ID}
+\begin{itemize}
+    \item Strategia Completa: SI
+    \item Strategia Ottimale: se gli operatori hanno tutti lo stesso costo
+    \item Complessità Tempo: $O(b^d)$
+    \item Complessità Spazio: $O(b*d)$
+\end{itemize}
+Miglior compromesso tra BF e DF, i nodi dell'ultimo livello sono generati una volta, quello del penultimo due, ..., quelli del primo d volte.
+
+\subsection{Ricerca Bidirezionale - Bidir.}
+Un problema che possiamo valutare è la direzione della ricerca.
+\begin{itemize}
+    \item Ricerca in avanti: ricerca guidata dai dati, si esplora lo spazio di ricerca dallo stato iniziale allo stato obiettivo
+    \item Ricerca all'indietro: ricerca guidata dall'obiettivo, si esplora lo spazio di ricerca a partire da uno stato goal e riconducendosi a sotto-goal fino a trovare uno stato iniziale.
+\end{itemize}
+In quale direzione conviene procedere? Conviene procedere nella direzione in cui il fattore di diramazione è minore. Procediamo in avanti quando gli obiettivi sono molti e abbiamo una serie di dati da cui partire. Procediamo all'indietro quando l'obiettivo è chiaramente definito oppure i dati del problema non sono noti e la loro acquisizione può essere guidata dall'obiettivo. \newline
+Nella ricerca bidirezionale si procede nelle due dirazioni fino ad incontrarsi.
+\subsubsection{Analisi complessità Bidir.}
+\begin{itemize}
+    \item Strategia Completa: SI
+    \item Strategia Ottimale: SI
+    \item Complessità Tempo: $O(b^{d/2})$
+    \item Complessità Spazio: $O(b^{d/2})$
+\end{itemize}
+
+\subsection{Problemi cammini ciclici e ridondanze}
+I cammini ciclici rendono gli alberi di ricerca infiniti. Su spazi di stati a grafo si generano più volte gli stessi nodi (o meglio nodi con stesso stato) nella ricerca, anche in assenza di cicli.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{Images/RidondanzeGrafi.png}
+\end{figure}
+Ricordare gli stati già visitati occupa spazio ma ci consente di evitare di visitarli di nuovo. Ci sonio tre soluzioni:
+\begin{enumerate}
+    \item Non tornare nello stato da cui si proviene, si elimina il padre dai nodi successori (ma non evita cammini ridondanti).
+    \item Per evitare di creare cammini con cicli si controlla che i successori non siano antenati del nodo corrente.
+    \item Per non generare nodi con stati già visitati/esplorati teniamo in memoria ogni nodo visitato con complessità in spazio di $O(StatiPossibili)$.
+\end{enumerate}
+
+\subsection{Ricerca di costo uniforme - UC}
+E' una generalizzazione della ricerca in ampiezza dove i costi di ogni operatore sono diversi. Si sceglie il nodo di costo minore sulla frontiera (costo g(n)) e si espande. La frontiera è implementata da una coda ordinata per costo cammino crescente (cioè per primi i nodi di costo minore)
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.8]{Images/UC.png}
+\end{figure}
+
+\subsubsection{UC-Albero}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.45]{Images/UC-A.png}
+\end{figure}
+
+\subsubsection{UC-Grafo}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{Images/UC-G.png}
+\end{figure}
+
+\subsubsection{Analisi complessità UC}
+\begin{itemize}
+    \item Strategia Completa: SI se il costo degli archi x sia tale che $ x \geq \alpha > 0$
+    \item Strategia Ottimale: SI se il costo degli archi x sia tale che $ x \geq \alpha > 0$
+    \item Complessità Tempo: $O(b^{1+ \lfloor C^*/\alpha \rfloor})$
+    \item Complessità Spazio: $O(b^{1+ \lfloor C^*/\alpha \rfloor})$
+\end{itemize}
+Assumendo $C^*$ come costo della soluzione ottima e $\lfloor C^*/\alpha \rfloor$ come numero di mosse al caso peggiore, arrotondato per difetto.
+
+\subsection{Confronto finale delle strategie}
+\begin{table} [H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|}
+        \hline
+                    & BF        & UC                                        & DF        & DL        & ID        & Bidir. \\ \hline
+        Completa    & SI        & SI (-)                                    & NO        & SI (+)    & SI        & SI \\ 
+        Ottimale    & SI (*)    & SI (-)                                    & NO        & NO        & SI (*)    & SI \\ 
+        Tempo       & $O(b^d)$  & $O(b^{1+ \lfloor C^*/\alpha \rfloor})$    & $O(b^m)$  & $O(b^l)$  & $O(b^d)$  & $O(b^{d/2})$\\ 
+        Spazio      & $O(b^d)$  & $O(b^{1+ \lfloor C^*/\alpha \rfloor})$    & $O(b*m)$  & $O(b*l)$  & $O(b*d)$  & $O(b^{d/2})$ \\
+        \hline
+    \end{tabular}
+\end{table}
+(*) se gli operatori hanno tutti lo stesso costo \newline
+(-) per costo degli archi x tale che $ x \geq \alpha > 0$ \newline
+(+) per problemi per cui si conosce un limite alla profondità della soluzione (se $d<l$)
+
+\section{Ricerca Euristica}
+
+
+
+
+
+
+
+
+
+
+%\bibliographystyle{plain}
+%\bibliography{references}
+\end{document}
