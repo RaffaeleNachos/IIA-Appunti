@@ -441,6 +441,203 @@ Assumendo $C^*$ come costo della soluzione ottima e $\lfloor C^*/\alpha \rfloor$
 (+) per problemi per cui si conosce un limite alla profondità della soluzione (se $d<l$)
 
 \section{Ricerca Euristica}
+La ricerca esaustiva non è praticabile in problemi di complessità esponenziale come ad esempio gli scacchi che porta ad una complessità di $10^120$. Possiamo usare la conoscenza del problema ed esperienza per riconoscere cammini più promettenti evitando di generarne di inutili e costosi. La conoscenza euristica non evita la ricerca ma la riduce e sotto certe condizioni può essere completa e ottimale. \newline 
+Come abbiamo già detto, abbiamo una funzione di valutazione che ci indica la qualità dello stato. La funzione di valutazione f adesso include h, detta funzione di valutazione euristica.
+\begin{quote}
+    Funzione di valutazione: $f(n) = g(n) + h(n)$ dove: 
+    \begin{itemize}
+        \item h tale che $n \rightarrow R$ (la funzione di applica al nodo n ma dipende solo dallo stato n.Stato)
+        \item g(n) è il costo del cammino
+    \end{itemize}
+\end{quote}
+Esempi di euristica possono essere la distanza in linea d'aria tra due città, numero di caselle fuori posto nel gioco dell'otto, numero di pezzi sulla scacchiera.
+
+\subsection{Algoritmo Best-First - BFH}
+Best-First-Heuristic si basa sullo stesso algoritmo di UniformCost (UC) ma con uso della funzione di valutazione per la coda con priorità. La scelta di f(n) quindi determina la strategia di ricerca. Ad ogni passo si sceglie il nodo sulla frontiera per cui il valore della f è migliore (migliore può assumere significati diversi in base al problema, ad esempio nel problema dell'itinerario significa "minore").
+
+\clearpage
+
+\subsection{Algoritmo Greedy-Best-First - GBF}
+E' un caso speciale dell'algoritmo Best-First in cui la funzione di valutazione è uguale alla funzione di valutazione euristica, cioè $f(n)=h(n)$.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{Images/GBF.png}
+\end{figure}
+Ci troviamo In(Arad) e aggiungiamo alla frontiera tutti i nodi adiacenti, la coda è ordinata secondo l'euristica della distanza in linea d'aria perchè $f(n)=h(n)$. Da In(Arad) quindi andiamo Go(Sibiu), e ci troviamo In(Sibiu), vengono aggiunti i nodi adiacenti alla coda e per primo troviamo Faragas, Go(Faragas) e poi Go(Bucharest) perchè ha distanza (ovviamente) 0 dal goal ed è primo nella coda. Notiamo però che l'algoritmo Greedy-Best-First ha trovato un cammino ma non l'ottimo, che sarebbe quello in verde.
+
+\subsection{Algoritmo A}
+Un algoritmo A è un algoritmo Best-First con una valutazione dello stato del tipo:
+\begin{quote}
+    $f(n) = g(n) + h(n) $ dove:
+    \begin{itemize}
+        \item h(n) $\geq$ 0 e h(goal)=0
+        \item g(n) è il costo del cammino per arrivare a n
+        \item h(n) è una stima del costo per raggiungere il goal da un nodo n
+    \end{itemize}
+\end{quote}
+L'algoritmo A nel caso in cui h(n) = 0 ottengo f(n) = g(n) $\rightarrow$ UniformCost. \newline
+Nel caso in cui g(n) = 0 ottengo f(n) = h(n) $\rightarrow$ Greedy-Best-First.
+\subsubsection{Completezza Algoritmo A}
+Teorema: L'algoritmo A è completo se $g(n) \geq d(n)*\alpha$ dove d(n) è la profondità al nodo n e $\alpha$ è il costo minimo dell'arco. Questo ci garantisce che non ci siano situazioni del tipo 
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{Images/completezzaA.png}
+\end{figure}
+e che il costo lungo un cammino non cresca abbastanza così da fermarsi per il costo alto di g.
+
+\subsubsection{Dimostrazione Completezza di A}
+Sia $n_1, n_2, ..., n_i, ..., n_k$ un cammino soluzione. \newline
+$n_i$ è un nodo sulla frontiera di un cammino soluzione quindi prima o poi sarà espanso. \newline
+Se non verrà trovata una soluzione prima, il nodo $n_i$ sarà espanso e i nodi del figlio aggiunti alla frontiera, tra questi anche il successore sul cammino soluzione. Il ragionamento si ripete fino a dimostrare che anche il nodo goal sarà selezionato per l'espansione.
+
+\subsection{Algoritmo $A^*$}
+L'algoritmo è lo stesso per UniformCost cambiando la funzione per la priorità della coda. Definiamo una funzione di valutazione ideale detta anche oracolo che idealizza la funzione di valutazione perfetta (cammino minimo).
+\begin{quote}
+    Funzione di valutazione ideale: $f^*(n) = g^*(n)+h^*(n)$ dove
+    \begin{itemize}
+        \item $f^*(n)$ è il costo del cammino minimo da radice a goal attraverso n
+        \item $g^*(n)$ costo del cammino minimo da radice a n
+        \item $h^*(n)$ costo del cammino minimo da n a goal
+    \end{itemize}
+\end{quote}
+Normalmente $g(n) \geq g^*(n)$ perchè il costo del cammino è $\geq$ del costo del cammino migliore. Mentre h(n) è una stima di $h^*(n)$, si può andare in sottostima o sovrastima dalla distanza della soluzione.
+\begin{quote}
+    Una euristica è ammissibile se $\forall n . h(n) \leq h^*(n)$ cioè h è sottostima (lower-bound condition).
+\end{quote}
+Possiamo quindi ora dare una definizione di un algoritmo $A^*$:
+\begin{quote}
+    Un algoritmo $A^*$ è un algoritmo A in cui h è una funzione euristica ammissibile. (Gli algoritmi $A^*$ sono ottimali).
+\end{quote}
+(quindi anche BreadthFirst con passi a costo costante e UC sono ottimali perchè sono $A^*$ con h(n)=0)
+
+\subsubsection{Esempio $A^*$ sul problema dell'itinerario}
+Ho come euristica la distanza in linea d'aria, quindi è una sottostima $\Rightarrow$ Euristica Ammissibile.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{Images/itinerarioAstar.png}
+\end{figure}
+
+\subsubsection{Osservazioni su $A^*$}
+La componente g(n) fa si che si abbandonino cammini che vanno troppo in profondità. \newline
+Una euristica sottostima può farci fare del lavoro inutile ma non ci fa perdere il cammino migliore, una sovrastima invece può farci perdere la soluzione ottimale a causa di un taglio che però in realtà poteva essere buono.
+
+\subsubsection{Ottimalità di $A^*$}
+Come abbiamo già detto gli algoritmi $A^*$ sono ottimali.
+\begin{itemize}
+    \item nel caso di ricerca su albero l'uso di una euristica ammissibile è sufficiente a garantire l'ammissibilità e quindi l'ottimalità di $A^*$.
+    \item nel caso di ricerca su grafo abbiamo bisogno di definire una proprietà chiamata consistenza (o monotonicità).
+\end{itemize}
+
+\subsubsection{Euristica Consistente (o monotona)}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{Images/eurconsist.png}
+\end{figure}
+Una euristica è consistente se:
+\begin{quote}
+    \begin{itemize}
+    \item h(goal) = 0
+    \item $\forall n . h(n) \leq c(n,a,n')+h(n')$ dove n' è successore di n e h(n') consistenza locale
+    \end{itemize}
+    ne segue che $f(n) \leq f(n')$
+\end{quote}
+Se h(n) è consistente la f(n) non decresce mai lungo i cammini, da cui il termine monotona. \newline
+Una euristica monotona è ammissibile (ci sono però euristiche ammissibili non monotone ma sono molto rare). Le euristiche monotone garantiscono che la soluzione meno costosa venga trovata per prima e quindi sono ottimali anche nel caso di ricerca su grafo.
+
+\subsubsection{Dimostrazione ottimalità di $A^*$}
+Se h(n) è consistente, i valori di f(n) lungo un cammino sono crescenti.
+\begin{quote}
+    $h(n) \leq c(n,a,n')+h(n')$ \newline
+    $g(n) + h(n) \leq g(n) + c(n,a,n')+h(n')$ // sommo g(n) da entrambe le parti\newline
+    $g(n) + h(n) \leq g(n')+h(n')$ // perchè $g(n) + c(n,a,n') = g(n')$ \newline
+    $f(n) \leq f(n')$
+\end{quote}
+Ogni volta che $A^*$ seleziona un nodo n per l'espansione, il cammino ottimo a tale nodo è stato trovato.
+
+\subsubsection{Vantaggi di $A^*$}
+$A^*$ espande tutti i nodi con $f(n) < C^*$ \newline
+$A^*$ espande alcuni i nodi con $f(n) = C^*$ \newline
+$A^*$ non espande alcun nodo con $f(n) > C^*$ \newline
+Assumendo $C^*$ come costo della soluzione ottima.
+\begin{quote}
+    Pruning: alcuni nodi non vengono espansi a causa delle regole sopra scritte risparmiando così memoria e rimandendo ottimali. Quindi una h(n) opportuna fa tagliare molto.
+\end{quote}
+Cercheremo quindi una h(n) il più alta possibile tra le ammissibili poichè se molto bassa i nodi restano sempre minori di $C^*$ e li espando tutti. \newline
+$A^*$ è completo (discende dalla completezza di A), $A^*$ con euristica monotona è ottimale. Il problema quindi è quale euristica utilizzare? Lo spazio in memoria è ancora molto grande $O(b^{d+1}$ (il costo in tempo dipende dall'euristica utilizzata). 
+
+\subsection{Costruire le euristiche di $A^*$}
+A parità di ammissibilità una euristica può essere più efficiente di un'altra nel trovare il cammino soluzione migliore. Questo dipende dal grado di informazione posseduto dall'euristica.
+\begin{quote}
+    $h(n) = 0$ // grado di informazione minimo \newline
+    $h*(n)$ //massimo grado di informazione (oracolo)
+\end{quote}
+In generale per le euristiche ammissibili $0 \leq h(n) \leq h*(n)$. \newline
+Più informata significa più efficiente:
+\begin{quote}
+    Se $h_1 \leq h_2$, i nodi espansi da $A^*$ con $h_2$ sono un sottoinsieme di quelli espansi da $A^*$ con $h_2$. Cioè $A^*$ con $h_2$ è almeno efficiente quanto $A^*$ con $h_1$.
+\end{quote}
+Una euristica più informata (accurata) riduce lo spazio di ricerca ma è tipicamente più costosa da calcolare. 
+
+\subsection{Valutare Algoritmi di ricerca euristica}
+Definiamo:
+\begin{itemize}
+    \item $b^*$: fattore di diramazione effettivo di un albero uniforme con N+1 nodi
+    \item N: numero di nodi generati
+    \item d: profondità della soluzione
+\end{itemize}
+N+1 = $b^* + (b^*)^2 + ... + (b^*)^d$ \newline
+Sperimentalmente una buona euristica ha un $b^*$ abbastanza vicino a 1 ($< 1.5$) \newline
+Possiamo vedere come cambia in base ad alcuni dati:
+\begin{itemize}
+    \item con b = 2 otteniamo a profondità d = 6, N = 126
+    \item con b = 1.7 otteniamo a profondità d = 6, N = 56
+\end{itemize}
+e possiamo notare come migliorando di poco l'euristica allo stesso livello abbiamo espanso la metà dei nodi. quindi migliorando l'euristica a parità di nodi espansi riesco a raggiungere una profondità doppia.
+
+\clearpage
+
+\subsection{Inventare euristiche}
+\begin{itemize}
+    \item Rilassamento del problema: rimuovo dei vincoli (versioni semplificate)
+    \item Massimizzazione euristiche: se ho k euristiche ammissibili senza che alcuna sia migliore dell'altra allora conviene prendere il massimo dei loro valori: $h(n)=max(h_1(n),h_2, ..., h_k(n))$
+    \item Database di pattern disgiunti: ho dei database in cui sono memorizzati dei pattern di sottoproblemi con relativo costo e soluzione. Nel caso di database di pattern normali la somma delle euristiche di questi sottoproblemi non è accurata perchè potrebbe essere che due soluzioni tra due sottoproblemi interferiscono l'una con l'altra. Nel caso invece di database di pattern disgiunti è consentita la somma dei costi.
+    \item Combinazione lineare: si esegue una combinazione lineare di euristiche diverse: $h(n) = c_1h_1(n) + c_2h_2(n) + ... + c_kh_k(n)$
+    \item Apprendere dall'esperienza: faccio girare il programma raccogliendo dati in forma di coppie (stato, $h^*$) e uso i dati per capire come predire la h(n) con algoritmi di apprendimento induttivo.
+\end{itemize}
+
+\subsection{Algoritmi evoluti basati su $A^*$}
+Sono algoritmi che si preoccupano di occupare meno memoria\footnote{Le limitazioni di memoria possono rendere un problema intrattabile dal punto di vista computazionale}.
+\subsubsection{Beam Search}
+La Beam Search salva in frontiera ad ogni passo solo i k nodi più promettenti, ovviamente l'algoritmo non è più completo così facendo.
+
+\subsubsection{$A^*$ con approfondimento iterativo - $IDA^*$}
+$IDA^*$ combina $A^*$ con ID, ad ogni iterazione si ricerca in profondità con un limite (cuf-off) dato dal valore della funzione f(n) e non dalla profondità. Il valore f-limit viene aumentato ad ogni iterazione fino a trovare la soluzione (come in ID si aumenta di un livello alla volta). Ma di quanto aumento? 
+\begin{itemize}
+    \item Nel caso di costo fisso di ogni azione il limite viene aumentato di questo costo.
+    \item Nel caso in cui i costi siano variabili il limite viene aumentato del costo minimo oppure ad ogni passo scelgo il valore minimo delle f(n) scartate perchè in quanto superavano il limite all'iterazione precedente.
+\end{itemize}
+$IDA^*$ è completo e ottimale:
+\begin{itemize}
+    \item Se le azioni hanno costo costante e l'f-limit viene aumentato di k
+    \item Se le azioni hanno costo variabile e l'incremento di f-limit è $\leq$ del costo minimo degli archi
+    \item Se il nuovo f-limit è il minimo valore f(n) dei nodi generati ed esclusi all'iterazione precedente
+\end{itemize}
+$IDA^*$ occupa $O(b*d)$ memoria.
+
+\subsubsection{Best-First ricorsivo - RBFS}
+Simile a DF Ricorsivo ma cerca di usare meno memoria facendo del lavoro in più. Ad ogni livello tengo traccia del migliore percorso alternativo. Invece di fare Backtracking, in caso di fallimento interrompe l'esplorazione quando trova un nodo meno promettente secondo f(n). Nel tornare indietro si ricorda del migliore nodo che ha trovato nel sottoalbero creato per poterci tornare. L'occupazione di memoria è lineare nella profondità della soluzione ottima $O(d)$.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{Images/BestfirstRic.png}
+    \caption{Algoritmo RBFS}
+\end{figure}
+
+\subsubsection{$A^*$ con memoria limitata - $SMA^*$}
+$SMA^*$ procede come $A^*$ fino ad esaurimento della memoria disponibile, a quel punto dimentica il nodo peggiore dopo aver aggiornato il valore del padre. A parità di f(n) si dimentica il nodo peggiore più vecchio e tiene il più recente. L'algoritmo è ottimale se il cammino soluzione sta in memoria
+
+
+
+
 
 
 
