@@ -608,7 +608,7 @@ e possiamo notare come migliorando di poco l'euristica allo stesso livello abbia
 \subsection{Algoritmi evoluti basati su $A^*$}
 Sono algoritmi che si preoccupano di occupare meno memoria\footnote{Le limitazioni di memoria possono rendere un problema intrattabile dal punto di vista computazionale}.
 \subsubsection{Beam Search}
-La Beam Search salva in frontiera ad ogni passo solo i k nodi più promettenti, ovviamente l'algoritmo non è più completo così facendo.
+La Beam Search salva in frontiera ad ogni passo solo i k nodi più promettenti dove k è l'ampiezza del raggio (in pratica nella frontiera abbiamo i k migliori di tutta la storia dell'algoritmo), ovviamente l'algoritmo non è più completo così facendo.
 
 \subsubsection{$A^*$ con approfondimento iterativo - $IDA^*$}
 $IDA^*$ combina $A^*$ con ID, ad ogni iterazione si ricerca in profondità con un limite (cuf-off) dato dal valore della funzione f(n) e non dalla profondità. Il valore f-limit viene aumentato ad ogni iterazione fino a trovare la soluzione (come in ID si aumenta di un livello alla volta). Ma di quanto aumento? 
@@ -633,7 +633,133 @@ Simile a DF Ricorsivo ma cerca di usare meno memoria facendo del lavoro in più.
 \end{figure}
 
 \subsubsection{$A^*$ con memoria limitata - $SMA^*$}
-$SMA^*$ procede come $A^*$ fino ad esaurimento della memoria disponibile, a quel punto dimentica il nodo peggiore dopo aver aggiornato il valore del padre. A parità di f(n) si dimentica il nodo peggiore più vecchio e tiene il più recente. L'algoritmo è ottimale se il cammino soluzione sta in memoria
+$SMA^*$ procede come $A^*$ fino ad esaurimento della memoria disponibile, a quel punto dimentica il nodo peggiore dopo aver aggiornato il valore del padre. A parità di f(n) si dimentica il nodo peggiore più vecchio e tiene il più recente. L'algoritmo è ottimale se il cammino soluzione sta in memoria.
+
+\clearpage
+
+\section{Ricerca Locale}
+Gli algoritmi di ricerca locale sono adatti per problemi in cui la sequenza delle azioni non è importante, quello che conta è lo stato di goal. Essi non sono sistematici, tengono traccia solo del nodo corrente e si spostano su nodi adiacenti. Non tengono traccia dei cammini poiché non servono in uscita, questo li rende efficienti in memoria e possono trovare soluzioni ragionevoli anche in spazi molto grandi e infiniti. 
+
+\subsection{Spazio degli stati}
+Lo stato migliore viene valutato da una funzione obiettivo f.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{Images/spaziodeglistatilocali.png}
+\end{figure}
+Uno stato ha una altezza che corrisponde al valore della fuzione di valutazione f. Un algoritmo provoca movimento sulla superficie e il suo compito è quello di trovare il minimo o il massimo della funzione in base alla richiesta del problema.
+
+\subsection{Algoritmo Hill-Climbing}
+E' un algoritmo di ricerca locale greedy. Vengono generati i successori e valutati, viene scelto un nodo che migliora la valutazione dello stato attuale (non si tiene traccia degli altri nodi). Quale scelgo?
+\begin{itemize}
+    \item il migliore: Hill-Climbing a salita rapida.
+    \item uno a caso tra quelli che migliorano: Hill-Climbing stocastico.
+    \item il primo trovato: Hill-Climbing con prima scelta.
+\end{itemize}
+Se non ci sono stati successori migliori l'algoritmo termina. Non c'è frontiera a cui ritornare, si tiene in memoria solo lo stato corrente.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{Images/hillclimbing.png}
+    \caption{Codice algoritmo Hill-Climbing}
+\end{figure}
+
+\subsubsection{Problemi e Miglioramenti per Hill-Climbing}
+Se la funzione è da ottimizzare i picchi sono massimi locali o soluzioni ottimali. L'algoritmo può arrestarsi su una soluzione che in realtà è solo un massimo locale oppure ritrovarsi su "pianori". Possiamo però eseguire dei miglioramenti:
+\begin{itemize}
+    \item Consentire un numero limitato di mosse laterali cioè l'algoritmo si modifica fermandosi quando $vicino.Valore < nodoCorrente.Valore$ invece che quando $\leq$.
+    \item Si sfrutta Hill-Climbing stocastico scendo a caso tra le mosse in salita. L'algoritmo converge pià lentamente ma a volte trova soluzioni migliori.
+    \item Si sfrutta Hill-Climbing con prima scelta, può generare mosse a caso fino a trovarne una migliore dello stato corrente, diventa più efficace quando i successori sono molti.
+    \item Si sfrutts Hill-Climbing con ravvio casuale (random restart) cioè si riparte da un punto scelto a caso. Se la probabilità di successo è $p$ saranno necessarie in media $1/p$ ripartenze per trovare la soluzione. Questo algoritmo è tendenzialmente completo.
+\end{itemize}
+
+\subsection{Algoritmo Tempra Simulata (Simulated annealing)}
+L'algoritmo di Tempra Simulata combina Hill-Climbing con una scelta stocastica ben studiata, ad ogni passo si sceglie un successore a caso:
+\begin{itemize}
+    \item se migliora lo stato viene espanso (migliora lo stato significa che la funzione di valutazione è maggiore, cioè $[\Delta E = f(n')-f(n)] \geq 0$
+    \item altrimenti (caso $[\Delta E = f(n')-f(n)] < 0$) scelgo il nodo n' con probabilità $p=e^{\Delta E / T}$ dove T è un parametro che nel progredire dell'algoritmo decresce, facendo così decresce anche p rendendo improbabili le mosse peggiorative..
+\end{itemize}
+Il valore per cui T decresce è dato in input come parametro\footnote{I valori di T iniziali determinati sperimentalmente sono tali che $p=e^{\Delta E / T}$ sia all'incirca 0,5}, se T diminuisce lentamente e con probabilità tendenti ad 1 si raggiunge la soluzione ottimale.
+
+\subsection{Algoritmo Local Beam}
+E' la versione locale della Beam Search, si tengono in memoria K stati anziché uno solo. Ad ogni passo si generano i successori di tutti i K stati:
+\begin{itemize}
+    \item Se si trova un goal ci si ferma
+    \item Altrimenti si prosegue con i k migliori tra questi
+\end{itemize}
+E' diverso dalla Beam Search normale perchè tengo in memoria solo i K migliori del passo corrente e non di tutta la storia! Possiamo notare come se K=1 abbiamo Hill-Climbing con prima scelta mentre se K=$\infty$ ho Best-First.
+
+\subsubsection{Local Beam Search Stocastica}
+Si introduce un elemento di casualità, si scelgono i K successori ma con probabilità maggiore per i migliori.
+
+\subsection{Algoritmi Genetici}
+Gli algoritmi genetici sono varianti della Beam Search Stocastica in cui gli stati successori sono ottenuti combinando due stati genitore. Chiamiamo fitness il valore della funzione di valutazione. \newline
+Abbiamo una popolazione iniziale, cioè un insieme di stati iniziali, generati casualmente. Ogni individuo (stato) è rappresentato da una stringa e ogni individuo è valutato da una funzione di fitness. Si selezionano gli individui per gli accoppiamenti sulla base di una probabilità proporzionale alla fitness. Le coppie scelte\footnote{Le coppie scelte non si "attaccano"} danno vita ad una "generazione" successiva con la combinazione di due metodi:
+\begin{itemize}
+    \item Crossover (combinando materiale genetico): per ogni coppia viene scelto un punto di crossing over e vengono divisi ottenendo 4 parti, vengono poi generati due figli scambiandosi i pezzi ottenuti.
+    \item Con un meccanismo casuale aggiuntivo di mutazione genetica: viene infine effettuata una mutazione casuale che dà luogo alla prossima generazione
+\end{itemize}
+La popolazione ottenuta dovrebbe esser migliore.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{Images/alggeneticicross.png}
+    \caption{Esempio crossover + mutazione casuale}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{Images/alggenscacchi.png}
+    \caption{Esempio sul problema delle 8 regine}
+\end{figure}
+
+\subsection{Gradiente (Hill-Climbing iterativo)}
+Molti casi reali hanno spazi di ricerca infiniti, lo stato è descritto da variabili continue $x_1, x_2, ..., x_n$ cioè il vettore x, ad esempio nello spazio 3D abbiamo $x=(x_1,x_2,x_3)$. Avere più dimensioni può sembrare ostico ma abbiamo molti strumenti matematici che ci permettono di semplificare. \newline
+Se la f è continua e differenziabile, il minimo e il massimo può essere cercato utilizzando il gradiente che restituiscw la direnzione di massima pendenza nel punto.
+\begin{quote}
+    Data f obiettivo:
+    \[
+    \nabla f = (\frac{\partial f}{\partial x_1}, \frac{\partial f}{\partial x_2}, \frac{\partial f}{\partial x_3})
+    \] \newline dove $\partial$ è la derivata parziale e $\nabla$ è inteso come calcolo vettoriale. \newline
+    Definiamo Hill-Climbing iterativo come
+    \[
+        x_{new} = x_{old} + \eta \nabla f(x)
+    \]
+    dove $\eta$ è lo step-size (di quanto aumentare).
+\end{quote}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{Images/gradient.png}
+    \caption{Esempio con una dimensione $x_1$, gli spostamenti sono guidati dal gradiente}
+\end{figure}
+
+\clearpage
+
+\section{Oltre la ricerca classica}
+Gli agenti risolutori di problemi "classici", visti fino ad ora, assumono ambienti completamente osservabili e deterministici. Questo gli permette di esplorare offline lo stato in ricerca di un goal e restituendo una sequenza di azioni che può essere eseguito senza imprevisti per raggiungere l'obiettivo. Per avvicinarci alla realtà dobbiamo riconsiderare il nostro ambiente valutando azioni non deterministiche e ambienti parzialmente osservabili. \newline
+In un ambiente parzialmente osservabile e non deterministico le percezioni sono importanti perchè restringono gli stati possibili e informano sull'effetto dell'azione eseguita. L'agente che si trova in questo ambiente può elaborare una strategia che tiene conto delle differenti eventualità: un piano di contingenza.
+
+\subsection{Problema dell'aspirapolvere non deterministico}
+Analizziamo il comportamento dell'aspirapolvere:
+\begin{itemize}
+    \item Se aspira in una stanza sporca $\rightarrow$ la pulisce, ma talvolta pulisce anche la stanza adiacente.
+    \item Se aspira in una stanza pulita a volte rilascia dello sporco.
+\end{itemize}
+Il modello di transizione restituisce un insieme i stati ma l'agente non sa in quale si troverà. Il piano di contingenza sarà un piano (un albero) condizionale con probabili cicli. \newline
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{Images/statiaspirapolvere.png}
+\end{figure}
+Analizzando lo spazio degli stati il Risultato(Aspira,1) mi porta negli stati {5,7}, per rappresentare il problema possiamo usare gli alberi di ricerca AND-OR.
+
+\subsection{Alberi AND-OR}
+\begin{itemize}
+    \item Nodi OR $\rightarrow$ scelte dell'agente.
+    \item Nodi AND $\rightarrow$ le diverse eventualità da considerare tutte.
+\end{itemize}
+Una soluzione di un problema di ricerca AND-OR è un albero che ha un nodo obiettivo in ogni foglia, specifica un'unica azione nei nodi OR e include tutti gli archi uscenti da nodi AND che visita.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{Images/andortree.png}
+    \caption{Esempio albero AND-OR problema dell'aspirapolvere. La soluzione è in grassetto.}
+\end{figure}
+
 
 
 
