@@ -311,7 +311,7 @@ Il Version Space dell'algoritmo viene rappresentato solo dal suo membro più gen
 \begin{quote}
     Teorema: ogni membro del Version Space si trova tra: $VS_{H,D} = \{h \in H| (\exists s \in S) (\exists g \in G) (g \geq h \geq s)\}$
 \end{quote}
-dove $x \geq y$ significa x é piú generale o uguale a y. \newline
+dove $x \geq y$ significa x é piú generale o uguale a y.
 
 \subsection{Algoritmo List-Then-Eliminate}
 Il Version Space si riduce quindi man mano che si osservano più esempi, fino a quando idealmente rimane solo un'ipotesi coerente con tutti gli esempi osservati, presumibilmente, questo è il concetto target desiderato. Se non sono disponibili dati sufficienti per restringere lo spazio l'algoritmo può generare l'intero insieme di ipotesi coerenti con i dati osservati. L'algoritmo List-Then-Eliminate può essere applicato ogni volta che lo spazio di ipotesi H è finito. Ha molti vantaggi, tra cui il fatto che è garantito il risultato di tutte le ipotesi coerenti con i dati di allenamento. Sfortunatamente, richiede un elenco esaustivo di tutte le ipotesi in H, un requisito non realistico per tutti gli spazi di ipotesi tranne quelli più banali.
@@ -380,7 +380,7 @@ NUOVO PROBLEMA: il nostro algoritmo di apprendimento dei concetti non è ora in 
 \end{quote}
 
 \subsubsection{Il learning Unbiased é utile?}
-Un sistema di apprendimento che non fa assunzioni preliminari riguardo all'identità del concetto target non ha basi razionali per classificare eventuali istanze non conosciute. Uno sistema di apprendimento dovrebbe essere in grado di generalizzare i dati di allenamento usando presupposti precedenti al fine di classificare istanze invisibili. La generalizzazione è nota come salto induttivo e le nostre assunzioni precedenti sono il vincolo induttivo del sistema di apprendimento. Il bias non è solo assunto per efficienza, ma è necessario per la generalizzazione, tuttavia non ci dice quale sia la migliore soluzione per la generalizzazione. \newline
+Un sistema di apprendimento che non fa assunzioni preliminari riguardo all'identità del concetto target non ha basi razionali per classificare eventuali istanze non conosciute. Uno sistema di apprendimento dovrebbe essere in grado di generalizzare i dati di allenamento usando presupposti precedenti al fine di classificare istanze invisibili. La generalizzazione è nota come salto induttivo e le nostre assunzioni precedenti sono il vincolo induttivo del sistema di apprendimento. Il bias non è solo assunto per efficienza, ma è necessario per la generalizzazione, tuttavia non ci dice quale sia la migliore soluzione per la generalizzazione.
 \subsection{Definizione Formale di Inductive Bias}
 Consideriamo:
 \begin{itemize}
@@ -409,59 +409,54 @@ Il Bias è l'insieme delle asserzioni che ci permette di trasformare il problema
     \item Find-S: Questo algoritmo, descritto in precedenza, trova l'ipotesi più specifica coerente con gli esempi di addestramento. Quindi utilizza questa ipotesi per classificare tutte le istanze successive. \newline
     Bias Induttivo $\rightarrow$ il concetto target può essere rappresentato nel suo spazio delle ipotesi e tutte le istanze sono istanze negative a meno che l'opposto non sia implicato da altre sue conoscenze.
 \end{enumerate}
-
-%fin qui ok
+\clearpage
 
 \section{Modelli Lineari}
-Sintesi:
-\begin{itemize}
-    \item Dati di Allenamento
-    \item Spazio delle Ipotesi H: costituisce l’insieme delle funzioni che possono essere realizzate dal sistema di apprendimento, si assume che la funzione da apprendere f possa essere rappresentata da una ipotesi h in H (selezione di h attraverso i dati di apprendimento) o che almeno una ipotesi h in H sia simile a f (approssimazione);
-    \item Algoritmo di Ricerca nello Spazio delle Ipotesi, algoritmo di apprendimento, ad esempio adattamento dei parametri liberi del modello al task
-    \item NOTA: H non puó coincidere con l’insieme di tutte le funzioni possibili e la ricerca essere esaustiva $\rightarrow$ Bias Induttivo
-\end{itemize}
-Sia la regressione lineare che la classificazione (vista nel Concept Learning) appartengono alla categoria delle tecniche di apprendimento supervisionato, ovvero un tipo di apprendimento che fornisce a priori una serie di dati e informazioni al sistema, prima che questo cominci ad apprendere. La regressione lineare si differenzia nettamente dalla classificazione, poiché quest'ultima si limita a discriminare gli elementi in una determinato numero di classi (label), mentre nella prima l’input è un dato e il sistema ci restituisce un output reale approssimando una funzione. La regressione è un processo statistico che cerca di stabilire una relazione tra due o più variabili. Fornito a un modello di regressione un valore x, questo restituirà il corrispondente valore y generato dall'elaborazione di x.
+Abbiamo visto che lo spazio delle Ipotesi H costituisce l’insieme delle funzioni che possono essere realizzate dal sistema di apprendimento. Si assume che la funzione da apprendere f possa essere rappresentata da una ipotesi h in H (selezione di h attraverso i dati di apprendimento) o che almeno una ipotesi h in H sia simile a f (approssimazione). Abbiamo compreso che un Algoritmo di Ricerca nello Spazio delle Ipotesi é rappresentato in ML tramite un algoritmo di apprendimento (ad esempio adattamento dei parametri liberi del modello al task). NOTA: H non può coincidere con l’insieme di tutte le funzioni possibili ma la ricerca deve essere esaustiva $\rightarrow$ Bias Induttivo. \newline
+Sia la regressione che la classificazione (quest'ultima vista nel Concept Learning) appartengono alla categoria delle tecniche di Supervised Learning, ovvero un tipo di apprendimento che fornisce a priori una serie di dati e informazioni al sistema, prima che questo cominci ad apprendere. Andremo a vedere come i Modelli lineare possono essere usati sia per la regressione (Regressione lineare) sia per la classificazione. La regressione lineare si differenzia nettamente dalla classificazione, poiché la classificazione si limita a discriminare gli elementi in un determinato numero di classi, mentre nella regressione l’input è un dato e il sistema ci restituisce un output reale approssimando una funzione. La regressione è un processo statistico che cerca di stabilire una relazione tra due o più variabili. Fornendo a un modello di regressione un valore x, questo restituirà il corrispondente valore y generato dall'elaborazione di x.
 
 \subsection{Esempio di regressione}
-La regressione come abbiamo detto é un processo di stima di una funzione di valore reale sulla base di una serie finita di campioni rumorosi (conosciamo le coppie (x , f(x)+random noise).
+La regressione come abbiamo detto é un processo di stima di una funzione a valori reali sulla base di una serie finita di campioni "rumorosi" (conosciamo le coppie (x , f(x)+random noise).
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.4]{Images/esempioregressione.png}
 \end{figure}
 
-\subsection{Modello di regressione lineare semplice}
+\subsection{Modello di Regressione Lineare Semplice (Univariata)}
 \begin{quote}
-    Si parte con una variabile input x e una in output y, assumiamo il modello $h_w(x)$ espresso come $out=w_1x+w_0$ dove $w_i$ sono parametri liberi a valori reali. Come si può intuire cerchiamo di adattarci ai dati con una linea retta.
+    Si parte con una variabile input x e una in output y, assumiamo il modello $h_w(x)$ espresso come $y=w_1x+w_0$ dove $w_0$ e $w_1$ sono parametri liberi a valori reali da apprendere. Usiamo la lettera w perché immaginiamo questi coefficienti come weights (pesi) poiché il valore y cambia in base a questi valori. Come si può intuire cerchiamo di adattarci ai dati con una linea retta.
 \end{quote}
-Lavoriamo in uno spazio di ipotesi infinite (i valori w sono continui) ma abbiamo una buona soluzione grazie alla matematica classica, possiamo "imparare" con questo strumento di base. Sebbene semplice, include molti concetti pertinenti della moderna ML ed è una base di metodi evoluti utilizzati nel settore. \newline
-Supponendo che la variabile y sia (linearmente) correlata a un'altra variabile (x) o ad altre variabili per cui $y = w_1x + w_0 + noise$, dove i w sono i parametri liberi. "noise" è l'errore nella misurazione degli obiettivi (con distribuzione normale). Cerchiamo di costruire un modello (trovare le variabili $w_i$) per predire/stimare la y per dei valori x non visti precedentemente.
+Lavoriamo in uno spazio di ipotesi infinite (i valori $w_i$ sono continui) ma abbiamo una buona soluzione grazie alla matematica classica. Gauss dimostró che se i valori y hanno del "rumore" distribuito allora i valori $w_1$ e $w_2$ possono essere trovati minimizzando la sommma dei quadrati degli errori (dopo vedremo meglio cosa significa). \newline
+Assumiamo che la variabile y sia (linearmente) correlata a un'altra variabile x o ad altre variabili per cui $y = w_1x + w_0 + noise$, dove i $w_i$ sono i parametri liberi. Il "noise" è l'errore nella misurazione dei valori target con distribuzione normale. Cerchiamo di costruire un modello (trovare le variabili $w_i$) per predire/stimare la y per dei valori x non visti precedentemente.
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.4]{Images/regresslincase1.png}
-    \caption{esempio che associa il prezzo delle case in base alla metratura. (y costo della casa, x metratura)}
+    \includegraphics[scale=0.5]{Images/regresslincase1.png}
+    \caption{Esempio che associa il prezzo delle case in base alla metratura. (y costo della casa, x metratura)}
 \end{figure}
 Un esempio di regressione lineare per l'esempio sovrastante é la funzione $h_w(x)=0.232*x+246$ ma come arrivare a questa funzione?
+
 \subsection{Costruzione della funzione via LMS}
-L'algoritmo LeastMeanSquare consiste nel trovare gli w per minimizzare l'errore (miglior adattamento dei dati sul training set con l esempi).
+L'algoritmo LeastMeanSquare consiste nel trovare gli w per cui l'errore é minimizzato (miglior adattamento dei dati sul training set con "l" esempi).
 \begin{itemize}
-    \item Dato un insieme di l esempi di allenamento ($x_p,y_p$)
+    \item Dato un insieme di "l" esempi di allenamento ($x_p,y_p$)
     \item Trovare $h_w(x)=w_1x+w_0$ che minimizza l'errore medio sul Training Set
-    \item Per calcolare la funzione di errore loss usiamo la somma dei quadrati delle differenze tra il valore dato dall'esempio $y_p$ e il valore calcolato dalla funzione $h_w(x)$. Il quadrato serve per avere solo valori positivi (si potrebbe anche usare il valore assoluto, ma è meglio di no, lo vedremo in seguito)
-    \item \begin{equation}
-        Loss(h_w) = E(w) = \sum_{p = 1}^l (y_p - h_w(x_p))^2 = \sum_{p = 1}^l (y_p - (w_1*x_p + w_0)^2
-    \end{equation} dove $x_p$ é il p-esimo input e $y_p$ é il p-esimo output dell'esempio p. Dividendo per l ottengo la media.
+    \item Per calcolare la funzione di errore Loss usiamo la somma dei quadrati delle differenze tra il valore dato dall'esempio $y_p$ e il valore calcolato dalla funzione $h_w(x)$. Il quadrato serve per avere solo valori positivi (si potrebbe anche usare il valore assoluto, ma è meglio di no, e il perché lo vedremo in seguito)
+    \begin{equation}
+        Loss(h_w) = E(w) = \sum_{p = 1}^l (y_p - h_w(x_p))^2 = \sum_{p = 1}^l (y_p - (w_1*x_p + w_0))^2
+    \end{equation} 
+    dove $x_p$ é il p-esimo input e $y_p$ é il p-esimo output dell'esempio p. Dividendo per l ottengo la media.
 \end{itemize}
-In modo piú complicato dobbiamo trovare l'argomento minimo w tale che l'errore è minimo in L2 (norma 2, le norme inducono una distanza), a livello grafico lo rappresentiamo cosí: 
+Quindi dobbiamo trovare l'argomento minimo w tale che l'errore è minimo in L2 (norma 2, le norme inducono una distanza): $w = argmin_wLoss(h_w) = argmin_wE(w) \text{ in L2}$. A livello grafico lo rappresentiamo così: 
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.5]{Images/lmsgrafico.png}
 \end{figure}
-Il metodo dei minimi quadrati è un approccio standard alla soluzione approssimativa di sistemi sovra-determinati, ovvero insiemi di equazioni in cui vi sono più equazioni che incognite. \newline
+Il metodo dei minimi quadrati è un approccio standard alla soluzione approssimata di sistemi sovra-determinati, ovvero insiemi di equazioni in cui vi sono più equazioni che incognite. \newline
 Il minimo locale é un punto stazionario dove il gradiente é nullo.
 \begin{equation}
-    \frac{\partial E(w)}{\partial w_i} = 0 \quad per i = 0....dim_space
+    \frac{\partial E(w)}{\partial w_i} = 0 \quad \text{per i = 0....dimensione\_spazio}
 \end{equation}
-per la regressione lineare semplice abbiamo che 
+per la regressione lineare semplice abbiamo che la Loss é minimizzata quando le sue derivate parziali rispetto a $w_0$ e $w_1$ sono 0:
 \begin{equation}
     \frac{\partial E(x)}{\partial w_0} = 0 \quad \frac{\partial E(x)}{\partial w_1} = 0
 \end{equation}
@@ -470,17 +465,15 @@ Se la funzione di perdita é convessa abbiamo la seguente soluzione diretta poic
     \centering
     \includegraphics[scale=0.8]{Images/convexlocalmin.png}
 \end{figure}
-
 per $w_1$ abbiamo che
 \begin{equation}
-    w_1 = \frac{\sum x_py_p - \frac{1}{l} \sum x_p \sum y_p}{\sum x_p^2 - \frac{1}{l}(\sum x_p)^2} = 0 = \frac{Cov[x,y])}{Var[x]} 
+    w_1 = \frac{l * (\sum x_py_p) - (\sum x_p) (\sum y_p)}{l * (\sum x_p^2) - (\sum x_p)^2} = 0
 \end{equation}
 mentre per $w_0$
 \begin{equation}
-    w_0 = \bar{y}-w_1 \bar{x} \quad dove \quad \bar{y}=\frac{1}{l} \sum y_p \quad e \quad \bar{y}=\frac{1}{l} \sum y_p
+    w_0 = \frac{\sum y_p - w_1 * \sum x_p}{l}
 \end{equation}
-Un approccio differente: sfruttiamo le seguenti regole delle derivate parziali per calcolare infine il gradiente
-
+Un approccio differente serve invece per quelle equazioni per cui il minimo Loss spesso non ha una soluzione definita: infatti useremo una sorta di Hill Climbing iterativo che segue il gradiente discendente. Sfruttiamo le seguenti regole delle derivate parziali:
 \begin{equation}
    \frac{\partial}{\partial w}k = 0 \quad \frac{\partial}{\partial w}w = 1 \quad \frac{\partial}{\partial w^2}w = 2w \quad \frac{\partial (f(w))^2}{\partial w} = 2f(w) \frac{\partial f(w)}{\partial w}
 \end{equation}
@@ -488,10 +481,10 @@ Un approccio differente: sfruttiamo le seguenti regole delle derivate parziali p
 ora cerchiamo il gradiente
 
 \begin{equation}
-    \frac{\partial E(w)}{\partial w_i} = \frac{\partial (y - h_w(x))^2}{\partial w_i} =  2(y - h_w(x)) \frac{\partial (y - h_w(x))}{\partial w_i} = 2(y - h_w(x)) \frac{\partial (w_1x+w_0)}{\partial w_i}
+    \frac{\partial E(w)}{\partial w_i} = \frac{\partial}{\partial w_i} (y - h_w(x))^2 =  2(y - h_w(x)) \frac{\partial}{\partial w_i} (y - h_w(x)) = 2(y - h_w(x))\frac{\partial}{\partial w_i}(y - (w_1x+w_0))
 \end{equation}
 
-sostituendo $w_0$ e $w_1$ nella derivata ottengo due equazioni
+applicando $w_0$ e $w_1$ nella derivata ottengo due equazioni
 
 \begin{equation}
     \frac{\partial E(w)}{\partial w_0} = -2(y - h_w(x)) \quad e \quad \frac{\partial E(w)}{\partial w_1} = -2(y - h_w(x)) * x
@@ -520,94 +513,101 @@ Le nostre regole di correzione dell'errore (chiamate delta-rule) cambiano i valo
 
 \begin{itemize}
     \item se $(y_{target}-output)=0$ significa che non abbiamo errore e quindi nessuna correzione da fare
-    \item se $output>y_{target}$ cioé $(y-h)<0$ vuol dire che l'output trovato é troppo alto quindi:
+    \item se $(output>y_{target})$ cioè $(y-h)<0$ vuol dire che l'output trovato é troppo alto quindi:
         \begin{itemize}
             \item $\Delta w_0$ negativo $\rightarrow$ riduco $w_0$
-            \item se $(x_{input}>0$ $\Delta w_1$ negativo $\rightarrow$ riduco $w_1$ altrimenti incremento $w_1$
+            \item se $(x_{input}>0$ e $\Delta w_1$ negativo $\rightarrow$ riduco $w_1$ altrimenti incremento $w_1$
         \end{itemize}
-    \item se $output<y_{target}$ cioé $(y-h)>0$ vuol dire che l'output trovato é troppo basso quindi:
+    \item se $output<y_{target}$ cioè $(y-h)>0$ vuol dire che l'output trovato é troppo basso quindi: %non sono sicuro su questa parte
         \begin{itemize}
             \item $\Delta w_0$ positivo $\rightarrow$ aumento $w_0$
-            \item se $(x_{input}>0$ $\Delta w_1$ positivo $\rightarrow$ aumento $w_1$ altrimenti diminuisco $w_1$
+            \item se $(x_{input}>0$ e $\Delta w_1$ positivo $\rightarrow$ aumento $w_1$ altrimenti diminuisco $w_1$
         \end{itemize}
 \end{itemize}
-questo ci permette la ricerca in uno spazio delle ipotesi infinito, e puó essere applicato facilmente per spazi H continui e con perdita differenziabile (? boh) altrimenti non posso calcolare il gradiente. Per questo motivo il valore assoluto è scomodo: potrebbe rendere non differenziabile la funzione. 
-arriviamo quindi alle funzioni su l esempi:
+Questo ci permette la ricerca in uno spazio delle ipotesi infinito, e puó essere applicato facilmente per spazi H continui e con perdita differenziabile (? boh) altrimenti non posso calcolare il gradiente. Per questo motivo il valore assoluto è scomodo: potrebbe rendere non differenziabile la funzione. \newline
+Arriviamo quindi a definire le funzioni su l esempi:
 \begin{equation}
-    \Delta w_0 = - \frac{\partial E(w)}{\partial w_0} = 2 \sum (y_p - h_w(x_p)) \quad e \quad \Delta w_1 = - \frac{\partial E(w)}{\partial w_1} = 2 \sum (y_p - h_w(x_p)) * x_p
+    \Delta w_0 = - \frac{\partial E(w)}{\partial w_0} = 2 \sum_{p=0}^l (y_p - h_w(x_p)) \quad e \quad \Delta w_1 = - \frac{\partial E(w)}{\partial w_1} = 2 \sum_{p=0}^l (y_p - h_w(x_p)) * x_p
 \end{equation}
-Ora può venirci in mente una domanda, aggiorniamo w dopo un insieme di esempi di allenamento l, oppure dopo ogni esempio analizzato?
+Ora può venirci in mente una domanda, aggiorniamo i $w_i$ dopo aver ispezionato un insieme di esempi di allenamento l, oppure dopo ogni singolo esempio analizzato?
 \begin{itemize}
-    \item Batch Algorithm: Calcoliamo la sommatoria dell’errore quadratico su l pattern diversi e quindi abbiamo il gradiente, dopo l dati di training sommati abbiamo una “epoca” e aggiorniamo la W
-    \item On-Line Algorithm: Calcoliamo il gradiente su un pattern p e poi aggiorniamo subito W
+    \item Batch Algorithm: calcoliamo la sommatoria dell'errore quadratico su l pattern diversi e otteniamo il gradiente, dopo l dati di training sommati abbiamo una “epoca” e aggiorniamo i $w_i$. Puó essere molto lento...
+    \item On-Line Algorithm: calcoliamo il gradiente su un pattern p e poi aggiorniamo subito $w_i$. Solitamente é piú veloce del Batch...
 \end{itemize}
 
-\subsection{Input Multidimensionali}
-Il caso standard é con due variabili ma in realtà possiamo avere in input centinaia di variabili, l'esempio sul prezzo delle case in realtà conteneva anche le variabili che indicavano il numero delle stanze, l'età della casa ecc... 
+\subsection{Modello di Regressione Lineare Multivariato}
+Il caso standard é con due variabili, ma in realtà possiamo avere in input centinaia di variabili, l'esempio sul prezzo delle case in realtà conteneva anche le variabili che indicavano il numero delle stanze, l'età della casa ecc... 
 \subsubsection{Notazione dei dati}
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.6]{Images/datanotation.png}
 \end{figure}
-X é una matrice l righe * n colonne (numero di pattern * numero di variabili), ogni riga della matrice $X_i$ é un vettore che rappresenta un esempio. $x_{i,j}$ é uno scalare cioè la componente j della riga i. \newline 
-Supponendo vetori colonna x e w, con numero di esempi l e dimensione in input n possiamo scrivere $w^Tx+w_0 = w_0+w_1x_1+w_2x_2+...+w_nx_n$ dove $w_0$ é il bias (non c'entra con il Concept Learning) é la distanza dalla componente 0. Possiamo anche scrivere che $x_0=1$ in modo tale da poter scrivere che $w^Tx = x^Tw$ quindi: $x^T = [1,x_1,...,x_n]$ e $w^T = [w_0, w_1, ..., w_n]$
-\subsubsection{Hyperplane}
-Anzichè "fittare" una retta, "fittiamo" un iperpiano. 
+X é una matrice l righe * n colonne (numero di pattern * numero di variabili), ogni riga della matrice $X_i$ é un vettore che rappresenta un esempio. $x_{i,j}$ é uno scalare cioè la componente j della riga i. \newline
+Stiamo quindi dicendo che ogni esempio $x_p$ é un vettore di n elementi. \newline
+Supponendo vettori colonna x e w, con numero di esempi l e dimensione in input n, possiamo scrivere 
+\begin{equation}
+    w^Tx+w_0 = w_0+w_1x_1+w_2x_2+...+w_nx_n
+\end{equation} 
+dove $w_0$ é il bias (non c'entra con il Concept Learning) é la distanza dalla componente 0. Possiamo anche scrivere che $x_0=1$ in modo tale da poter scrivere che $w^Tx = x^Tw$ quindi: $x^T = [1,x_1,...,x_n]$ e $w^T = [w_0, w_1, ..., w_n]$
+
+\subsection{Hyperplane}
+Anziché adattare una retta, adattiamo un iperpiano. 
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.6]{Images/iperpiano.png}
 \end{figure}
 quindi abbiamo che $w^Tx = w_1x_1 + w_2x_2 + w_0$ e $h(x_p) = x_p^Tw=\sum_{i = 0}^n x_{p,i} w_i$
+dove $x_{p,i}$ é la componente i-esima del p-esimo esempio.
 
 \subsection{Gradiente Discendente Algoritmo}
 \begin{enumerate}
     \item si inizia con il vettore dei pesi $w_{iniziale}$ e si fissa un $0<\eta <1$
-    \item si calcola il gradiente $\Delta w = gradienteE(w) = -(\partial E(w) / \partial w)$
+    \item si calcola il gradiente $\Delta w = -gradienteE(w) = -(\partial E(w) / \partial w)$
     \item si calcola $w_{new} = w_{old} + \eta * \Delta w$
     \item ripetere dal passo 2 finché E(w) é sufficientemente piccolo
 \end{enumerate}
-La versione batch dell'algoritmo si occupa di calclare $\Delta w$ dopo un insieme di di esempi l. La versione online invece aggiorna $\Delta w$ dopo ogni esempio p al posto di aspettare la sommatoria su l, ma ha bisogno di uno step size $\eta$ piú piccolo. 
+La versione batch dell'algoritmo si occupa di calcolare $\Delta w$ dopo un insieme di esempi l. La versione online invece aggiorna $\Delta w$ dopo ogni esempio p al posto di aspettare la sommatoria su l, ma ha bisogno di uno step size $\eta$ più piccolo. 
 
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.6]{Images/examplegraphloss.png}
 \end{figure}
 
-questi sono tre esempi di curve, dove noi andremo a preferire quella che diminuisce nel minor tempo possibile (quella che impiega meno iterazioni). 
+Questi sono tre esempi di curve, dove noi andremo a preferire quella che diminuisce nel minor tempo possibile (quella che impiega meno iterazioni). 
 
 \subsection{Vantaggi dei modelli lineari}
-Se funziona bene è un modello "meraviglioso", molto semplice dove tutte le informazioni sui dati sono contenute nei w. Facile da interpretare tant'è che viene usato in medicina, biologia, chimica, economia... Una delle cose fondamentali é che sono ammessi dati rumorosi e viene usato/incluso in modelli più complessi.
+Se funziona bene è un modello "meraviglioso", molto semplice dove tutte le informazioni sui dati sono contenute nel vettore w. Facile da interpretare tant'è che viene usato in medicina, biologia, chimica, economia... Una delle cose fondamentali é che sono ammessi dati rumorosi e viene usato/incluso in modelli più complessi.
 
 \subsection{Limitazioni}
 La regressione lineare presenta delle limitazioni quando si parla di problemi non lineari.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{Images/linearnonlinear.png}
+    \includegraphics[scale=0.4]{Images/linearnonlinear.png}
 \end{figure}
 
 Notiamo che $h_w(X)=w_1x+w_0$ definita "lineare" non significa che é una linea retta, ma piuttosto come il modo in cui i coefficienti w occorrono nell'equazione di regressione (cioè lineare in w, non in x). Quindi, possiamo anche trasformare gli input, come $x,x^2,x^3,...$ con relazioni non lineari tra input e output. Sfruttando l'algoritmo LMS utilizzato fino ad ora:
 \begin{equation}
-    y(y,w) = w_0+w_1x+w_2x^2+...+w_Mx^M=\sum_{j = 0}^M w_jx^j
+    y(x,w) = w_0+w_1x+w_2x^2+...+w_Mx^M=\sum_{j = 0}^M w_jx^j
 \end{equation}
 
 \subsubsection{Esempio}
-In LMS la funzione non deve essere lineare nell'argomento (variabili in input) ma solo nei parametri che sono determinati per dare il miglior fit. 
+Rispetto all'equazione scritta precedenete in questo caso abbiamo M=2. La funzione non deve essere lineare nell'argomento (variabili in input) ma solo nei parametri che sono determinati per dare il miglior adattamento. 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{Images/quadraticfit.png}
+    \includegraphics[scale=0.4]{Images/quadraticfit.png}
     \caption{fitting su una funzione quadratica (linea blu) attraverso un set di dati (punti rossi)}
 \end{figure}
 
-\subsection{Generalizzazione}
-Trasformazione base: linear basis expansion, prima era il prodotto scalare tra w e x (w trasposto per x) ora prendo delle trasformazioni (anche non lineari) del vettore x e le uso come un'espansione della base, combinandole in maniera lineare. 
+\subsection{Linear Basis Expansion}
+Prima calcolavamo il prodotto scalare tra w e x (w trasposto per x) ora prendo delle trasformazioni (anche non lineari) del vettore x e le uso come un'espansione della base, combinandole in maniera lineare in accordo con la funzione $\phi_k$. 
 \begin{equation}
     h_w(x)=\sum_{k=0}^K w_k \phi_k(x)
 \end{equation}
-Aumenta il vettore di input con variabili aggiuntive che sono trasformazioni di x secondo una funzione phi, ad esempio rappresentazioni polinomiali del tipo $\phi(x)=x_j^2$ oppure $\phi(x)=x_j*x_i$, o ancora trasformazioni non lineari come $\phi(x)=log(x_j)$. Ora il numero dei parametri é $K>n$ soprattutto ora il modello é lineare nei parametri quindi possiamo usare lo stesso algoritmo di prima. 
+La funzione $\phi$ puó essere espressa come rappresentazioni polinomiali del tipo $\phi(x)=x_j^2$ oppure $\phi(x)=x_j*x_i$, o ancora trasformazioni non lineari come $\phi(x)=log(x_j)$. Ora il numero dei parametri é $K>n$, soprattutto il modello é lineare nei parametri quindi possiamo usare lo stesso algoritmo di prima. 
 \subsubsection{Esempi}
 \begin{itemize}
-    \item dimensione di x=1 $\phi_j(x)=x^j$ 
+    \item dimensione di x = 1 e $\phi_j(x)=x^j$ 
     \begin{equation}
     h(x) = w_0+w_1x+w_2x^2+...+w_Mx^M=\sum_{j = 0}^M w_jx^j
     \end{equation}
@@ -617,12 +617,12 @@ Aumenta il vettore di input con variabili aggiuntive che sono trasformazioni di 
     h(x) = w_1x_1+w_2x_2+w_3log(x_2)+w_4log(x_3)+w_5(x_2x_3)+w_0
     \end{equation}
 \end{itemize}
-quale $\phi$ scegliere? Adottiamo un modello in stile dizioanrio? I punti a favore sono la maggiore espressività poiché può modellare relazioni più complesse di quelle lineari. I punti contro sono l'avere una grossa base di funzioni che richiedono metodi per controllare la complessità del modello, vediamo perché...
+Quale $\phi$ scegliere? Adottiamo un modello in stile dizioanario? I punti a favore sono la maggiore espressività poiché può modellare relazioni più complesse di quelle lineari. I punti contro sono l'avere una grossa base di funzioni che richiedono metodi per controllare la complessità del modello, vediamo perché...
 \begin{itemize}
-    \item grado del polinomio = 1, notiamo che é esegue troppo "underfitting"
+    \item grado del polinomio = 1, notiamo che é esegue troppo "underfitting".
     \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.3]{Images/quadraticfit.png}
+    \includegraphics[scale=0.3]{Images/polgrado1underfit.png}
     \end{figure}
     
     \item ordine del polinomio = 3, notiamo che abbiamo molta più flessibilità ma usciamo dal modello con variabili lineari.
@@ -631,7 +631,7 @@ quale $\phi$ scegliere? Adottiamo un modello in stile dizioanrio? I punti a favo
     \includegraphics[scale=0.3]{Images/3gradepol.png}
     \end{figure}
     
-    \item grado del polinomio = 9, notiamo che é flessibilissimo ma é eccessivo, cioé E(w)=0 ma dobbiamo tenere conto degli errori sul test set, perché se i dati fossero rumorosi noi stiamo "fittando" il rumore.
+    \item grado del polinomio = 9, notiamo che é flessibilissimo ma eccessivo. Cioé E(w)=0 ma dobbiamo tenere conto degli errori sul test set, perché se i dati fossero rumorosi noi stiamo addatando al rumore.
     \begin{figure}[H]
     \centering
     \includegraphics[scale=0.3]{Images/9gradepol.png}
@@ -640,24 +640,26 @@ quale $\phi$ scegliere? Adottiamo un modello in stile dizioanrio? I punti a favo
 
 \subsubsection{Tradeoff per la complessitá}
 \begin{itemize}
-    \item Se scegliamo un modello troppo semplice non fitta bene i dati e abbiamo una soluzione vincolata (ce ne accorgiamo perché l'errore W è alto) $\rightarrow$ Underfitting
+    \item Se scegliamo un modello troppo semplice non fitta bene i dati e abbiamo una soluzione vincolata (ce ne accorgiamo perché E(w) è alto) $\rightarrow$ Underfitting
     \item Se scegliamo un modello troppo complesso siamo troppo sensibili alla piccole perturbazioni dei dati $\rightarrow$ Overfitting
 \end{itemize}
 Vogliamo scegliere la regolarizzazione per bilanciare bias e varianza e lo faremo attraverso il controllo della complessità del modello.
  
-\subsection{Verso la regolarizazione}
-Possiamo evitare l'overfitting penalizzando le funzioni complicate mantenendo la flessibilitá dello spazio delle ipotesi (un po' come il rasoio di ockham, si preferisce lo spazio delle ipotesi piú semplice che fitta i dati)
-\subsubsection{Regolarizzazione Ridge Regression} 
-Chiamata anche regolarizzazione di Tikhonov é sempre un modello LMS ma regolarizzato. Per esempio é possibile aggiungere vincoli alla somma del valore di $|w_j|$ favorendo modelli "sparsi", con meno termini dovuti a pesi $w_j$ = 0 (ovvero soluzioni meno complesse). Un modello non regolarizzato fitta bene ma generalizza male (non ci serve a niente). Vorrei un modello semplice (magari con alcuni coefficienti che valgono zero) Come si fa? Aggiungiamo una penalizzazione alla complessità del modello della loss, sommando la norma del vettore w, moltiplicato per un parametro lambda chiamato coefficiente di regolarizzazione. Con il parametro lambda (che é una costante), non ho più bisogno di modificare il grado dei polinomi, o ancora peggio analizzare funzioni più complesse.
+
+
+\subsection{Regolarizzazione - Ridge Regression}
+Possiamo evitare l'overfitting penalizzando le funzioni complicate mantenendo comunque la flessibilità dello spazio delle ipotesi (un po' come il rasoio di ockham, si preferisce lo spazio delle ipotesi più semplice che fitta i dati). \newline
+Chiamata anche regolarizzazione di Tikhonov é sempre un modello LMS ma regolarizzato. Per esempio é possibile aggiungere vincoli alla sommatoria del valore di $|w_j|$ favorendo modelli "sparsi", con meno termini dovuti a pesi $w_j$ = 0 (ovvero soluzioni meno complesse). \newline 
+Un modello non regolarizzato fitta bene ma generalizza male (non ci serve a niente). Vorrei un modello semplice (magari con alcuni coefficienti che valgono zero). Come si fa? Aggiungiamo una penalizzazione alla complessità del modello della loss, sommando la norma del vettore w, moltiplicato per un parametro $\lambda$ chiamato coefficiente di regolarizzazione. Con il parametro lambda (che é una costante), non ho più bisogno di modificare il grado dei polinomi, o analizzare funzioni più complesse.
 \begin{equation}
     definito \quad E_D(w)+\lambda E_W(w) \quad otteniamo \quad Loss(h_w)=\sum_{p} (y_p-h_w(x_p))^2+\lambda ||w||^2
 \end{equation}
-Ottenendo quindi la nuova regola di apprendimento caratterizzata dal weight decay (aggiunta di $2\lambda w$
+Ottenendo quindi la nuova regola di apprendimento caratterizzata dal weight decay (aggiunta di $2\lambda w$)
 \begin{equation}
     w_{new}= w_{old} + \eta*\Delta w - 2 \lambda w_{old}
 \end{equation}
-Per via di di $-2\lambda w_{old}$ decremento il parametro se positivo, lo incremento se negativo (in pratica lo avvicino a zero $\rightarrow$ weight decay). \newline
-Finora abbiamo posto tutta la complessità nel bias di linguaggio, cioè un vincolo posto sul modello (lineare, quadratico, etc). Con la regolarizzazione sposto tutto sul bias di ricerca, cioè sull'algoritmo, come l'algoritmo va a trovare la soluzione (ed è sempre una buona idea). Noi non poniamo a priori una complessità al modello, ma sarà il mio metodo di ricerca intelligente a scegliere la funzione più semplice.
+Per via di di $-2\lambda w_{old}$ decremento il parametro se positivo, lo incremento se negativo (in pratica lo avvicino a zero $\rightarrow$ weight decay). Quindi possiamo controllare la complessità del polinomio sfruttando solamente $\lambda$.\newline
+Finora abbiamo posto tutta la complessità nel bias di linguaggio, cioè un vincolo posto sul modello (lineare, quadratico, etc). Con la regolarizzazione sposto tutto sul bias di ricerca, cioè sull'algoritmo, come l'algoritmo riesce a trovare la soluzione. Noi non poniamo a priori una complessità al modello, ma sarà il mio metodo di ricerca intelligente a scegliere la funzione più semplice.
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.3]{Images/9gradopollambda.png}
@@ -679,114 +681,123 @@ Finora abbiamo posto tutta la complessità nel bias di linguaggio, cioè un vinc
 Possiamo concludere quindi dicendo che se $\lambda$ é basso $\rightarrow$ overfitting, mentre se $\lambda$ alto $\rightarrow$ underfitting.
 
 \subsection{Limitazione delle funzioni a base fissa}
-Quando facciamo un'espansione polinomiale, la dimensionalità del problema cresce molto, e i dati che prima erano densi, potrebbero diventare sparsi. Quando la dimensione dell'input aumenta, il problema diventa enormemente difficile (la difficoltà cresce esponenzialmente, proprio come il volume con le dimensioni). Inoltre, se inizio a mettere dati a caso, rischio di aumentare il rumore. Avere la funzione base che opera su ogni dimensione di uno spazio implica che lo spazio di input richieda un numero combinatorio di funzioni. Per esempio un polinomio dell'ordine 3, utilizza tutte le combinazioni di variabili di input dovute ai prodotti $x_1x_2, x_2x_3, ..., x_1x_2x_3 ecc. \rightarrow D^3$ (approssimazione come aumento D) \newline
-In altri modelli, vedremo come possiamo farcela con meno funzioni di base. Si sceglie il test dizionario e si mettono dei parametri liberi, per adattare la phi ad H.
+Quando facciamo un'espansione polinomiale, la dimensionalità del problema cresce molto, e i dati che prima erano densi, potrebbero diventare sparsi. Quando la dimensione dell'input aumenta, il problema diventa enormemente difficile (la difficoltà cresce esponenzialmente, proprio come il volume con le dimensioni). Inoltre, se inizio a mettere dati a caso, rischio di aumentare il rumore. Avere la funzione base che opera su ogni dimensione di uno spazio implica che lo spazio di input richieda un numero combinatorio di funzioni. Per esempio un polinomio dell'ordine 3, utilizza tutte le combinazioni di variabili di input dovute ai prodotti $x_1x_2, x_2x_3, ..., x_1x_2x_3 \text{ ecc... }\rightarrow D^3$ (approssimare all'aumentare di D) \newline
+In altri modelli, vedremo come possiamo farcela con meno funzioni di base. Si scelgono le funzioni dal dizionario e si mettono dei parametri liberi, per adattare la phi ad H.
 Ho il vantaggio di essere più generale, ma il modello diventa non lineare rispetto a w (reti neurali). \newline 
-In altri modelli invece di calcolare esplicitamente la phi, viene fatta in maniera implicita, col concetto di kernel, controllando il modello direttamente con la funzione obiettivo, non più con una penalità aggiunta dopo (SVM).
+In altri modelli invece di calcolare esplicitamente la phi, viene fatta in maniera implicita, col concetto di funzioni kernel, controllando la complessità del modello direttamente con la funzione obiettivo, non più con una penalità aggiunta dopo (SVM).
 
 \subsection{Classificazione con il modello lineare}
-Possiamo utilizzare il modello lineare per la classificazione, in questo caso usiamo un iperpiano (wx) assumento valori positivi o negativi. Sfruttiamo questi modelli per decidere se un punto x appartiene alla zona positiva o negativa dell'iperpiano. Quindi vogliamo impostare w (imparando) in mod tale da ottenere una buona precisione di classificazione.
+Possiamo utilizzare il modello lineare per la classificazione, in questo caso usiamo un iperpiano ($w^T*x$) assumendo valori positivi o negativi. Sfruttiamo questi modelli per decidere se un punto x appartiene alla zona positiva o negativa dell'iperpiano. Quindi vogliamo impostare w vettore (imparando) in modo tale da ottenere una buona precisione di classificazione.
+
 \subsubsection{Visione geometrica dell'iperpiano}
-$w^Tx$ definisce un iperpiano, il decision bundary é il luogo geometrico dei punti dove l'iperpiano (il prodotto scalare) vale zero e puó essere utilizzator per classificare.
+$w^T*x$ (prodotto di vettore riga per vettore colonna) definisce un iperpiano, il decision bundary é il luogo geometrico\footnote{é una linea, o un piano (quando ci troviamo in dimensioni più gradi)} dei punti dove l'iperpiano vale zero e può essere utilizzato per classificare.
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{Images/deecisionbundary.png}
 \end{figure}
-Quindi possiamo definire una funzione di classificazione del tipo
+Quindi possiamo definire una funzione di classificazione del tipo:
 \begin{equation}
   h(x)=\begin{cases}
-    1 & \text{if $wx+w_0\geq 0$}.\\
+    1 & \text{if $w^Tx+w_0\geq 0$}.\\
     0 & \text{altrimenti}.
   \end{cases}
 \end{equation}
-che possiamo scrvere come $h(x)=sign(wx+w_0)$ $\rightarrow$ $h(x_p)=sign(x_p^Tw)=sign(\sum_{i=0}^n x_{p,i}w_i)$
+che possiamo scrIvere come $h(x)=segno(w^Tx+w_0) \rightarrow h(x_p)=sign(x_p^Tw)=sign(\sum_{i=0}^n x_{p,i}w_i)$
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{Images/classificationplane.png}
 \end{figure}
 
-\subsubsection{Classificazione attraverso decision boundary lineare}
-La classificazione puó essere vista come come l'allocazione dello spazio in input in diverse regioni di decisione. Ad esempio in uno spazio di due dimensioni $x=(x_1,x_2)$ in $R^2$ e $f(x)=0 \lor 1$. In questo caso non vedremo il piano separatore, vediamo solo wx = 0. \begin{quote}
-    Linear Threshold unit (LTU) = Indicatore di funzioni, quanti ne abbiamo? un insieme di dicotomie indotte da iperpiani, sono tutti i modi che abbiamo per muovere la linea rossa.
+\subsubsection{Classificazione attraverso Decision Boundary lineare}
+La classificazione può essere vista come come l'allocazione dello spazio in input in diverse regioni di decisione. Ad esempio in uno spazio di due dimensioni $x=(x_1,x_2)$ in $R^2$ e con $f(x) = 0 \lor 1$ il decision boundary sará una retta. 
+\begin{quote}
+    Linear Threshold Unit (LTU) = indicatore di funzioni, quanti ne abbiamo? un insieme di dicotomie indotte da iperpiani, sono tutti i modi che abbiamo per muovere la linea rossa.
 \end{quote}
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{Images/lineardecisionboundary.png}
 \end{figure}
 
-\subsubsection{Esempio Terremoti/Esplosioni Nuclerari}
-Trovare h in modo tale che il dato (x1, x2) ritorni (0 $\lor$ -1) per i terremoti e (1) per esplosioni nucleari. I dati sismici sono rappresentati da x1 che é la magnitudine dell'onda del corpo e x2 che é la magnitudine dell'onda della superficie. L'algoritmo trova il decision boundary.
+\subsubsection{Esempio Terremoti/Esplosioni Nucleari}
+Trovare h in modo tale che il dato ($x_1, x_2$) ritorni (0 $\lor$ -1) per i terremoti e (1) per esplosioni nucleari. I dati sismici sono rappresentati da $x_1$ che é la magnitudine dell'onda del corpo e $x_2$ che é la magnitudine dell'onda della superficie. L'algoritmo trova il decision boundary.
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{Images/magnitudegraph.png}
 \end{figure}
 
 \subsubsection{Esempio Email Spam}
-Trovare h(mail) in modo tale che resistuisca +1 se é spam e -1 se non é una mail spam. $\phi(mail)$ = parole [0/1] o frasi (“denaro gratis”)
-[0/1] o lunghezza [intero], ad esempio $\phi_k(x)=contain(word_k)$ e w peso per le le funzioni di input che aiutano alla previsione, cioé peso positivo per "denaro gratis", negativo per ".edu". wx é la combinazione del peso. $h_w(x)$ provvede a dare il limite per decidere se una mail é spam o non é spam.
+Trovare h(mail) in modo tale che restituisca +1 se é spam e -1 se non é una mail spam.\newline  Ad esempio $\phi(mail)$ = txtmail.contains(“denaro gratis”), w vettore di pesi per le le funzioni di input che aiutano alla previsione, cioè peso positivo per "denaro gratis", negativo altrimenti. $w^Tx$ é la combinazione dei pesi. $h_w(x)$ provvede a dare il limite per decidere se una mail é spam o non é spam.
 \begin{equation}
     h_w(x)= segno(\sum_{k} w_k\phi_k(x))
 \end{equation}
 
-\subsubsection{Il problema di apprendimento (per classificatori lineari)}
-Assumendo che usiamo ancora il metod dei minini quadrati, dato un insieme di esempi di allenamento l bisogna trovare w che minimizza la somma residua dei quadrati
+\subsection{Il problema di apprendimento (per classificatori lineari)}
+Assumendo che usiamo ancora il metodo dei minimi quadrati, dato un insieme grande "l" di esempi di allenamento, bisogna trovare w che minimizza la somma residua dei quadrati
 \begin{equation}
-    E(w)=\sum_{p\rightarrow l}(y_p-x_p^Tw)^2=||y-Xw||^2
+    E(w)=\sum_{p = 0}^l(y_p-x_p^Tw)^2=||y-Xw||^2
 \end{equation}
-L'errore minimo: se $y_p=1$ allora $x_p^Tw \rightarrow 1$ mentre se $y_p=0\lor -1$ allora $x_p^Tw \rightarrow 0 \lor -1$. NOTA: in E(w) non usiamo la forma h(x) come per la regressione, per contenere una perdita continua differenziabile perché usiamo h(x)=segno(wx) per la classificazione. Abbiamo ancora l'algoritmo di discesa del gradiente:
+L'errore minimo: se $y_p=1$ allora $x_p^Tw \rightarrow 1$ mentre se $y_p=0\lor -1$ allora $x_p^Tw \rightarrow 0 \lor -1$. \newline 
+Abbiamo ancora l'algoritmo di discesa del gradiente:
 \begin{equation}
     \Delta w_i = - \frac{\partial E(w)}{\partial w_i} = \sum_{p=1}^l (y_p - (x_p^Tw)) * x_{p,i}
 \end{equation}
 Nella derivata ignoriamo il 2 che viene fuori dal quadrato. È una costante che non incide sull'eta (il coefficiente di apprendimento).
 
 \subsubsection{$\Delta w$ come regola della correzione dell'errore}
-Se un input viene classificato erroneamente, quindi il Delta positivo per $w_1$ e $w_3$, bisogna aumentare $w_1$ e $w_3$ proporzionalmente (con eta) al delta, quindi un valore positivo in questo caso. Correzione d'errore: alzo i valori dove sono troppo bassi, e viceversa.
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{Images/errorcorrection.png}
 \end{figure}
+Se un input viene classificato erroneamente, quindi il $\Delta$ positivo per $w_1$ e $w_3$, bisogna aumentare $w_1$ e $w_3$ proporzionalmente (con eta) al delta, quindi un valore positivo in questo caso. Correzione d'errore: alzo i valori dove sono troppo bassi, e viceversa.
 
-\subsection{Riassunto}
-Il modello viene allenato su un insieme di esempi con LMS su wx dall'algoritmo di discesa del gradiente usato per la regressione lineare. Il modello viene usato per la classificazione applicando la funzione di soglia $h(x)=segno(wx)$. L'errore puó essere calcolato come errore di classificazione o numero di pattern classificati erroneamente. 
+\subsection{Classificazione dei pattern}
+Il modello viene allenato su un insieme di esempi con il calcolo LMS su $w^Tx$ dall'algoritmo di discesa del gradiente, usato per la regressione lineare. Il modello viene usato per la classificazione applicando la funzione di soglia $h(x)=segno(w^Tx)$. L'errore può essere calcolato come errore di classificazione o numero di pattern classificati erroneamente. 
 \begin{equation}
   L(h(x_p),d_p)=\begin{cases}
     0 & \text{se $h(x_p)=d_p$}.\\
     1 & \text{altrimenti}.
   \end{cases}
-  \quad mean_err = \frac{1}{l\sum_{i=1}^l L(h(x_i), d_i)}
+  \quad mean\_err = \frac{1}{l}\sum_{i=1}^l L(h(x_i), d_i)
 \end{equation}
+dove $d_p$ é l'output dato dagli esempi di allenamento, quindi stiamo classificando i valori calcolati dalla nostra h con i valori degli esempi etichettati.
 \begin{quote}
     Accuratezza = media dei pattern correttamente classificati = $(l-numerr)/l$ \newline dove $numerr=\sum_{i=1}^l L(h(x_i), d_i)$
 \end{quote}
-\subsection{Learning Algorithm}
-É lo stesso come per la regressione $\rightarrow$ Algoritmo gradiente discendente (anche l'espansione lineare e Tikhonov possono essere applicati). Notare che l'algortimo converge asintoticamente al MinLeastSqaure, non necessariamente al numero minimo di errori di classificazione. Perché nella loss non ha il numero di errori di classificazione. Bisogna tener conto di quello che fanno davvero gli algoritmi, e non di quello che vorremmo che facessero (anche se ci sono algorirmi che minimizzano gli errori di classificazione)
-\subsubsection{Congiunzioni nel caso di modello lineare}
-Possiamo rappresentare congiunzioni tramite un modello lineare ad esempio:\newline
-$x_1 \land x_2 \land x_4 \Leftrightarrow y$ cioé $1x_1+1x_2+0x_3+1x_4 > 2$ oppure $1x_1+1x_2+0x_3+1x_4 > 2.5$ \newline
-altro esempio: \newline
-$x_1 \land x_2$ cioé $1x_1+1x_2>1$ oppure $1x_1+1x_2>1.5$ 
+L'algoritmo é lo stesso come per la regressione $\rightarrow$ Algoritmo gradiente discendente (anche l'espansione lineare e Tikhonov possono essere applicati). Notare che l'algoritmo converge asintoticamente al MinLeastSquare, non necessariamente al numero minimo di errori di classificazione.
+
+\subsection{Congiunzioni nel caso di Modello Lineare}
+Possiamo rappresentare congiunzioni con i modelli lineari, ad esempio:\newline
+$x_1 \land x_2 \land x_4 \Leftrightarrow y$ cioè $1x_1+1x_2+0x_3+1x_4 > 2$ dove $w_1=1, w_2=1, w_3 = 0, w_4 = 1, w_0 = 2$ (vettore dei pesi)\newline
+Altro esempio con grafico: \newline
+$x_1 \land x_2$ cioè $1x_1+1x_2>1$
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{Images/conjunctionsgraph.png}
 \end{figure}
-in generale w puó essere appreso per trovare la soluzione. 
+In generale w puó essere appreso per trovare la soluzione.
+
 \subsubsection{Limitazioni}
-Nella geometria due insiemi di punti in un grafico a due dimensioni  sono linearmente separabili quando il due insiemi di punto possono esser separati da una singola linea. In generale due gruppi di punti sono linearmente separabili in uno spazio di dimensione n se possono essere separati da un iperpiano di dimensione n-1. Il confine lineare provvede la soluzione esatta solo per insiemi di punti linearmente separabili. 
+Nella geometria due insiemi di punti in un grafico a due dimensioni sono linearmente separabili quando possono esser separati da una singola linea. 
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{Images/linearnonlinearseparation.png}
+\end{figure}
+In generale due gruppi di punti sono linearmente separabili in uno spazio di dimensione $n$ se possono essere separati da un iperpiano di dimensione $n-1$. Il confine lineare dà la soluzione esatta solo per insiemi di punti linearmente separabili. 
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.5]{Images/lineardecisionboundary.png}
+\includegraphics[scale=0.5]{Images/linearnonlinearseparation2.png}
 \end{figure}
 
 \subsection{Altri sistemi di apprendimento per la classificazione}
 \begin{itemize}
     \item Linear Discriminant Analysis
-    \item Logistic Regression: Stima la/le proprietà di x dato y, P(y/x) partendo modellando la densitá della classe come densitá nota. Abbiamo una soglia soft (continua, differenziabile) con funzione logica (anziché soglia hard 0/1)
+    \item Logistic Regression: Stima la/le proprietà di x dato y, P(y/x) partendo modellando la densità della classe come densitá nota. Abbiamo una soglia soft (continua, differenziabile) con funzione logica (anziché soglia hard 0/1)
     \item Reti Neurali e SVM: modelli flessibili che includono approssimazione non lineare sia per la regressione che per la classificazione.
 \end{itemize}
 
-\subsection{Conclusioni}
-I modelli lineari sono un approccio fondato di base per la regressione e la classificazione, é un modo molto compatto per rappresentare la conoscenza (tutti i dati sono in w) ma con una forte assunzione sulla relazione tra i dati (Assumiamo che ci sia una relazione lineare tra i dati, o comunque in accordo alla phi che abbiamo scelto; è un'assunzione molto forte sullo spazio delle ipotesi). Abbiamo visto un algoritmo di correzione iterativa dell'errore (LMS) che ricerca spazi di ipotesi continui, una visione dei limiti ad approcci lineari e delle esigenze per modelli di ML più flessibili e anche i loro problemi: Un'estensione del modello lineare per attività non lineari e un'introduzione al controllo della complessità (regolarizzazione).
+\subsection{Conclusioni sui Modelli Lineari}
+I modelli lineari sono un approccio fondato di base per la regressione e la classificazione, é un modo molto compatto per rappresentare la conoscenza (tutti i dati sono nel vettore w) ma con una forte assunzione sulla relazione tra i dati (Assumiamo che ci sia una relazione lineare tra i dati, o comunque in accordo alla $\phi$ che abbiamo scelto. É una assunzione molto forte sullo spazio delle ipotesi). Abbiamo visto un algoritmo di correzione iterativa dell'errore (LMS) che ricerca spazi di ipotesi continui, una visione dei limiti ad approcci lineari e delle esigenze per modelli di ML più flessibili e anche i loro problemi: un'estensione del modello lineare per attività non lineari e un'introduzione al controllo della complessità (regolarizzazione).
 
 
 
