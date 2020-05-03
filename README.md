@@ -6,4 +6,4 @@ Parte 1: Terminata, ci potrebbero essere errori ✅
 
 Parte 2: Terminata, ci sono *sicuramente* errori 🤔
 
-Parte 3: Work In Progress, fino a Modelli Lineari incluso dovrebbe essere tutto corretto, anche se alcune cose non mi hanno convinto particolamente 🤯
+Parte 3: Work In Progress, fino agli Alberi di decisione inclusi dovrebbe essere tutto corretto, anche se alcune cose non mi hanno convinto particolamente 🤯
