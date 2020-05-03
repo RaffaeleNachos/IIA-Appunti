@@ -359,6 +359,7 @@ Inizia inizializzando il Version Space sull'insieme di tutte le ipotesi in H, ci
     \includegraphics[scale=0.4]{Images/candidateelim2.png}
 \end{figure}
 G al passaggio 3 contiene le specializzazioni minime che mi permettono di coprire $x_3$ come negativa, senza rendere G più specializzato di S. S e G sono le "guardie" di tutti i positivi e di tutti i negativi trovati finora. Il fatto che se specializzo troppo G rendo false alcuni input già accettati, deriva dal partial order: intelligentemente il controllo di consistenza di tutti i vecchi input non è effettuato dall'algoritmo. Infatti, il limite S del Version Space costituisce un riepilogo degli esempi positivi riscontrati in precedenza che possono essere utilizzati per determinare se una ipotesi è coerente con questi esempi. Il limite G riassume le informazioni da esempi negativi riscontrati in precedenza. Ogni ipotesi più specifica di G è garantita per essere coerente con esempi negativi del passato.
+\clearpage 
 
 \section{Inductive Bias}
 Il nostro spazio delle ipotesi non é in grado di rappresentare target disgiuntivi come ad esempio $(Sky=Sunny) \lor (Sky=Cloudy)$. \newline
@@ -467,7 +468,7 @@ Se la funzione di perdita é convessa abbiamo la seguente soluzione diretta poic
 \end{figure}
 per $w_1$ abbiamo che
 \begin{equation}
-    w_1 = \frac{l * (\sum x_py_p) - (\sum x_p) (\sum y_p)}{l * (\sum x_p^2) - (\sum x_p)^2} = 0
+    w_1 = \frac{l * (\sum x_py_p) - (\sum x_p) (\sum y_p)}{l * (\sum x_p^2) - (\sum x_p)^2}
 \end{equation}
 mentre per $w_0$
 \begin{equation}
@@ -722,7 +723,7 @@ La classificazione può essere vista come come l'allocazione dello spazio in inp
 Trovare h in modo tale che il dato ($x_1, x_2$) ritorni (0 $\lor$ -1) per i terremoti e (1) per esplosioni nucleari. I dati sismici sono rappresentati da $x_1$ che é la magnitudine dell'onda del corpo e $x_2$ che é la magnitudine dell'onda della superficie. L'algoritmo trova il decision boundary.
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.5]{Images/magnitudegraph.png}
+\includegraphics[scale=0.4]{Images/magnitudegraph.png}
 \end{figure}
 
 \subsubsection{Esempio Email Spam}
@@ -798,6 +799,221 @@ In generale due gruppi di punti sono linearmente separabili in uno spazio di dim
 
 \subsection{Conclusioni sui Modelli Lineari}
 I modelli lineari sono un approccio fondato di base per la regressione e la classificazione, é un modo molto compatto per rappresentare la conoscenza (tutti i dati sono nel vettore w) ma con una forte assunzione sulla relazione tra i dati (Assumiamo che ci sia una relazione lineare tra i dati, o comunque in accordo alla $\phi$ che abbiamo scelto. É una assunzione molto forte sullo spazio delle ipotesi). Abbiamo visto un algoritmo di correzione iterativa dell'errore (LMS) che ricerca spazi di ipotesi continui, una visione dei limiti ad approcci lineari e delle esigenze per modelli di ML più flessibili e anche i loro problemi: un'estensione del modello lineare per attività non lineari e un'introduzione al controllo della complessità (regolarizzazione).
+\clearpage
+
+\section{Alberi di decisione}
+Un albero di decisione rappresenta una funzione che prende in input un vettore di attributi e restituisce una "decisione" (un singolo valore in output). I valori sia in input che in output possono essere valori continui, ma per adesso vedremo solo su valori discreti. Gli alberi di decisione aiutano a superare la restrizione della descrizione delle ipotesi solo tramite regole congiuntive (and). Ogni nodo dell'albero rappresenta un test su un attributo e ogni ramo corrisponde alla scelta del valore per quell'attributo, mentre le foglie corrispondono ad una classificazione. 
+
+\subsection{Problema del PlayTennis}
+Vogliamo capire in quali giorni al nostro amico piace andare a giocare a Tennis. Il nostro Training Set é il seguente:
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{Images/playtennistrainingset.png}
+\end{figure}
+Il nostro albero di decisione ha invece questa forma:
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.6]{Images/playtennisdecisiontree.png}
+\end{figure}
+\clearpage
+L'albero rappresenta una disgiunzione di congiunzioni dei vincoli sui valori degli attributi, dove le foglie rappresentano la classificazione ottenuta.
+In particolare il nostro albero rappresenta questa formula:
+\begin{quote}
+    \textcolor{green}{(Outlook=Sunny $\land$ Humidity = Normal)} $\lor$ \newline
+    \textcolor{blue}{(Outlook=Overcast)} $\lor$ \newline
+    \textcolor{orange}{(Outlook=Rain $\land$ Wind=Weak)}
+\end{quote}
+Possiamo, in altro modo, definire l'albero come un insieme di regole if-then-else.
+
+\subsection{(Alg. ID3) Induzione Top-Down sugli alberi di decisione}
+L'algoritmo ID3 é un algoritmo base per l'apprendimento che sfrutta gli alberi di decisione. Dato un insieme di esempi, l'algoritmo per la costruzione dell'albero di decisione ha un approccio Top-Down eseguendo una ricerca Greedy senza backtracking. La domanda che ci dobbiamo porre quando stiamo creando l'albero é: "qual é il prossimo attributo da testare?" che tradotto in termini di alberi di decisione é scegliere il prossimo nodo che ci restituisce più Information Gain (definito successivamente). Viene quindi creato un nodo discendente per ogni possibile valore dell'attributo e gli esempi vengono partizionati in base a quel valore. Il processo viene ripetuto per ciascun nodo successore fino a quando tutti gli esempi sono stati classificati correttamente o non sono rimasti attributi.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{Images/ID3alg.png}
+\end{figure}
+
+\subsection{Entropia: Come scegliere il miglior Attributo}
+La scelta principale in ID3 riguarda quale attributo testare ad ogni nodo. Per definire l'Information Gain dobbiamo usare la nozione di entropia, la quale misura l'impurità di una collezione di esempi.
+\begin{itemize}
+    \item S é una collezione di esempi
+    \item $p_+$ é una porzione di esempi positivi in S
+    \item $p_-$ é una porzione di esempi negativi in S
+\end{itemize}
+\begin{quote}
+    $Entropy(S)=-p_+ log_2 p_+ -p_- log_2 p_-$
+\end{quote}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{Images/entropygraph.png}
+\end{figure}
+Se gli esempi sono tutti positivi o tutti negativi (quindi appartengono tutti alla stessa classe) otteniamo una entropia che vale 0. Otteniamo una entropia massima se gli esempi positivi e negativi sono in ugual dimensione ($\frac{1}{2}+,\frac{1}{2}-$). \newline 
+Prendiamo come esempio S=14 attributi:
+\[Entropy([14+,0-])=-\frac{14}{14}log_2(\frac{14}{14}) - 0 log_2 0 = 0\]
+\[Entropy([7+,7-])=-\frac{7}{14}log_2(\frac{7}{14}) - \frac{7}{14}log_2(\frac{7}{14}) = 1\]
+\[Entropy([9+,5-])=-\frac{9}{14}log_2(\frac{9}{14}) - \frac{5}{14}log_2(\frac{5}{14}) = 0.94\]
+Sia l'entropia che la variabile p hanno valori tra lo 0 e 1 compresi. Una interpretazione dell'entropia é che essa specifica il numero minimo di bit necessari per rappresentare la classificazione si un membro random di S, per questo si utilizza il logaritmo in base 2.
+\subsection{Information Gain}
+L'Information Gain misura la riduzione aspettata dell'entropia causata dal partizionamento degli esempi rispetto all'attributo. Cioè: 
+\begin{equation}
+    Gain(S,Attr)=Entropy(S)-\sum_{v \in Values(Attr)}\frac{|S_v|}{|S|}Entropy(S_v)
+\end{equation}
+dove Values(Attr) é l'insieme dei possibili valori associabili all'attributo, mentre $S_v$ é il sottoinsieme degli esempi S per i quali l'attributo ha valore v. \newline 
+Notare come il primo membro dell'equazione é l'entropia su tutto l'insieme S, mentre il secondo é l'entropia attesa dopo che S é stato partizionato secondo l'attributo Attr.
+Maggiore è l'Information Gain, più efficace è l'attributo nella classificazione dei dati di training. Usiamo l'entropia per misurare l'omogeneità della classe del sottoinsieme degli esempi, quindi dobbiamo scegliere Attr in modo tale da massimizzare il Gain. Stiamo sottraendo $\sum_{v \in Values(Attr)}\frac{|Sv|}{|S|}Entropy(Sv)$ all'entropia generale, ci aspettiamo di ottenere una maggiore omogeneità e quindi un Information Gain maggiore. Lo scopo é quello di separare gli esempi sulla base del target, trovando l'attributo che discrimina gli esempi che appartengono a classi diverse.
+
+\subsubsection{Esempio}
+L'Information Gain viene calcolato per tutti gli attributi, e ID3 lo sfrutta (prende quello con Inf. Gain maggiore) per scegliere il prossimo attributo da testare. Nel nostro esempio Gain(S,Outlook)=0.246 ed é quello con information gain maggiore rispetto a agli altri 3. Quindi per il nodo radice é stato scelto l'attributo Outlook. I dati vengono partizionati rispetto ai valori di Outlook e associati ai nodi successivi. Notiamo che se Outlook=Overcast la risposta é sempre YES, quindi andiamo a valutare $Gain(S_{Sunny},Humidity)$, $Gain(S_{Sunny},Temperature)$ e $Gain(S_{Sunny},Wind)$. Trovando che il massimo gain si ottiene con Humidity. Se l'entropia non é zero l'albero continua a crescere fino ai nodi di classificazione.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{Images/playtennisdecisiontree.png}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.45]{Images/esempioentropia.png}
+\end{figure}
+Humidity fornisce piú informazioni di Wind
+
+\subsection{Problemi con Information Gain}
+L'information Gain favorisce gli attributi con molti valori possibili. Mettiamo caso che nel nostro problema PlayTennis ci fosse stato un attributo che indicava il giorno e il mese, ogni giorno a quel punto sarebbe stato un insieme puro con entropia 0 e quindi avrebbe avuto l'Information Gain più alto di tutti gli altri attributi. Facendo cosí sarebbe scelto come nodo radice, di conseguenza otterremmo un albero di profonditá 1. Ma questo mi é inutile poiché il giorno non é un valore significativo per classificare le istanze future che ancora non abbiamo visto. Quindi come evitiamo la creazione di piccoli sottoinsiemi che mi riducono la generalizzazione?
+
+\subsection{Gain Ratio}
+\begin{equation}
+    GainRatio(S,Attr)=\frac{Gain(S,Attr)}{SplitInformation(S,Attr)}
+\end{equation}
+dove
+\begin{equation}
+    SplitInformation(S,Attr)=-\sum_{i=1}^c \frac{|S_i|}{|S|}log_2\frac{|S_i|}{|S|}
+\end{equation}
+dove c é il numero di variabili possibili per quell'attributo. $S_i$ sono gli insiemi ottenuti partizionando sul valore i di Attr. \newline 
+SplitInformation misura l'entropia di S rispetto ai valori di A. Più i dati sono dispersi in modo uniforme, più è alto. GainRatio penalizza gli attributi che dividono gli esempi in tante piccole classi come per l'esempio dell'attributo della data. Sia $| S | = numerodate$ divide gli esempi in n sottogruppi.
+\begin{equation}
+    SplitInformation(S, Date)= -[(\frac{1}{n} log_2 \frac{1}{n})+...+ (\frac{1}{n}log_2 \frac{1}{n})]= - log_2\frac{1}{n} =log_2n
+\end{equation}
+Il problema che può nascere é che lo SplitInformation può essere 0 o molto piccolo quando $|S_i|$ é circa $|S|$ per alcuni valori i. Ad esempio in un caso estremo in cui $|S_1|=0$ e $|S_2|=1$ otteniamo uno $SplitInformation = -[0/n * log 0/n + n/n * log n/n] = - 0 - 0 = 0$. Per evitare questo effetto viene utilizzata la seguente euristica:
+\begin{enumerate}
+    \item Calcolare il Gain per ogni attributo
+    \item Applicare il GainRatio solo a quegli attributi con il Gain superiore alla media
+\end{enumerate}
+
+\subsection{Considerazioni sulla ricerca nello Spazio delle Ipotesi (in DT Learning)}
+Nell'algoritmo ID3 la ricerca nello spazio consiste nella ricerca dell'albero dal più semplice al più complesso. Mettendolo a confronto con l'algoritmo Candidate Elimination troviamo che:
+\begin{itemize}
+    \item Lo spazio delle ipotesi é completo perché rappresenta tutte le funzioni a valori discreti relative agli attributi disponibili (mentre prima avevamo solo funzioni rappresentate da and)
+    \item La ricerca mantiene solo una singola ipotesi corrente perché è un albero di decisione (mentre prima si manteneva il set di tutte le ipotesi consistenti)
+    \item ID3 nella sua forma pura non utilizza backtracking e non c'è garanzia di trovare l'ottimo (perché é un algoritmo greedy e potrebbe fermarsi sui minimi locali)
+    \item Usa tutti gli esempi a disposizione (mentre prima si guardava un esempio alla volta, in ID3 si usa tutto l'insieme degli esempi, siamo meno suscettibili all'errore sul singolo).
+    \item Può terminare prima accettando classi rumorose (mentre prima non accettavamo classi rumorose)
+\end{itemize}
+
+\subsection{Inductive Bias in DT Learning}
+Qual é il nostro Inductive Bias negli alberi di decisione? Cioè qual é il modo che ha ID3 per generalizzare dagli esempi di training? \newline
+L'algoritmo ID3 seleziona preferibilmente alberi corti rispetto a quelli con molti livelli e quelli che hanno un Information Gain alto vicino alla radice. Gli alberi di decisione non sono limitati nel rappresentare tutte le possibili funzioni, la restrizione non riguarda lo spazio delle ipotesi ma riguarda la strategia di ricerca. \newline
+Abbiamo due tipi di Bias:
+\begin{enumerate}
+    \item Bias di ricerca: é legato alla strategia di ricerca. ID3 ricerca uno spazio completo di ipotesi; la strategia di ricerca è incompleta poiché essendo un algoritmo Greedy una volta che scelgo il primo attributo sto eliminando tutte le ipotesi successive che non corrispondono.
+    \item Bias di linguaggio: é legato all'insieme delle ipotesi esprimibili o considerabili. Candidate Elimination cerca uno spazio di ipotesi incompleto ma la strategia di ricerca è completa.
+\end{enumerate}
+Perché preferiamo un Bias di ricerca? Se iniziamo con uno spazio di ricerca troppo stringente potremmo escludere la funzione target. Conviene avere uno spazio più ampio che poi andiamo a restringere con la strategia di ricerca \footnote{Rasoio di Occam: "prefer the simplest hypothesis that fits the data"}. In ML generalmente si usano approcci flessibili (capacità universale dei modelli), senza escludere a priori la funzione target sconosciuta ma ovviamente, flessibile $\rightarrow$ Overfitting!
+
+\subsection{Problemi con gli alberi di decisione}
+Il problema principale che può presentarsi quando si usano gli alberi di decisione é l'Overfitting (errore di taglio ridotto). Costruire alberi che si adattano troppo agli esempi di training portano all'Overfitting. Definiamo l'errore di una ipotesi h su:
+\begin{itemize}
+    \item Dati di training: $error_D(h)$ //errore empirico
+    \item Tutti i dati contenuti in X: $error_X(h)$ //errore atteso
+\end{itemize}
+\begin{quote}
+    L'ipotesi h "overfitta" i dati di allenamento se c'é un'altra ipotesi h' tale che: \newline
+    $error_D(h)<error_D(h')$ e $error_X(h') < error_X(h)$
+\end{quote}
+detto a parole l'ipotesi h si comporta meglio sul singolo dato ma peggio sull'insieme di dati. Questo comporta che h' funziona male sul training set, ma molto meglio sui dati futuri non visti precedentemente. \newline
+Un esempio con un dato rumoroso é il seguente: $\{Outlook=Sunny, Temp=Hot, Humidity=Normal, Wind=Strong, PlayTennis=No\}$ da come valore target NO, invece rispetto al nostro albero di decisione la risposta dovrebbe essere YES. 
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{Images/noisydataexampl.png}
+\end{figure}
+Questo nuovo esempio rumoroso provoca la divisione del secondo nodo foglia creando un albero piú complesso. Adattandosi anche al rumore, il nuovo DT è perfetto per i dati di training ma non per i nuovi dati.
+
+\subsubsection{Evitare l'Overfitting}
+Ci sono diversi approcci per evitare l'overfitting che possono essere racchiusi in due classi:
+\begin{enumerate}
+    \item fermare la crescita dell'albero prima che abbia una classificazione perfetta
+    \item seconda é permettere all'albero di overfittare i dati e successivamente eseguire un post-potatura dei rami
+\end{enumerate}
+Come possiamo valutare l'effetto di queste decisioni?\newline 
+\begin{itemize}
+    \item Possiamo dividere il training set in due parti (training e validazione) e utilizzare il set di validazione per valutare l'utilità della post potatura
+    \item Possiamo utilizzare tutti i dati di training e in seguito eseguire un test statistico per stimare l'effetto di espansione o potatura
+    \item Possiamo usare un meccanismo di misurazione della complessità per la codifica degli esempi di allenamento e dell'albero. Cioè usare il principio della lunghezza minima della descrizione e fermare la crescita dell'albero quando la dimensione dell'encoding é minima.
+\end{itemize}
+
+\subsubsection{Potatura con errore ridotto}
+Come possiamo usare il validation set per evitare l'overfitting? Nel reduced error pruning ogni nodo é un candidato per la potatura: la potatura consiste nella rimozione di un sottoalbero radicata in un nodo, quest'ultimo diventa una foglia e viene assegnata la classificazione più comune. I nodi vengono rimossi solo se l'albero risultante non ha prestazioni peggiori sul set di validazione. I nodi vengono eliminati in modo iterativo: ad ogni iterazione viene eliminato il nodo la cui rimozione aumenta la precisione del set di validazione. La potatura si interrompe quando nessuna potatura aumenta la precisione. Uno svantaggio é sacrificare dei dati del training set per formare il validation set.
+
+\subsubsection{Regola della post-potatura}
+Nella pratica un metodo che funziona spesso é la post-pruning rule.
+Le seguenti regole sono solo euristiche: non garantiscono l'ottimo a priori.
+\begin{enumerate}
+    \item Si crea l'albero di decisione a partire dal training set fino a che i dati di training fittano al loro meglio. (stiamo facendo overfitting appositamente)
+    \item Si converte l'albero in un insieme equivalente di regole
+        \begin{itemize}
+            \item Ogni path corrisponde a una regola
+            \item Ogni nodo lungo un path corrisponde a una pre-condizione
+            \item Ogni nodo foglia classifica
+        \end{itemize}
+        per esempio $(Outlook=Sunny)\land(Humidity=High) \rightarrow (PlayTennis=No)$
+    \item Potare (generalizzare) ogni regola rimuovendo quelle pre-condizioni la cui rimozione migliora l'accuratezza sia sul validation set, sia sul training set.
+    \item Ordinare le regole in ordine di precisione stimato e considerarle in sequenza quando si classificano nuove istanze
+\end{enumerate}
+Perché trasformare ogni path in regola? Ogni percorso distinto produce una regola diversa, la rimozione di una condizione può essere basata su un criterio locale. La potatura delle pre-condizioni è specifica delle regole mentre la potatura dei nodi è globale e influisce su tutte le regole!
+
+\subsection{Problema: Valori continui degli attributi}
+Fino ad ora abbiamo usato valori discreti per gli attributi, come possiamo affrontare quelli a valori continui? 
+\begin{quote}
+    Dato un attributo a valore continuo A, si crea dinamicamente un nuovo attributo $A_c$ tale che: $A_c = True$ se $A<c$, False altrimenti.
+\end{quote} 
+Ma come determinare il valore di soglia c? Un esempio sul tennis potrebbe essere: 
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{Images/tempthreshold.png}
+\end{figure}
+Cioè possiamo determinare il valore utilizzando la media tra due esempi consecutivi dove però abbiamo un cambio di classificazione: nell'esempio (48+60)/2=54 e (80+90)/2=85.
+
+\subsection{Problema: Dati di training incompleti}
+Come possiamo invece risolvere il problema dei dati mancanti? La strategia é utilizzare altri esempi per "indovinare" l'attributo in due modi:
+\begin{itemize}
+    \item Si assegna il valore più comune tra tutti gli esempi di training sul nodo o quelli della stessa classe.
+    \item Si assegna una probabilità a ciascun valore possibile da assegnare, in base alle frequenze, si associa il valore all'attributo mancante secondo la distribuzione di probabilità.
+\end{itemize}
+I valori mancanti in nuove istanze da classificare vengono trattati di conseguenza e viene scelta la classificazione più probabile.
+
+\subsection{Problema: attributi con costi differenti}
+In alcuni problemi le istanze degli attributi possono avere un costo associato, cioé possiamo dare piú importanza ad alcuni attributi rispetto ad altri. Preferiamo gli alberi che usano costi bassi per gli attributi. L'algoritmo ID3 può essere modificato per lavorare anche con i costi:
+\begin{itemize}
+    \item Tan e Schlimmer 
+        \begin{equation}
+            \frac{Gain^2(S,Attr)}{Cost(S,Attr)}
+        \end{equation}
+    \item Nunez
+        \begin{equation}
+            \frac{2^{Gain(S,Attr)}-1}{(Cost(Attr)+1)^w} \text{ con w=0/1}
+        \end{equation}
+\end{itemize}
+\clearpage
+
+\subsection{Visione Geometrica}
+I decision boundaries, che possono essere prodotti da un albero di decisione, dividono lo spazio di input in rettangoli paralleli agli assi ed etichettano ogni rettangolo con una delle classi K (foglia dell'albero).
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{Images/DTdecisionboundary.png}
+\end{figure}
+
+\subsection{Conclusioni sugli alberi di decisione}
+Gli alberi di decisione sono un approccio molto ultizzato per la classificazione con un numero discreto di classi. Lo spazio delle ipotesi comprende l'area degli approcci proposizionali quindi basati su regole. Si comporta bene con dati rumorosi e gestisce anche i valori degli attributi mancanti. É facile da capire (regole if-then-else, a meno che non lo siano troppe). ID3 ricerca in uno spazio completo di ipotesi, con una strategia greedy INcompleta (perché manca il backtracking, una volta che fissa il primo nodo, non torna indietro). Presenta un approccio flessibile: l'overfitting é un problema importante che affrontata con il post-potatura e la generalizzazione delle regole indotte dall'albero.
+
+
+
+
 
 
 
