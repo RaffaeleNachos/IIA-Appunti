@@ -22,7 +22,7 @@
 \tableofcontents{}
 \clearpage
 \section{Premessa}
-Questi appunti sono stati scritti e controllati più volte, ma come ben si sa:
+Questi appunti sono stati controllati più volte, ma come ben si sa:
 \begin{quote}
     Sa chi sa che nulla sa, e chi sa che nulla sa ne sa più di chi ne sa.
 \end{quote}
@@ -37,7 +37,7 @@ C'è però una domanda molto importante riguardo a cosa sia l'intelligenza: capa
     \centering
     \includegraphics[scale=0.4]{Images/testdituring.png}
 \end{figure}
-In due stanze separate ci sono una persona ed un computer, fuori da queste due stanze c'è una seconda persona che fa domande ad entrambi ad entrambi con la porta chiusa. Il test di Turing si basa su dopo quanto tempo l'uomo esterno riesce a capire chi è uomo e chi macchina. \newline
+In due stanze separate ci sono una persona ed un computer, fuori da queste due stanze c'è una seconda persona che fa domande ad entrambi con la porta chiusa. Il test di Turing si basa su dopo quanto tempo l'uomo esterno riesce a capire chi è uomo e chi macchina. \newline
 Da qui ci viene una domanda fondamentale, dobbiamo dotare i computer di senso comune? (esistono già dei progetti nominati CYC e OpenMind) Una definizione di senso comune possiamo darla, è la capacità di un uomo di poter riconoscere in modo immediato ricorrendo all'uso della ragione naturale. Quindi possiamo anche dare una definizione di intelligenza: è la qualità mentale che consiste nell'abilità di apprendere dall'esperienza, di adattarsi a nuove situazioni, comprendere e gestire concetti astratti, utilizzare la conoscenza per agire sul proprio ambiente.
 
 \subsection{Deep Learning}
@@ -49,36 +49,37 @@ L'apprendimento profondo (deep learning) è quel campo di ricerca dell'apprendim
 \section{Agenti Intelligenti}
 L'approccio moderno dell'IA si basa sulla costruzione di agenti intelligenti e sulla creazione del programma agente da parte del programmatore. La visione ad agenti ci offre un quadro di riferimento e una prospettiva diversa dall'analisi dei sistemi software. Il nostro primo obiettivo è realizzare agenti per la risoluzione di problemi vista come ricerca in uno spazio di stati.
 
-\subsection{Test di Turing}
+\subsection{Caratteristiche}
+Un agente é qualcosa in grado di percepire l'ambiente attraverso i sensori e agire su quell'ambiente sfruttando gli attuatori.
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.3]{Images/AgentiAIMA.png}
+    \includegraphics[scale=0.25]{Images/AgentiAIMA.png}
 \end{figure}
 Agenti Intelligenti: 
 \begin{itemize}
-    \item Sono situati: ricevono percezioni da un ambiente (tramite input dei sensori), agiscono sull'ambiente mediante azioni (sfruttando gli attuatori). La sequenza percettiva è la storia completa delle percezioni. La scelta dell'azione è funzione unicamente della sequenza percettiva
+    \item Sono situati: ricevono percezioni da un ambiente (tramite input dei sensori), agiscono sull'ambiente mediante azioni (sfruttando gli attuatori). La sequenza percettiva é la storia completa delle percezioni. La scelta dell'azione é funzione unicamente della sequenza percettiva
     \item Gli agenti hanno abilità sociale: sono capaci di comunicare, collaborare, difendersi da altri agenti.
     \item Gli agenti hanno credenze, obiettivi, intenzioni...
     \item Gli agenti sono embodied: hanno un corpo, fino a considerare i meccanismi delle emozioni.
 \end{itemize}
-La funzione agente definisce l’azione da compiere per ogni sequenza percettiva ed è implementata da un programma agente, come dicevamo prima, il nostro compito è proprio quello di progettare il programma agente.
+In termini matematici diciamo che il comportamento dell'agente é descritto dalla funzione agente. La funzione agente é una descrizione matematica che definisce l’azione da compiere per ogni sequenza percettiva, il programma agente é una implementazione concreta di questa funzione. Il nostro compito è proprio quello di progettare il programma agente.
 
 \subsection{Agenti Razionali}
-Un agente razionale interagisce con il suo ambiente in maniera efficace cioè "fa la cosa giusta". Serve quindi un criterio di valutazione oggettivo dell'effetto delle azioni dell'agente (vedremo che l'azione ha come conseguenza la creazione di un nuovo stato) come può essere il costo minimo di un cammino per arrivare alla soluzione. La razionalità è relativa alla misura delle prestazioni, alle conoscenze pregresse dell'ambiente e alle capacità dell'agente.
+Un agente razionale interagisce con il suo ambiente in maniera efficace cioè "fa la cosa giusta". Serve quindi un criterio di valutazione oggettivo dell'effetto delle azioni dell'agente\footnote{vedremo che una azione ha come conseguenza la creazione di un nuovo stato nell'ambiente}, come ad esempio il costo minimo di un cammino per arrivare alla soluzione. La razionalità è relativa alla misura delle prestazioni, alle conoscenze pregresse dell'ambiente e alle capacità dell'agente.
 \begin{quote}
-    Definizione agente razionale: \newline
     Per ogni sequenza di percezioni compie l'azione che massimizza il valore atteso della misura delle prestazioni, considerando le sue percezioni passate e la sua conoscenza pregressa.
 \end{quote}
-Raramente tutta la conoscenza sull'ambiente può essere fornita "a priori", l'agente razionale deve essere in grado di modificare il proprio comportamento con l'esperienza (percezioni passate oppure percezioni che è in grado di apprendere in futuro). \newline
+Raramente tutta la conoscenza sull'ambiente può essere fornita "a priori", l'agente razionale deve essere in grado di modificare il proprio comportamento con l'esperienza (percezioni passate oppure percezioni che è in grado di apprendere in futuro).
 
 \subsection{Agenti Autonomi}
 Modificare il proprio comportamento con l'esperienza implica la creazione di agenti autonomi:
 \begin{quote}
-    Un agente è autonomo nella misura in cui il suo comportamento dipende dalla sua esperienza.Un agente il cui comportamento fosse determinato solo dalla sua conoscenza built-in, sarebbe non autonomo e poco flessibile
+    Un agente è autonomo nella misura in cui il suo comportamento dipende dalla sua esperienza. 
 \end{quote}
+Un agente il cui comportamento fosse determinato solo dalla sua conoscenza built-in, sarebbe non autonomo e poco flessibile.
 
 \section{Ambienti}
-Definire un problema per un agente significa caratterizzare l'ambiente in cui l'agente opera
+Definire un problema per un agente significa caratterizzare l'ambiente in cui l'agente opera.
 
 \subsection{Descrizione PEAS dei problemi}
 \begin{itemize}
@@ -95,6 +96,7 @@ Definire un problema per un agente significa caratterizzare l'ambiente in cui l'
         \begin{itemize}
             \item Completamente osservabile: conoscenza completa dell'ambiente, non c'è bisogno di mantenere uno stato del mondo esterno.
             \item Parzialmente osservabile: sono presenti limiti o inaccuratezze che riguardano la conoscenza del mondo.
+            \item Non osservabile: se l'agente non ha sensori
         \end{itemize}
     \item Il mondo può cambiare anche per eventi, non necessariamente per azioni di agenti.
         \begin{itemize}
@@ -107,18 +109,18 @@ Definire un problema per un agente significa caratterizzare l'ambiente in cui l'
             \item Stocastico: esistono elementi di incertezza con associata probabilità.
             \item Non deterministico: non si può sapere come evolve il mondo quindi si tiene traccia di più stati possibili risultanti da una azione eseguita.
         \end{itemize}
-    \item
+    \item L'ambiente si può caratterizzare anche come 
         \begin{itemize}
             \item Episodico: l'esperienza dell'agente è divisa in episodi atomici indipendenti.
             \item Sequenziale: ogni decisione influenza le successive.
         \end{itemize}
-    \item
+    \item L'ambiente può cambiare nel corso del tempo.
         \begin{itemize}
             \item Statico: il mondo non cambia mente l'agente è fermo e sta decidendo l'azione.
             \item Dinamico: il mondo cambia nel tempo, tardare equivale a non agire.
             \item Semi-dinamico: l'ambiente non cambia ma la valutazione dell'agente si.
         \end{itemize}
-    \item  
+    \item L'ambiente é caratterizzato da valori.
         \begin{itemize}
             \item Discreto: i valori del mondo sono limitati (ad esempio gli stati possono essere di numero finito)
             \item Continuo: i valori del mondo possono essere infiniti (ad esempio il tempo può essere infinito)
@@ -135,13 +137,14 @@ Gli ambienti reali sono parzialmente osservabili, stocastici, sequenziali, dinam
 E' uno strumento software che si occupa di generare stimoli per gli agenti, raccogliere le azioni di risposta, aggiornare lo stato dell'ambiente e valutare le prestazioni dell'agente.
 \clearpage
 
-\section{Agenti - Struttura di un agente}
-Struttura Agente = Architettura + Programma \newline
+\section{Tipi di Agente}
+\subsection{Struttura generale di un agente}
+Struttura Agente = Architettura\footnote{é la parte hardware dove gira il nostro programma agente} + Programma \newline
 Funzione Agente \footnote{La funzione agente definisce l'azione da compiere per ogni sequenza percettiva} = Ag : Percezioni $\rightarrow$ Azioni \newline
 Il programma dell'agente implementa la funzione Ag.
 
 \subsection{Agente basato su tabella}
-La scelta dell'azione è un accesso a una tabella che associa un’azione ad ogni possibile sequenza di percezioni. Ci sono ovvi problemi:
+La scelta dell'azione é un accesso a una tabella che associa una azione ad ogni possibile sequenza di percezioni. Ci sono ovvi problemi:
 \begin{enumerate}
     \item Dimensione: Per giocare a scacchi la tabella ha un numero di righe molto maggiore di $10^{80}$ perciò la situazione è ingestibile.
     \item Difficile da costruire.
@@ -200,9 +203,9 @@ L'ambiente è statico, osservabile, discreto e deterministico.
 Un problema può essere definito formalmente mediante 5 componenti:
 \begin{enumerate}
     \item Stato iniziale
-    \item Azioni possibili nello stato
+    \item Azioni possibili nello stato (Azioni(stato))
     \item Modello di transizione: Risultato(stato, azione) = nuovo stato
-    \item Test obiettivo: insieme di stati obiettivo
+    \item Test obiettivo: insieme di stati obiettivo (Goal-Test(stato)=\{true,false\})
     \item Costo del cammino: somma dei costi delle azioni, costo di passo definito come c(s,a,s')
 \end{enumerate}
 1, 2 e 3 definiscono implicitamente lo spazio degli stati.
@@ -240,41 +243,43 @@ Il problema dell'aspirapolvere riguarda la pulizia di due stanze adiacenti con i
 
 \subsubsection{Formulazione del problema dell'aspirapolvere}
 \begin{enumerate}
-    \item Stati: 
+    \item Stati: sono determinati sia dalla posizione dell'aspirapolvere che dalla posizione dello sporco
         \begin{figure}[H]
             \centering
             \includegraphics[scale=0.2]{Images/statiaspirapolvere.png}
         \end{figure}
-    \item Stato iniziale: stati 1 o 2 del grafo 
+    \item Stato iniziale: qualsiasi stato può essere uno stato iniziale
     \item Percezioni: Sporco - Non sporco
     \item Azioni: Sinistra (L) - Destra (R) - Aspira (S)
-    \item Modello di transizione: Aspira(stanza) -> stanza pulita, Destra -> si sposta nella stanza a destra, Sinistra -> si sposta nella stanza a sinistra
+    \item Modello di transizione: Aspira(stanza) = stanza pulita, Destra = si sposta nella stanza a destra, Sinistra = si sposta nella stanza a sinistra
     \item Test obiettivo: rimuovere lo sporco (stati 7 o 8)
     \item Costo del cammino: ogni azione ha costo 1
 \end{enumerate}
 
-\section{Ricerca della soluzione}
-Si tratta di generare un albero di ricerca sovrapposto allo spazio degli stati (generato da possibili sequenze di azioni) senza controllare se i nodi (stati) siano già stati esplorati. Questo controllo lo vedremo sui grafi. \newline 
+\section{Ricerca della soluzione (non informata)}
+Si tratta di generare un albero di ricerca sovrapposto allo spazio degli stati (generato da possibili sequenze di azioni) senza controllare se i nodi (stati) siano già stati esplorati (questo controllo lo vedremo successivamente sui grafi).
+\subsection{Strutture dati per gli algoritmi di ricerca}
+Gli algoritmi di ricerca hanno bisogno di strutture dati per tenere traccia di come l'albero di ricerca si sta formando. \newline
 Un nodo n è una struttura dati con quattro componenti:
 \begin{enumerate}
     \item Uno stato: n.stato
     \item Il nodo padre: n.padre
-    \item L'azione effettuata per generarlo: n.azione
+    \item L'azione effettuata sul padre per generarlo: n.azione
     \item Il costo del cammino a partire dal nodo iniziale: n.costocammino $\rightarrow$ g(n)=n.padre.costocammino + costo dell'ultimo passo
 \end{enumerate}
-La frontiera è lista dei nodi in attesa di essere espansi (le foglie dell'albero di ricerca). Essa è implementata come una coda FIFO (viene estratto l'elemento più vecchio), LIFO (viene estratto quello più recentemente inserito) o con priorità (viene estratto quello con priorità più alta). Su di essa sono definite le seguenti operazioni:
+La frontiera è lista dei nodi in attesa di essere espansi (le foglie dell'albero di ricerca). Essa può essere implementata come una coda FIFO (viene estratto l'elemento più vecchio della coda), LIFO (viene estratto quello più recentemente inserito) o con priorità (viene estratto quello con priorità più alta). Sulla frontiera sono definite le seguenti operazioni:
 \begin{itemize}
     \item Vuota(coda) // mi dice se la coda è vuota
     \item Pop(coda) //estrae il primo elemento dalla coda in base alla strategia utilizzata
     \item Inserisci(elemento,coda) //inserisce un elemento della coda
 \end{itemize}
+\subsection{Ricerca ad Albero}
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.4]{Images/alberocitta.png}
 \end{figure}
-Per prima cosa inizializzo la frontiera con lo stato iniziale (Arad), ad ogni ciclo controllo se la frontiera è vuota, se lo è FAIL altrimenti scelgo un nodo della frontiera e lo rimuovo. Se il nodo rimosso è contenuto negli stati obiettivo OK altrimenti espando il nodo e aggiungo i successori alla frontiera. \newline
+Per prima cosa inizializzo la frontiera con lo stato iniziale (Arad), ad ogni ciclo controllo se la frontiera è vuota, se lo è FAIL altrimenti scelgo un nodo della frontiera e lo rimuovo. Se il nodo rimosso è contenuto negli stati obiettivo allora ho trovato la soluzione, altrimenti espando il nodo e aggiungo i successori alla frontiera. Come si può notare dall'immagine la ricerca ad albero può portare alla creazione di loop. \newline
 Il problema quindi è quale tra i nodi della frontiera scelgo?
-\clearpage
 
 \subsection{Strategie non informate VS Strategie informate "euristiche"}
 Strategie non informate:
@@ -288,46 +293,61 @@ Strategie non informate:
 Le strategie informate "euristiche" le vedremo dopo, fanno uso di informazioni riguardo alla distanza stimata dalla soluzione.
 
 \subsection{Valutazione di una strategia}
+Dobbiamo definire un criterio per capire quale algoritmo di ricerca é migliore di un altro.
 \begin{itemize}
-    \item Completezza: se la soluzione viene trovata, quindi esiste
+    \item Completezza: l'algoritmo garantisce di trovare una soluzione quando esiste?
     \item Ottimalità (ammissibilità): trova la soluzione migliore con costo minore
     \item Complessità in tempo: tempo richiesto per trovare la soluzione
-    \item Complessità in spazio: memoria richiesta
+    \item Complessità in spazio: memoria richiesta per trovare la soluzione
 \end{itemize}
+Per descrivere la complessità di ogni algoritmo sfrutteremo le seguenti definizioni che valgono sia per i grafi che per gli alberi:
+\begin{quote}
+    b = fattore di ramificazione (branching, numero di nodi successori) \newline
+    d = profondità del nodo obiettivo più superficiale (depth) \newline
+    m = lunghezza massima dei cammini nello spazio degli stati (max)
+\end{quote}
+
+\subsection{Problemi cammini ciclici e ridondanze}
+I cammini ciclici rendono gli alberi di ricerca infiniti. Su spazi di stati a grafo si generano più volte gli stessi nodi (o meglio nodi con stesso stato) nella ricerca, anche in assenza di cicli.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{Images/RidondanzeGrafi.png}
+\end{figure}
+Ricordare gli stati già visitati occupa spazio ma ci consente di evitare di visitarli di nuovo. Ci sono tre soluzioni:
+\begin{enumerate}
+    \item Non tornare nello stato da cui si proviene, si elimina il padre dai nodi successori (ma non evita cammini ridondanti).
+    \item Per evitare di creare cammini con cicli si controlla che i successori non siano antenati del nodo corrente.
+    \item Per non generare nodi con stati già visitati/esplorati teniamo in memoria ogni nodo visitato con complessità in spazio di $O(StatiPossibili)$.
+\end{enumerate}
 
 \subsection{Ricerca in ampiezza - BF}
 Esplorare il grafo dello spazio degli stati a livelli progressivi di stessa profondità. La frontiera è implementata con una coda che inserisce alla fine (FIFO).
 \subsubsection{BF-Albero}
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.5]{Images/BFA.png}
+    \includegraphics[scale=0.4]{Images/BFA.png}
 \end{figure}
 
 \subsubsection{BF-Grafo}
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.5]{Images/BFG.png}
+    \includegraphics[scale=0.45]{Images/BFG.png}
 \end{figure}
-"esplorati" è una lista dei nodi già visitati. Prima di espandere un nodo si controlla se lo stato era già stato incontrato o è già nella frontiera.
 
 \subsubsection{Analisi complessità BF}
-\begin{quote}
-    Assumiamo che: \newline
-    b = fattore di ramificazione (branching) \newline
-    d = profondità del nodo obiettivo più superficiale (depth) \newline
-    m = lunghezza massima dei cammini nello spazio degli stati (max) \newline
-\end{quote}
-
 \begin{itemize}
     \item Strategia Completa: SI
     \item Strategia Ottimale: SI se gli operatori hanno tutti lo stesso costo k \footnote{cioè g(n) = k*depth(n) dove g(n) è il costo del cammino per arrivare a n}
-    \item Complessità Tempo: $O(b^d)$ (b figli per ogni nodo)
+    \item Complessità Tempo: $O(b^d)$ (b figli per ogni nodo all'altezza d)
     \item Complessità Spazio: $O(b^d)$ (occupa un sacco di memoria)
 \end{itemize}
-\clearpage
 
 \subsection{Ricerca in profondità - DF}
-Esplorare il grafo dello spazio degli stati arrivando in profondità per ogni nodo. La frontiera è implementata con una coda che inserisce i successori in testa alla lista (LIFO). Cancella rami già completamente esplorarti ma tiene tutti i fratelli del path corrente, occupa così in memoria solo b*m.
+La ricerca Depth-First esplora il grafo dello spazio degli stati arrivando in profondità\footnote{fino a che non ha piú successori} per ogni nodo corrente sulla frontiera. La frontiera è implementata con una coda che inserisce i successori in testa alla lista (LIFO). Cancella rami già completamente esplorarti ma tiene in memoria tutti i successori del path corrente, occupando così in memoria solo b*m.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.3]{Images/dfsearch.png}
+\end{figure}
 
 \subsubsection{Analisi complessità DF-Albero}
 \begin{itemize}
@@ -336,9 +356,12 @@ Esplorare il grafo dello spazio degli stati arrivando in profondità per ogni no
     \item Complessità Tempo: $O(b^m)$ (che può essere maggiore di $O(b^d)$)
     \item Complessità Spazio: $O(b*m)$ (drastico risparmio di memoria)
 \end{itemize}
-In caso di DF con visita su grafo si perdono i vantaggi della memoria: la memoria torna ad essere $O(b^d)$ ma così DF diventa completa su spazi degli stati finiti (al caso pessimo estende tutti i nodi) resta comunque non completa su spazi infiniti.
 
-\subsection{Ricerca in profondità ricorsiva - RecursiveDF}
+\subsubsection{Analisi complessità DF-Grafo}
+In caso di DF con visita su grafo si perdono i vantaggi della memoria: la memoria torna ad essere $O(b^d)$ ma così DF diventa completa su spazi degli stati finiti (al caso pessimo estende tutti i nodi) resta comunque non completa su spazi infiniti.
+\clearpage
+
+\subsection{Ricerca in profondità ricorsiva - DF con backtracking}
 Ancora più efficiente in occupazione di memoria perché mantiene in memoria solo il cammino corrente (solo m nodi al caso pessimo). L'algoritmo è realizzato con "backtracking" che non necessita di tenere in memoria b nodi per ogni livello, ma salva lo stato su uno stack a cui torna in caso di fallimento per fare altri tentativi.
 \begin{figure}[H]
     \centering
@@ -346,10 +369,10 @@ Ancora più efficiente in occupazione di memoria perché mantiene in memoria sol
 \end{figure}
 
 \subsection{Ricerca in profondità limitata - DL}
-Si procede in profondità fino ad un certo livello predefinito l.
+Il il fallimento della ricerca DF in uno spazio di stati infinito viene mitigato in parte se si procede in profondità fino ad un certo livello predefinito l.
 \subsubsection{Analisi complessità DL}
 \begin{itemize}
-    \item Strategia Completa: solo per problemi in cui si conosce un limite superiore per la profondità della soluzione cioè se $d < l$
+    \item Strategia Completa: solo per problemi in cui si conosce un limite superiore per la profondità della soluzione cioè se $l>d$. Se scegliamo $l < d$ la ricerca risulta incompleta.
     \item Strategia Ottimale: NO
     \item Complessità Tempo: $O(b^l)$
     \item Complessità Spazio: $O(bl)$
@@ -373,30 +396,17 @@ Un problema che possiamo valutare è la direzione della ricerca.
     \item Ricerca all'indietro: ricerca guidata dall'obiettivo, si esplora lo spazio di ricerca a partire da uno stato goal e riconducendosi a sotto-goal fino a trovare uno stato iniziale.
 \end{itemize}
 In quale direzione conviene procedere? Conviene procedere nella direzione in cui il fattore di diramazione è minore. Procediamo in avanti quando gli obiettivi sono molti e abbiamo una serie di dati da cui partire. Procediamo all'indietro quando l'obiettivo è chiaramente definito oppure i dati del problema non sono noti e la loro acquisizione può essere guidata dall'obiettivo. \newline
-Nella ricerca bidirezionale si procede nelle due dirazioni fino ad incontrarsi.
+Nella ricerca bidirezionale si procede nelle due direzioni fino ad incontrarsi.
 \subsubsection{Analisi complessità Bidir.}
 \begin{itemize}
-    \item Strategia Completa: SI
-    \item Strategia Ottimale: SI
+    \item Strategia Completa: SI (se il branching é finito e si usa la ricerca BF)
+    \item Strategia Ottimale: SI (se i costi sono tutti uguali e si usa la ricerca BF)
     \item Complessità Tempo: $O(b^{d/2})$
     \item Complessità Spazio: $O(b^{d/2})$
 \end{itemize}
 
-\subsection{Problemi cammini ciclici e ridondanze}
-I cammini ciclici rendono gli alberi di ricerca infiniti. Su spazi di stati a grafo si generano più volte gli stessi nodi (o meglio nodi con stesso stato) nella ricerca, anche in assenza di cicli.
-\begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.4]{Images/RidondanzeGrafi.png}
-\end{figure}
-Ricordare gli stati già visitati occupa spazio ma ci consente di evitare di visitarli di nuovo. Ci sonio tre soluzioni:
-\begin{enumerate}
-    \item Non tornare nello stato da cui si proviene, si elimina il padre dai nodi successori (ma non evita cammini ridondanti).
-    \item Per evitare di creare cammini con cicli si controlla che i successori non siano antenati del nodo corrente.
-    \item Per non generare nodi con stati già visitati/esplorati teniamo in memoria ogni nodo visitato con complessità in spazio di $O(StatiPossibili)$.
-\end{enumerate}
-
 \subsection{Ricerca di costo uniforme - UC}
-E' una generalizzazione della ricerca in ampiezza dove i costi di ogni operatore sono diversi. Si sceglie il nodo di costo minore sulla frontiera (costo g(n)) e si espande. La frontiera è implementata da una coda ordinata per costo cammino crescente (cioè per primi i nodi di costo minore)
+E' una generalizzazione della ricerca in ampiezza dove i costi di ogni operatore sono diversi. Si sceglie il nodo di costo minore sulla frontiera (costo g(n)) e si espande. La frontiera è implementata da una coda ordinata per costo cammino crescente (cioè per primi i nodi di costo g minore). I nodi vengono goal-testati quando vengono scelti per l'espansione e non quando sono generati.
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.8]{Images/UC.png}
@@ -411,7 +421,7 @@ E' una generalizzazione della ricerca in ampiezza dove i costi di ogni operatore
 \subsubsection{UC-Grafo}
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.5]{Images/UC-G.png}
+    \includegraphics[scale=0.50]{Images/UC-G.png}
 \end{figure}
 
 \subsubsection{Analisi complessità UC}
@@ -441,24 +451,23 @@ Assumendo $C^*$ come costo della soluzione ottima e $\lfloor C^*/\alpha \rfloor$
 (+) per problemi per cui si conosce un limite alla profondità della soluzione (se $d<l$)
 
 \section{Ricerca Euristica}
-La ricerca esaustiva non è praticabile in problemi di complessità esponenziale come ad esempio gli scacchi che porta ad una complessità di $10^120$. Possiamo usare la conoscenza del problema ed esperienza per riconoscere cammini più promettenti evitando di generarne di inutili e costosi. La conoscenza euristica non evita la ricerca ma la riduce e sotto certe condizioni può essere completa e ottimale. \newline 
-Come abbiamo già detto, abbiamo una funzione di valutazione che ci indica la qualità dello stato. La funzione di valutazione f adesso include h, detta funzione di valutazione euristica.
+La ricerca esaustiva non è praticabile in problemi di complessità esponenziale, come ad esempio gli scacchi che portano ad una complessità di $10^{120}$. Possiamo invece usare la conoscenza del problema e l'esperienza per riconoscere cammini più promettenti, evitando di generarne di inutili e costosi. La conoscenza euristica non evita la ricerca ma la riduce e sotto certe condizioni può essere completa e ottimale. \newline 
+Per indirizzare la ricerca utilizziamo una funzione di valutazione f(n) che ci indica la qualità dello stato. La funzione di valutazione f include h, detta funzione di valutazione euristica.
 \begin{quote}
     Funzione di valutazione: $f(n) = g(n) + h(n)$ dove: 
     \begin{itemize}
-        \item h tale che $n \rightarrow R$ (la funzione di applica al nodo n ma dipende solo dallo stato n.Stato)
+        \item h tale che $n \rightarrow R$ (la funzione di applica al nodo n ma dipende solo dallo stato - n.Stato)
         \item g(n) è il costo del cammino
     \end{itemize}
 \end{quote}
-Esempi di euristica possono essere la distanza in linea d'aria tra due città, numero di caselle fuori posto nel gioco dell'otto, numero di pezzi sulla scacchiera.
+Esempi di euristica h possono essere la distanza in linea d'aria tra due città, numero di caselle fuori posto nel gioco dell'otto, numero di pezzi sulla scacchiera...
 
 \subsection{Algoritmo Best-First - BFH}
-Best-First-Heuristic si basa sullo stesso algoritmo di UniformCost (UC) ma con uso della funzione di valutazione per la coda con priorità. La scelta di f(n) quindi determina la strategia di ricerca. Ad ogni passo si sceglie il nodo sulla frontiera per cui il valore della f è migliore (migliore può assumere significati diversi in base al problema, ad esempio nel problema dell'itinerario significa "minore").
-
+Best-First-Heuristic si basa sullo stesso algoritmo di Uniform Cost (UC) ma con uso della funzione di valutazione f per la coda con priorità. La scelta di f(n) quindi determina la strategia di ricerca. Ad ogni passo si sceglie il nodo sulla frontiera per cui il valore della f è migliore (migliore può assumere significati diversi in base al problema, ad esempio nel problema dell'itinerario significa "minore"). La h(n) contenuta nella funzione di valutazione ha come valore il costo stimato del percorso sul cammino dal nodo n al nodo goal.
 \clearpage
 
 \subsection{Algoritmo Greedy-Best-First - GBF}
-E' un caso speciale dell'algoritmo Best-First in cui la funzione di valutazione è uguale alla funzione di valutazione euristica, cioè $f(n)=h(n)$.
+É un caso speciale dell'algoritmo Best-First in cui la funzione di valutazione è uguale alla funzione di valutazione euristica, cioè $f(n)=h(n)$. In pratica l'algoritmo cerca di espandere il nodo più vicino al goal secondo l'euristica.
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.6]{Images/GBF.png}
@@ -466,24 +475,25 @@ E' un caso speciale dell'algoritmo Best-First in cui la funzione di valutazione 
 Ci troviamo In(Arad) e aggiungiamo alla frontiera tutti i nodi adiacenti, la coda è ordinata secondo l'euristica della distanza in linea d'aria perchè $f(n)=h(n)$. Da In(Arad) quindi andiamo Go(Sibiu), e ci troviamo In(Sibiu), vengono aggiunti i nodi adiacenti alla coda e per primo troviamo Faragas, Go(Faragas) e poi Go(Bucharest) perchè ha distanza (ovviamente) 0 dal goal ed è primo nella coda. Notiamo però che l'algoritmo Greedy-Best-First ha trovato un cammino ma non l'ottimo, che sarebbe quello in verde.
 
 \subsection{Algoritmo A}
-Un algoritmo A è un algoritmo Best-First con una valutazione dello stato del tipo:
+Un algoritmo A è un algoritmo Best-First\footnote{la frontiera é ordinata secondo il valore di f} con una valutazione dello stato del tipo:
 \begin{quote}
     $f(n) = g(n) + h(n) $ dove:
     \begin{itemize}
-        \item h(n) $\geq$ 0 e h(goal)=0
+        \item h(n) $\geq$ 0
+        \item h(goal)=0
         \item g(n) è il costo del cammino per arrivare a n
         \item h(n) è una stima del costo per raggiungere il goal da un nodo n
     \end{itemize}
 \end{quote}
-L'algoritmo A nel caso in cui h(n) = 0 ottengo f(n) = g(n) $\rightarrow$ UniformCost. \newline
+L'algoritmo A nel caso in cui h(n) = 0 ottengo f(n) = g(n) $\rightarrow$ Uniform Cost. \newline
 Nel caso in cui g(n) = 0 ottengo f(n) = h(n) $\rightarrow$ Greedy-Best-First.
+
 \subsubsection{Completezza Algoritmo A}
-Teorema: L'algoritmo A è completo se $g(n) \geq d(n)*\alpha$ dove d(n) è la profondità al nodo n e $\alpha$ è il costo minimo dell'arco. Questo ci garantisce che non ci siano situazioni del tipo 
+Teorema: L'algoritmo A è completo se $g(n) \geq d(n)*\alpha$ dove d(n) è la profondità al nodo n e $\alpha > 0$ è il costo minimo dell'arco. Questo ci garantisce che non ci siano situazioni del tipo 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.4]{Images/completezzaA.png}
+    \includegraphics[scale=0.3]{Images/completezzaA.png}
 \end{figure}
-e che il costo lungo un cammino non cresca abbastanza così da fermarsi per il costo alto di g.
 
 \subsubsection{Dimostrazione Completezza di A}
 Sia $n_1, n_2, ..., n_i, ..., n_k$ un cammino soluzione. \newline
@@ -491,16 +501,17 @@ $n_i$ è un nodo sulla frontiera di un cammino soluzione quindi prima o poi sar�
 Se non verrà trovata una soluzione prima, il nodo $n_i$ sarà espanso e i nodi del figlio aggiunti alla frontiera, tra questi anche il successore sul cammino soluzione. Il ragionamento si ripete fino a dimostrare che anche il nodo goal sarà selezionato per l'espansione.
 
 \subsection{Algoritmo $A^*$}
-L'algoritmo è lo stesso per UniformCost cambiando la funzione per la priorità della coda. Definiamo una funzione di valutazione ideale detta anche oracolo che idealizza la funzione di valutazione perfetta (cammino minimo).
+L'algoritmo é identico a UC ad eccezione del fatto che $A^*$ utilizza $f(n)=g(n)+h(n)$ per ordinare la coda. (dove h e g hanno le proprietá dell'algoritmo A e h é euristica ammissibile $\rightarrow$ def in seguito)\newline
+Definiamo una funzione di valutazione ideale detta anche oracolo, che idealizza la funzione di valutazione perfetta (cammino minimo).
 \begin{quote}
     Funzione di valutazione ideale: $f^*(n) = g^*(n)+h^*(n)$ dove
     \begin{itemize}
-        \item $f^*(n)$ è il costo del cammino minimo da radice a goal attraverso n
+        \item $f^*(n)$ è il costo del cammino minimo da radice a goal passando per n
         \item $g^*(n)$ costo del cammino minimo da radice a n
         \item $h^*(n)$ costo del cammino minimo da n a goal
     \end{itemize}
 \end{quote}
-Normalmente $g(n) \geq g^*(n)$ perchè il costo del cammino è $\geq$ del costo del cammino migliore. Mentre h(n) è una stima di $h^*(n)$, si può andare in sottostima o sovrastima dalla distanza della soluzione.
+Normalmente $g(n) \geq g^*(n)$ perché il costo del cammino è $\geq$ del costo del cammino migliore. Mentre h(n) è una stima di $h^*(n)$, si può andare in sottostima o sovrastima dalla distanza della soluzione.
 \begin{quote}
     Una euristica è ammissibile se $\forall n . h(n) \leq h^*(n)$ cioè h è sottostima (lower-bound condition).
 \end{quote}
@@ -508,7 +519,7 @@ Possiamo quindi ora dare una definizione di un algoritmo $A^*$:
 \begin{quote}
     Un algoritmo $A^*$ è un algoritmo A in cui h è una funzione euristica ammissibile. (Gli algoritmi $A^*$ sono ottimali).
 \end{quote}
-(quindi anche BreadthFirst con passi a costo costante e UC sono ottimali perchè sono $A^*$ con h(n)=0)
+(quindi anche BreadthFirst con passi a costo costante e UC sono ottimali perché sono $A^*$ con h(n)=0)
 
 \subsubsection{Esempio $A^*$ sul problema dell'itinerario}
 Ho come euristica la distanza in linea d'aria, quindi è una sottostima $\Rightarrow$ Euristica Ammissibile.
@@ -549,7 +560,7 @@ Se h(n) è consistente, i valori di f(n) lungo un cammino sono crescenti.
 \begin{quote}
     $h(n) \leq c(n,a,n')+h(n')$ \newline
     $g(n) + h(n) \leq g(n) + c(n,a,n')+h(n')$ // sommo g(n) da entrambe le parti\newline
-    $g(n) + h(n) \leq g(n')+h(n')$ // perchè $g(n) + c(n,a,n') = g(n')$ \newline
+    $g(n) + h(n) \leq g(n')+h(n')$ // perché $g(n) + c(n,a,n') = g(n')$ \newline
     $f(n) \leq f(n')$
 \end{quote}
 Ogni volta che $A^*$ seleziona un nodo n per l'espansione, il cammino ottimo a tale nodo è stato trovato.
@@ -560,18 +571,18 @@ $A^*$ espande alcuni i nodi con $f(n) = C^*$ \newline
 $A^*$ non espande alcun nodo con $f(n) > C^*$ \newline
 Assumendo $C^*$ come costo della soluzione ottima.
 \begin{quote}
-    Pruning: alcuni nodi non vengono espansi a causa delle regole sopra scritte risparmiando così memoria e rimandendo ottimali. Quindi una h(n) opportuna fa tagliare molto.
+    Pruning: alcuni nodi non vengono espansi a causa delle regole sopra scritte risparmiando così memoria e rimanendo ottimali. Quindi una h(n) opportuna fa tagliare molto.
 \end{quote}
-Cercheremo quindi una h(n) il più alta possibile tra le ammissibili poichè se molto bassa i nodi restano sempre minori di $C^*$ e li espando tutti. \newline
-$A^*$ è completo (discende dalla completezza di A), $A^*$ con euristica monotona è ottimale. Il problema quindi è quale euristica utilizzare? Lo spazio in memoria è ancora molto grande $O(b^{d+1}$ (il costo in tempo dipende dall'euristica utilizzata). 
+Cercheremo quindi una h(n) il più alta possibile tra le ammissibili poiché se molto bassa i nodi restano sempre minori di $C^*$ e li espando tutti. \newline
+$A^*$ è completo (discende dalla completezza di A), $A^*$ con euristica monotona è ottimale. Il problema quindi è quale euristica utilizzare? Lo spazio in memoria è ancora molto grande $O(b^{d+1})$ (il costo in tempo dipende dall'euristica utilizzata). 
 
 \subsection{Costruire le euristiche di $A^*$}
 A parità di ammissibilità una euristica può essere più efficiente di un'altra nel trovare il cammino soluzione migliore. Questo dipende dal grado di informazione posseduto dall'euristica.
 \begin{quote}
     $h(n) = 0$ // grado di informazione minimo \newline
-    $h*(n)$ //massimo grado di informazione (oracolo)
+    $h^*(n)$ //massimo grado di informazione (oracolo)
 \end{quote}
-In generale per le euristiche ammissibili $0 \leq h(n) \leq h*(n)$. \newline
+In generale per le euristiche ammissibili $0 \leq h(n) \leq h^*(n)$. \newline
 Più informata significa più efficiente:
 \begin{quote}
     Se $h_1 \leq h_2$, i nodi espansi da $A^*$ con $h_2$ sono un sottoinsieme di quelli espansi da $A^*$ con $h_1$. Cioè $A^*$ con $h_2$ è almeno efficiente quanto $A^*$ con $h_1$.
@@ -579,34 +590,35 @@ Più informata significa più efficiente:
 Una euristica più informata (accurata) riduce lo spazio di ricerca ma è tipicamente più costosa da calcolare. 
 
 \subsection{Valutare Algoritmi di ricerca euristica}
-Definiamo:
+Un modo per caratterizzare la qualità di una euristica é il fattore di diramazione effettivo $b^*$.
+Se:
 \begin{itemize}
-    \item $b^*$: fattore di diramazione effettivo di un albero uniforme con N+1 nodi
-    \item N: numero di nodi generati
+    \item N: numero di nodi generati da $A^*$
     \item d: profondità della soluzione
 \end{itemize}
-N+1 = $b^* + (b^*)^2 + ... + (b^*)^d$ \newline
+allora $b^*$ é il fattore di diramazione effettivo che avrebbe un albero uniforme di profondità d, con N+1 nodi. \newline
+N+1 = $1 + b^* + (b^*)^2 + ... + (b^*)^d$ \newline
 Sperimentalmente una buona euristica ha un $b^*$ abbastanza vicino a 1 ($< 1.5$) \newline
 Possiamo vedere come cambia in base ad alcuni dati:
 \begin{itemize}
-    \item con b = 2 otteniamo a profondità d = 6, N = 126
-    \item con b = 1.7 otteniamo a profondità d = 6, N = 56
+    \item con $b^*$ = 2 otteniamo a profondità d = 6, N = 126
+    \item con $b^*$ = 1.7 otteniamo a profondità d = 6, N = 56
 \end{itemize}
-e possiamo notare come migliorando di poco l'euristica allo stesso livello abbiamo espanso la metà dei nodi. quindi migliorando l'euristica a parità di nodi espansi riesco a raggiungere una profondità doppia.
-
+Possiamo notare come migliorando di poco l'euristica allo stesso livello abbiamo espanso la metà dei nodi. Quindi migliorando l'euristica a parità di nodi espansi riesco a raggiungere una profondità doppia.
 \clearpage
 
 \subsection{Inventare euristiche}
 \begin{itemize}
     \item Rilassamento del problema: rimuovo dei vincoli (versioni semplificate)
-    \item Massimizzazione euristiche: se ho k euristiche ammissibili senza che alcuna sia migliore dell'altra allora conviene prendere il massimo dei loro valori: $h(n)=max(h_1(n),h_2, ..., h_k(n))$
-    \item Database di pattern disgiunti: ho dei database in cui sono memorizzati dei pattern di sottoproblemi con relativo costo e soluzione. Nel caso di database di pattern normali la somma delle euristiche di questi sottoproblemi non è accurata perchè potrebbe essere che due soluzioni tra due sottoproblemi interferiscono l'una con l'altra. Nel caso invece di database di pattern disgiunti è consentita la somma dei costi.
+    \item Massimizzazione euristiche: se ho k euristiche ammissibili senza che alcuna sia migliore dell'altra allora conviene prendere il massimo dei loro valori: $h(n)=max\{h_1(n),h_2(n), ..., h_k(n)\}$
+    \item Database di pattern disgiunti: ho dei database in cui sono memorizzati dei pattern di sottoproblemi con relativo costo e soluzione. Nel caso di database di pattern normali la somma delle euristiche di questi sottoproblemi non è accurata perché potrebbe essere che due soluzioni tra due sottoproblemi interferiscono l'una con l'altra. Nel caso invece di database di pattern disgiunti è consentita la somma dei costi.
     \item Combinazione lineare: si esegue una combinazione lineare di euristiche diverse: $h(n) = c_1h_1(n) + c_2h_2(n) + ... + c_kh_k(n)$
     \item Apprendere dall'esperienza: faccio girare il programma raccogliendo dati in forma di coppie (stato, $h^*$) e uso i dati per capire come predire la h(n) con algoritmi di apprendimento induttivo.
 \end{itemize}
 
 \subsection{Algoritmi evoluti basati su $A^*$}
 Sono algoritmi che si preoccupano di occupare meno memoria\footnote{Le limitazioni di memoria possono rendere un problema intrattabile dal punto di vista computazionale}.
+
 \subsubsection{Beam Search}
 La Beam Search salva in frontiera ad ogni passo solo i k nodi più promettenti dove k è l'ampiezza del raggio (in pratica nella frontiera abbiamo i k migliori di tutta la storia dell'algoritmo), ovviamente l'algoritmo non è più completo così facendo.
 
@@ -623,33 +635,31 @@ $IDA^*$ è completo e ottimale:
     \item Se il nuovo f-limit è il minimo valore f(n) dei nodi generati ed esclusi all'iterazione precedente
 \end{itemize}
 $IDA^*$ occupa $O(b*d)$ memoria.
+\clearpage
 
 \subsubsection{Best-First ricorsivo - RBFS}
-Simile a DF Ricorsivo ma cerca di usare meno memoria facendo del lavoro in più. Ad ogni livello tengo traccia del migliore percorso alternativo. Invece di fare Backtracking, in caso di fallimento interrompe l'esplorazione quando trova un nodo meno promettente secondo f(n). Nel tornare indietro si ricorda del migliore nodo che ha trovato nel sottoalbero creato per poterci tornare. L'occupazione di memoria è lineare nella profondità della soluzione ottima $O(d)$.
+L'algoritmo é simile a Depth-First Ricorsivo ma cerca di usare meno memoria facendo del lavoro in più, in pratica cerca di imitare Best-First ma usando spazio lineare. Ad ogni livello tengo traccia del migliore percorso alternativo sfruttando la variabile f-limit confrontata con l'f-value del cammino. Invece di fare Backtracking, in caso di fallimento interrompe l'esplorazione quando trova un nodo meno promettente secondo f(n). Nel tornare indietro si ricorda del migliore nodo che ha trovato nel sottoalbero creato per poterci tornare. L'occupazione di memoria è lineare nella profondità della soluzione ottima $O(d)$.
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.4]{Images/BestfirstRic.png}
-    \caption{Algoritmo RBFS}
+    \includegraphics[scale=0.55]{Images/rbfsalg.png}
 \end{figure}
 
 \subsubsection{$A^*$ con memoria limitata - $SMA^*$}
 $SMA^*$ procede come $A^*$ fino ad esaurimento della memoria disponibile, a quel punto dimentica il nodo peggiore dopo aver aggiornato il valore del padre. A parità di f(n) si dimentica il nodo peggiore più vecchio e tiene il più recente. L'algoritmo è ottimale se il cammino soluzione sta in memoria.
 
-\clearpage
-
 \section{Ricerca Locale}
-Gli algoritmi di ricerca locale sono adatti per problemi in cui la sequenza delle azioni non è importante, quello che conta è lo stato di goal. Essi non sono sistematici, tengono traccia solo del nodo corrente e si spostano su nodi adiacenti. Non tengono traccia dei cammini poiché non servono in uscita, questo li rende efficienti in memoria e possono trovare soluzioni ragionevoli anche in spazi molto grandi e infiniti. 
+Gli algoritmi di ricerca locale sono adatti per problemi in cui la sequenza delle azioni non è importante, quello che conta è lo stato di goal. Essi non sono sistematici, tengono traccia solo del nodo corrente e si spostano su nodi adiacenti. Non tengono traccia dei cammini poiché non servono in uscita, questo li rende efficienti in memoria e possono trovare soluzioni ragionevoli anche in spazi molto grandi e infiniti (continui). 
 
 \subsection{Spazio degli stati}
 Lo stato migliore viene valutato da una funzione obiettivo f.
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.5]{Images/spaziodeglistatilocali.png}
+    \includegraphics[scale=0.55]{Images/spaziodeglistatilocali.png}
 \end{figure}
-Uno stato ha una altezza che corrisponde al valore della fuzione di valutazione f. Un algoritmo provoca movimento sulla superficie e il suo compito è quello di trovare il minimo o il massimo della funzione in base alla richiesta del problema.
+Uno stato ha una altezza che corrisponde al valore della funzione obiettivo (funzione costo euristico). Un algoritmo provoca movimento sulla superficie e il suo compito è quello di trovare il minimo o il massimo della funzione in base alla richiesta del problema (se stiamo cercando un costo cerchiamo il minimo).
 
 \subsection{Algoritmo Hill-Climbing}
-E' un algoritmo di ricerca locale greedy. Vengono generati i successori e valutati, viene scelto un nodo che migliora la valutazione dello stato attuale (non si tiene traccia degli altri nodi). Quale scelgo?
+E' un algoritmo di ricerca locale greedy. Vengono generati i successori e valutati, viene scelto un nodo che migliora la valutazione dello stato attuale (non si tiene traccia degli altri nodi). Quale nodo scelgo?
 \begin{itemize}
     \item il migliore: Hill-Climbing a salita rapida.
     \item uno a caso tra quelli che migliorano: Hill-Climbing stocastico.
@@ -663,36 +673,37 @@ Se non ci sono stati successori migliori l'algoritmo termina. Non c'è frontiera
 \end{figure}
 
 \subsubsection{Problemi e Miglioramenti per Hill-Climbing}
-Se la funzione è da ottimizzare i picchi sono massimi locali o soluzioni ottimali. L'algoritmo può arrestarsi su una soluzione che in realtà è solo un massimo locale oppure ritrovarsi su "pianori". Possiamo però eseguire dei miglioramenti:
+Essendo Hill-Climbing un algoritmo greedy, prende il nodo successivo senza pensare a dove lo porterà in futuro. Per questo l'algoritmo può arrestarsi su una soluzione che in realtà è solo un massimo/minimo locale oppure ritrovarsi su "pianori". Possiamo però eseguire dei miglioramenti:
 \begin{itemize}
-    \item Consentire un numero limitato di mosse laterali cioè l'algoritmo si modifica fermandosi quando $vicino.Valore < nodoCorrente.Valore$ invece che quando $\leq$.
-    \item Si sfrutta Hill-Climbing stocastico scendo a caso tra le mosse in salita. L'algoritmo converge pià lentamente ma a volte trova soluzioni migliori.
+    \item Consentire un numero limitato di mosse laterali, cioè l'algoritmo si modifica fermandosi quando $vicino.Valore < nodoCorrente.Valore$ invece che $\leq$.
+    \item Si sfrutta Hill-Climbing stocastico scegliendo a caso tra le mosse in salita. L'algoritmo converge più lentamente ma a volte trova soluzioni migliori.
     \item Si sfrutta Hill-Climbing con prima scelta, può generare mosse a caso fino a trovarne una migliore dello stato corrente, diventa più efficace quando i successori sono molti.
-    \item Si sfrutts Hill-Climbing con ravvio casuale (random restart) cioè si riparte da un punto scelto a caso. Se la probabilità di successo è $p$ saranno necessarie in media $1/p$ ripartenze per trovare la soluzione. Questo algoritmo è tendenzialmente completo.
+    \item Si sfrutta Hill-Climbing con ravvio casuale (random restart), cioè si riparte da un punto scelto a caso. Se la probabilità di successo è $p$ saranno necessarie in media $1/p$ ripartenze per trovare la soluzione. Questo algoritmo è tendenzialmente completo.
 \end{itemize}
 
-\subsection{Algoritmo Tempra Simulata (Simulated annealing)}
+\subsection{Algoritmo Tempra Simulata (Simulated Annealing)}
 L'algoritmo di Tempra Simulata combina Hill-Climbing con una scelta stocastica ben studiata, ad ogni passo si sceglie un successore a caso:
 \begin{itemize}
     \item se migliora lo stato viene espanso (migliora lo stato significa che la funzione di valutazione è maggiore, cioè $[\Delta E = f(n')-f(n)] \geq 0$
     \item altrimenti (caso $[\Delta E = f(n')-f(n)] < 0$) scelgo il nodo n' con probabilità $p=e^{\Delta E / T}$ dove T è un parametro che nel progredire dell'algoritmo decresce, facendo così decresce anche p rendendo improbabili le mosse peggiorative..
 \end{itemize}
 Il valore per cui T decresce è dato in input come parametro\footnote{I valori di T iniziali determinati sperimentalmente sono tali che $p=e^{\Delta E / T}$ sia all'incirca 0,5}, se T diminuisce lentamente e con probabilità tendenti ad 1 si raggiunge la soluzione ottimale.
+\clearpage
 
 \subsection{Algoritmo Local Beam}
 E' la versione locale della Beam Search, si tengono in memoria K stati anziché uno solo. Ad ogni passo si generano i successori di tutti i K stati:
 \begin{itemize}
     \item Se si trova un goal ci si ferma
-    \item Altrimenti si prosegue con i k migliori tra questi
+    \item Altrimenti si prosegue con i K migliori tra questi
 \end{itemize}
-E' diverso dalla Beam Search normale perchè tengo in memoria solo i K migliori del passo corrente e non di tutta la storia! Possiamo notare come se K=1 abbiamo Hill-Climbing con prima scelta mentre se K=$\infty$ ho Best-First.
+É diverso dalla Beam Search normale perchè tengo in memoria solo i K migliori del passo corrente e non di tutta la storia! Possiamo notare come se K=1 abbiamo Hill-Climbing Greedy mentre se K=$\infty$ ho Best-First.
 
 \subsubsection{Local Beam Search Stocastica}
-Si introduce un elemento di casualità, si scelgono i K successori ma con probabilità maggiore per i migliori.
+Si introduce un elemento di casualità, si scelgono i K successori ma con probabilità maggiore di prendere i migliori.
 
-\subsection{Algoritmi Genetici}
+\subsection{Algoritmi Genetici - GA}
 Gli algoritmi genetici sono varianti della Beam Search Stocastica in cui gli stati successori sono ottenuti combinando due stati genitore. Chiamiamo fitness il valore della funzione di valutazione. \newline
-Abbiamo una popolazione iniziale, cioè un insieme di stati iniziali, generati casualmente. Ogni individuo (stato) è rappresentato da una stringa e ogni individuo è valutato da una funzione di fitness. Si selezionano gli individui per gli accoppiamenti sulla base di una probabilità proporzionale alla fitness. Le coppie scelte\footnote{Le coppie scelte non si "attaccano"} danno vita ad una "generazione" successiva con la combinazione di due metodi:
+Abbiamo una popolazione iniziale, cioè un insieme di stati iniziali, generati casualmente. Ogni individuo (stato) è rappresentato da una stringa definita su un alfabeto finito. Ogni individuo viene valutato da una funzione di fitness, si selezionano gli individui per gli accoppiamenti sulla base di una probabilità proporzionale alla fitness. Le coppie scelte\footnote{Nel problema delle regine scegliamo le coppie che non si "attaccano"} danno vita ad una "generazione" successiva con la combinazione di due metodi:
 \begin{itemize}
     \item Crossover (combinando materiale genetico): per ogni coppia viene scelto un punto di crossing over e vengono divisi ottenendo 4 parti, vengono poi generati due figli scambiandosi i pezzi ottenuti.
     \item Con un meccanismo casuale aggiuntivo di mutazione genetica: viene infine effettuata una mutazione casuale che dà luogo alla prossima generazione
@@ -703,6 +714,7 @@ La popolazione ottenuta dovrebbe esser migliore.
     \includegraphics[scale=0.5]{Images/alggeneticicross.png}
     \caption{Esempio crossover + mutazione casuale}
 \end{figure}
+Gli algoritmi genetici combinano la tendenza a salire della Beam Search Stocastica e la possibilità di interscambio di informazioni tra thread paralleli. Pero il punto critico di questi algoritmi è la rappresentazione del problema in stringhe.
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.5]{Images/alggenscacchi.png}
@@ -710,13 +722,13 @@ La popolazione ottenuta dovrebbe esser migliore.
 \end{figure}
 
 \subsection{Gradiente (Hill-Climbing iterativo)}
-Molti casi reali hanno spazi di ricerca infiniti, lo stato è descritto da variabili continue $x_1, x_2, ..., x_n$ cioè il vettore x, ad esempio nello spazio 3D abbiamo $x=(x_1,x_2,x_3)$. Avere più dimensioni può sembrare ostico ma abbiamo molti strumenti matematici che ci permettono di semplificare. \newline
-Se la f è continua e differenziabile, il minimo e il massimo può essere cercato utilizzando il gradiente che restituiscw la direnzione di massima pendenza nel punto.
+Molti casi reali hanno spazi di ricerca infiniti, lo stato viene descritto da variabili continue $x_1, x_2, ..., x_n$ rappresentate anche da un vettore x (ad esempio nello spazio 3D abbiamo $x=(x_1,x_2,x_3)$). Avere più dimensioni può sembrare ostico, ma abbiamo molti strumenti matematici che ci permettono di semplificare. \newline
+Se la funzione è continua e differenziabile, il minimo e il massimo può essere cercato utilizzando il gradiente, che restituisce la direnzione di massima pendenza nel punto.
 \begin{quote}
     Data f obiettivo:
     \[
     \nabla f = (\frac{\partial f}{\partial x_1}, \frac{\partial f}{\partial x_2}, \frac{\partial f}{\partial x_3})
-    \] \newline dove $\partial$ è la derivata parziale e $\nabla$ è inteso come calcolo vettoriale. \newline
+    \] \newline dove $\partial$ è la derivata parziale e $\nabla$ è inteso come calcolo vettoriale. In alcuni casi possiamo trovare il massimo risolvendo l'equazione $\nabla f=0$, ma in altri casi non é possibile risolverla in forma chiusa.\newline
     Definiamo Hill-Climbing iterativo come
     \[
         x_{new} = x_{old} + \eta \nabla f(x)
@@ -733,7 +745,7 @@ Se la f è continua e differenziabile, il minimo e il massimo può essere cercat
 
 \section{Oltre la ricerca classica}
 Gli agenti risolutori di problemi "classici", visti fino ad ora, assumono ambienti completamente osservabili e deterministici. Questo gli permette di esplorare offline lo stato in ricerca di un goal e restituendo una sequenza di azioni che può essere eseguito senza imprevisti per raggiungere l'obiettivo. Per avvicinarci alla realtà dobbiamo riconsiderare il nostro ambiente valutando azioni non deterministiche e ambienti parzialmente osservabili. \newline
-In un ambiente parzialmente osservabile e non deterministico le percezioni sono importanti perchè restringono gli stati possibili e informano sull'effetto dell'azione eseguita. L'agente che si trova in questo ambiente può elaborare una strategia che tiene conto delle differenti eventualità: un piano di contingenza.
+In un ambiente parzialmente osservabile e non deterministico le percezioni sono importanti perché restringono gli stati possibili e informano sull'effetto dell'azione eseguita. L'agente che si trova in questo ambiente può elaborare una strategia che tiene conto delle differenti eventualità: un piano di contingenza.
 
 \subsection{Problema dell'aspirapolvere non deterministico}
 Analizziamo il comportamento dell'aspirapolvere:
@@ -741,39 +753,24 @@ Analizziamo il comportamento dell'aspirapolvere:
     \item Se aspira in una stanza sporca $\rightarrow$ la pulisce, ma talvolta pulisce anche la stanza adiacente.
     \item Se aspira in una stanza pulita a volte rilascia dello sporco.
 \end{itemize}
-Il modello di transizione restituisce un insieme i stati ma l'agente non sa in quale si troverà. Il piano di contingenza sarà un piano (un albero) condizionale con probabili cicli. \newline
+Il modello di transizione restituisce un insieme di stati ma l'agente non sa in quale si troverà. Il piano di contingenza sarà un piano (un albero) condizionale con probabili cicli.
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.4]{Images/statiaspirapolvere.png}
 \end{figure}
-Analizzando lo spazio degli stati il Risultato(Aspira,1) mi porta negli stati {5,7}, per rappresentare il problema possiamo usare gli alberi di ricerca AND-OR.
+Analizzando lo spazio degli stati il Risultato(Aspira,1)\footnote{esegue l'azione di aspirare mentre si trova nello stato 1} mi porta negli stati \{5,7\}. Per rappresentare il problema possiamo usare gli alberi di ricerca AND-OR.
 
 \subsection{Alberi AND-OR}
 \begin{itemize}
     \item Nodi OR $\rightarrow$ scelte dell'agente.
-    \item Nodi AND $\rightarrow$ le diverse eventualità da considerare tutte.
+    \item Nodi AND $\rightarrow$ le diverse eventualità da considerare tutte (ambiente non deterministico!).
 \end{itemize}
 Una soluzione di un problema di ricerca AND-OR è un albero che ha un nodo obiettivo in ogni foglia, specifica un'unica azione nei nodi OR e include tutti gli archi uscenti da nodi AND che visita.
+\clearpage
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.5]{Images/andortree.png}
     \caption{Esempio albero AND-OR problema dell'aspirapolvere. La soluzione è in grassetto.}
 \end{figure}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-%\bibliographystyle{plain}
-%\bibliography{references}
 \end{document}
