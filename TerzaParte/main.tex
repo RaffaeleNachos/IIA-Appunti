@@ -1009,25 +1009,131 @@ I decision boundaries, che possono essere prodotti da un albero di decisione, di
 \end{figure}
 
 \subsection{Conclusioni sugli alberi di decisione}
-Gli alberi di decisione sono un approccio molto ultizzato per la classificazione con un numero discreto di classi. Lo spazio delle ipotesi comprende l'area degli approcci proposizionali quindi basati su regole. Si comporta bene con dati rumorosi e gestisce anche i valori degli attributi mancanti. É facile da capire (regole if-then-else, a meno che non lo siano troppe). ID3 ricerca in uno spazio completo di ipotesi, con una strategia greedy INcompleta (perché manca il backtracking, una volta che fissa il primo nodo, non torna indietro). Presenta un approccio flessibile: l'overfitting é un problema importante che affrontata con il post-potatura e la generalizzazione delle regole indotte dall'albero.
+Gli alberi di decisione sono un approccio molto utilizzato per la classificazione con un numero discreto di classi. Lo spazio delle ipotesi comprende l'area degli approcci proposizionali quindi basati su regole. Si comporta bene con dati rumorosi e gestisce anche i valori degli attributi mancanti. É facile da capire (regole if-then-else, a meno che non lo siano troppe). ID3 ricerca in uno spazio completo di ipotesi, con una strategia greedy INcompleta (perché manca il backtracking, una volta che fissa il primo nodo, non torna indietro). Presenta un approccio flessibile: l'overfitting é un problema importante che affrontata con il post-potatura e la generalizzazione delle regole indotte dall'albero.
 
+\section{Validation}
+Un problema fondamentale del ML é valutare la capacità di generalizzazione del nostro modello, una domanda che dobbiamo porci é: quando un modello é un buon modello? L'apprendimento, come abbiamo visto, consiste nel trovare una buona funzione in uno spazio di funzioni costruito a partire dai dati conosciuti. "Buona" in relazione al fatto di effettuare un basso errore di generalizzazione, per sapere quanto accuratamente il modello si comporta su nuovi dati non visti precedentemente. \newline 
+In particolare, qualsiasi h (ipotesi) che approssima bene f (la nostra funzione da cercare) sui dati di training, approssimerà bene anche su istanze non conosciute? La generalizzazione é quindi un punto cruciale del ML, dobbiamo trovare un modo in cui scegliamo il miglior modello tra svariati modelli calcolati.
+Abbiamo visto che si procede con una fase di apprendimento (Learning phase) dove si costruisce (training, fitting) il modello sfruttando i dati conosciuti. Segue poi una fase predittiva (Predictive phase) dove si applica il modello a nuovi dati sconosciuti e si valuta l'ipotesi predittiva (ad esempio si valuta la capacità di generalizzazione), quest'ultima é una fase di test. \newline
+Per effettuare questa valutazione usiamo due misurazioni:
+\begin{itemize}
+    \item Per la classificazione: Mean Square Error sulla funzione di Loss e l'accuratezza o Mean Error Rate per il risultato.
+    \item Per la regressione: Mean Square Error, Mean Absolute Error ma anche valori statistici come R chiamato coefficiente di correlazione
+\end{itemize}
 
+\subsection{Obiettivi Validazione}
+La validazione ha due obiettivi principali:
+\begin{itemize}
+    \item Model Selection: stima la performance (errore di generalizzazione) di differenti modelli di apprendimento in modo tale da scegliere il migliore. Il compito di selezione del modello ovviamente restituisce un modello.
+    \item Model Assessment: dopo aver scelto un modello finale, stimiamo/valutiamo il suo errore/rischio di previsione (errore di generalizzazione) su nuovi dati di test mai visti prima (magari dati dal cliente). Il compito di valutazione di un modello restituisce una stima.
+\end{itemize}
 
+\subsection{Holdout Cross-Validation}
+Per ottenere una valutazione accurata di un modello dobbiamo valutarlo su esempi nuovi mai visti. Ma noi abbiamo solo un insieme dati limitati e non dobbiamo sprecarli. Dobbiamo quindi suddividere il nostro data set D in Training Set, Validation Set e Test Set.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{Images/modelselectiontrvts.png}
+\end{figure}
+Il Training Set verrà usato dall'algoritmo per la creazione dell'ipotesi h. Il Validation Set viene usato per scegliere il miglior modello tra differenti modelli costruiti. Infine usiamo il Test Set solo per la valutazione del modello.\newline
+Cosa succede se il test set viene utilizzato in un ciclo ripetuto di design? Stiamo eseguendo una selezione del modello e non una valutazione dell'errore di generalizzazione affidabile. Purtroppo non saremo in grado di valutare il modello su esempi non visti, poiché ormai "ce li siamo bruciati". In questo caso, dato che abbiamo usato il test set abbiamo una valutazione sovraottimistica. La regola d'oro é tenere una separazione tra i compiti e usare insiemi separati per Training, Validation e Test.
 
+\subsection{Meta-Algoritmo per l'utilizzo del Data Set}
+\begin{itemize}
+    \item separare TR, VL e TS
+    \item cercare la migliore ipotesi $h_{w,\lambda}$ cambiando gli iper-parametri $\lambda$ del modello
+    \item per ogni valore differente dell'iper-parametro $\lambda$: cercare la migliore ipotesi che minimizza l'errore / perdita empirica (fittando i dati sul TR set) trovando i migliori parametri w.
+    \item selezionare la migliore ipotesi $h_{w,\lambda}$ dove migliore significa con il minor errore sul Validation Set!
+    \item opzionale: é possibile far fittare h su TR+VL con $\lambda$ ormai fissato
+    \item valutare la h finale sul Test Set
+\end{itemize}
+\clearpage
 
+La ricerca dei migliori iper-parametri può consistere in una ricerca in una griglia di valori candidati, per ogni modello calcolare il risultato su Validation Set e prendere quello che con il minimo errore a massima accuratezza. 
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{Images/hypergrid.png}
+\end{figure}
+Nell'immagine Res1 é calcolato sul Validation Set dal modello con un polinomio di grado 1 e un $\lambda$ = 0.1 (modello allenato sul training set). Il migliore é Res3, perché ha un polinomio di grado 4 e $\lambda$ = 0.1. Questi calcoli sono facili da parallelizzare.
 
+\subsubsection{Esempio}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{Images/trvltsexample.png}
+\end{figure}
+\begin{itemize}
+    \item In che ordine si usano le porzioni di dati per calcolare i valori in tabella? \newline
+    Prima il training, poi validation e infine il test
+    \item Quale modello (ossia lambda) si sceglie? \newline 
+    Si sceglie il migliore sul Validation Set, NON si usa il Test Set per il model selection!
+\end{itemize}
 
+\subsubsection{Esempio perché separare VL e TS}
+Ci troviamo in una situazione con 20-30 esempi, 1000 variabili di input, come output abbiamo target 0/1 calcolato randomicamente. Trovo un modello con una sola variabile che indovina "per caso" al 99\% su training e validation set. Otteniamo un risultato perfetto (cioé un modello con accuratezza al 99\%)? 99\% non é una buona stima dell'errore di test (quella corretta é 50\% visto che gli 0/1 in output sono randomici). L'errore stimato su training o validation per il model selection NON é utile! Usare tutto il data set per feature/model selection lede la correttezza della stima. Se effettuo la selezione del modello su tutto il data set e poi eseguo training e validation su sottoinsiemi, il test fornirà risultati biased (FS-bias). Un test set esterno fornisce invece la stima corretta del 50\%.
 
+\subsection{K-fold cross validation}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{Images/kfold.png}
+\end{figure}
+Hold out cross validation, che abbiamo visto prima, può effettuare un uso insufficiente di dati. Il seguente metodo ogni volta riparte da zero e non tiene conto di quello che é successo prima. \newline
+K-fold cross validation:
+\begin{quote}
+    Scegliere un $\lambda$. Dividere il data set in $D$ porzioni mutualmente esclusive di dati. Allenare l'algoritmo di apprendimento sull'insieme $D - D_i$ e testarlo su $D_i$. Calcolo la media sui risultati trovati su $D_i$. Cambio $\lambda$ e rieseguo il tutto. Alla fine scelgo il modello con il minimo errore di validation, sulla base del valore calcolato con la media sui vari $D_i$.
+\end{quote}
+Utilizza tutti i dati per training, validazione o test. NOTA: questa tecnica può essere utilizzata sia per il validation set, sia per il test set. In quante parti dobbiamo dividere? 3,5,10... ma spesso é computazionalmente costoso. 
 
+\subsection{Esempio di Model Selection e Assessment}
+Dividere i dati in Training Set e Test Set (sfruttando Hold out o K-fold), usare K-fold internamente sul Training Set per trovare i migliori iper-parametri $\lambda$ del modello. Eseguire una ricerca su griglia con tutti i possibili valori dell'iper-parametro e scegliere il miglior $\lambda$. A questo punto allenare su tutto il TR set il modello finale e valutarlo su un test set esterno.
 
+\subsection{Comportamento tipico di un algoritmo di apprendimento}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{Images/learntraincurve.png}
+\end{figure}
+All'inizio sia l'errore di training che quello di test sono alti, perché? Succede un po' quello che succedeva con il grado del polinomio troppo basso, che non fittava bene i dati $\rightarrow$ Underfitting. \newline
+Alla fine invece l'errore di training é basso mentre l'errore sul test é alto, perché? É il caso in cui si sta overfittando sui dati di training e quindi il grado del polinomio é molto alto, ma non si sta comportando bene riguardo la generalizzazione sui dati di test sconosciuti. \newline
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{Images/bigdatasethighpolgrade.png}
+\end{figure}
+Se prendiamo un polinomio con grado alto, ma abbiamo molti dati in più, predico meglio la funzione target. Ma quindi il problema era l'alto grado del polinomio o i pochi dati a disposizione? Per dare una risposta a questa domanda esiste della teoria di supporto.
 
+\subsection{Statistical Learning Theory}
+Mettendo insieme: 
+\begin{itemize}
+    \item La capacità di generalizzazione (misurata come errore di test) di un modello rispetto all'errore di addestramento delineando le zone di overfitting o underfitting
+    \item Il ruolo della complessità del modello
+    \item Il ruolo del numero di dati
+\end{itemize}
+troviamo la Statistical Learning Theory (SLT):
+\begin{quote}
+    \begin{itemize}
+        \item si approssima una funzione sconosciuta f(x)
+        \item si minimizza la funzione di rischio $R=\int L(t,h(x))dP(x,t)$ (Integrale della loss su tutti i dati).
+        \item vengono dati un valore target $t$, una probabilitá di distribuzione $P(x,t)$ e una funzione Loss del tipo $L(h(x),t)=(t-h(x))^2$
+        \item dobbiamo cercare h nello spazio delle ipotesi H, dove il valore di rischio generale R é minimo, ma noi abbiamo solo un data set finito $TR(x_i,t_i)$ con i=1...l
+        \item per cercare h dobbiamo quindi minimizzare l'errore empirico (training error) trovando il miglior valore per il modello con parametri liberi w. \[R_{emp}=\frac{1}{l}\sum_{i = 1}^l (t_i-h(x_i))^2\]
+    \end{itemize}
+\end{quote}
+Questo si chiama principio induttivo della minimizzazione del rischio empirico (Empirical Risk Minimization). La domanda che dobbiamo porci é: possiamo usare $R_{emp}$ per approssimare R?
 
+\subsection{Teoria di Vapnik-Chervonenkis + SLT}
+\begin{itemize}
+    \item VC-dim é una misura per la complessità dello spazio delle ipotesi H (flessibilità per fittare i dati, come ad esempio il numero di parametri per modelli lineari/ grado del polinomio)
+    \item VC-bounds afferma che con una probabilità di $1-\delta$ che \[ R \leq R_{emp} + \epsilon(\frac{1}{l},VC,\frac{1}{\delta})\]
+    cioè che il rischio generale R ha un limite superiore definito dal rischio empirico (che decresce con la complessità dei modelli) più il VC-confidence. Il VC-confidence ($\epsilon$) aumenta all'aumentare della complessità del modello (indicata da VC) e diminuisce quando il numero dei dati aumenta. ($1/\delta$ indica la probabilitá che valga questo bound)
+\end{itemize}
+Possiamo usare il rischio empirico per approssimare R? Sì, il Machine Learning è ben fondato, l'intuizione sta nel fatto che un numero alto di dati portano ad un R basso, e un alto VC-dim abba $R_{emp}$ ma potrebbe alzare R (overfitting).
+\subsection{Structural Risk Minimization}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{Images/structuralriskmin.png}
+\end{figure}
+Sfruttiamo il concetto di controllo della complessità del modello, eseguiamo un trade-off tra la complessità del modello e l'accuratezza sul TR set.
 
-
-
-
-
-
+\subsection{Conclusioni}
+La STL permette di inquadrare formalmente il del problema della generalizzazione e overfitting, fornendo limitazioni superiori analitiche e quantitative al rischio R di predizione su tutti i dati, indipendentemente dal tipo di learning algorithm o dettagli del modello. Il ML e ben fondato, il rischio del learning (e l'errore di generalizzazione) può essere analiticamente limitato! Si puó trovare un buona approssimazione della f target da esempi, pur di avere un buon numero di dati e una adeguata complessità del modello (misurabile formalmente con la VC-dim). Questo ci porta a nuovi modelli (SVM) (e altri metodi che direttamente considerino il controllo della complessità nella costruzione del modello). Fonda uno dei principi induttivi sul controllo della complessità. \newline
+Alcuni esempi di controllo della complessità sui modelli lineari sono il numero di parametri liberi w o la dimensione in input. Mentre per i decision trees il numero di nodi. Vedremo un approccio diretto alla complessità attraverso il modello SVM.
 
 
 
