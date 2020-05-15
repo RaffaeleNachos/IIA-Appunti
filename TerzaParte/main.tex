@@ -1279,6 +1279,120 @@ Quindi:
     \item Eseguire il testing su un Test Set esterno
 \end{itemize}
 
+\section{K-Nearest Neighbors}
+K-NN fa parte del supervised learning, vediamo la forma piú semplice di questo metodo basato su istanze.
+
+\subsection{1-Nearest Neighbor}
+Questo algoritmo non impara, ma sfrutta tutti i valori del training set.
+\begin{itemize}
+    \item Salvare i dati di training nella forma $<x_j,y_j>$ con j=1...l
+    \item Dato un input x di dimensione n:
+    \begin{itemize}
+        \item Trovare l'esempio di training più vicino $x_i$ tale che $d(x,x_i)$ é minimo \newline
+        dove \[d(x,x_j)=\sqrt{\sum_{t=q}^n(x_t-x_{jt})^2}=||x-x_j||\] $x_t$ é la componente t-esima di x, $x_{jt}$ é la componente t-esima di $x_j$
+    \end{itemize}
+    \item Diamo come output $y_i$ (in pratica stiamo vedendo l'esempio che piú assomiglia ai nostri dati e rispondiamo come ha risposto lui
+\end{itemize}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{Images/1-nn.png}
+\end{figure}
+É molto flessibile, non c'è errore di classificazione sui dati di TR, il decision boundary non é piú lineare e potrebbe portare all'overfitting?
+
+\subsection{K-NN}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{Images/5-nn.png}
+\end{figure}
+Vediamo già come si comporta in questo caso 1-nn risponderebbe + per $x_q$, valutando invece con 5-nn viene restituito - per $x_q$. Come succedeva con il polinomio di alto grado che andava in overfitting, anche qui dobbiamo renderlo più "smooth" valutando su un insieme di vicini. \newline
+Per questo possiamo "dare un occhiata" a tot (k) vicini e restituire una media: \[avg_k(x)=\frac{1}{k}\sum_{x_i\in N_k(x)} y_i\] dove $N_k(x)$ é il vicinato di x che contiene esattamente k vicini. Se c'è una chiara dominanza di una delle classi nel vicinato di x, allora é probabile che anche x appartenga a quella classe. Quindi la regola di classificazione è la maggioranza che vota tra i membri di $N_k (x)$. \[h(x)=1 \text{ se } avg_k(x)>0.5 \text{      0 altrimenti}\]
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{Images/15-nn.png}
+\end{figure}
+
+Dobbiamo trovare il giusto trade-off tra underfitting e overfitting trovando il giusto valore k. (Nota: é possibile usare k-nn anche se ci sono piú classi). \newline
+\subsection{Considerazioni su K-nn}
+Non c'è una ipotesi globale per tutte le istanze: non c'é quindi nessun modello da allenare. Dobbiamo semplicemente memorizzare gli esempi di input, inoltre il modello non é parametrico. Si tratta di una stima lineare globale della funzione target (sullo spazio dell'istanza). É un metodo basato sulla memoria, sull'istanza e sulla distanza, Bias induttivo! scegli il risultato in base alla distanza. \newline
+Notare che k-nn fa una approssimazione locale della funzione target per ogni nuovo esempio da classificare, il costo computazionale é tutto contenuto nella fase di predizione. Inoltre é molto costosto a livello computazionale perché per ogni nuovo input bisogna calcolare le distanze dall'esempio a tutti i vettori memorizzati. Il tempo è proporzionale al numero di modelli memorizzati, questo ci fa notare che anche il costo per lo spazio é alto, dato che tutti i dati sono memorizzati. \newline
+Quando abbiamo molte variabili in input k-nn spesso fallisce a causa del "curse of dimensionality": quando la dimensione aumenta, il volume dello spazio aumenta in modo tale che i dati disponibili diventano sparsi. Ad esempio la quantitá di dati che servono per supportare un risultato spesso cresce esponenzialmente con la dimensione. Troviamo anche il problema denominato "curse of noisy": se il target dipende da poche altre variabili, potremmo trovarci un "modello simile" con la somiglianza dominata dal gran numero di funzioni irrilevanti. 
+
+\subsection{Distance Based methods}
+Quando utilizzo degli approcci basati su distanza (come k-nn o alcune funzioni kernel) devo assicurarmi che la distanza calcolata sia davvero un fattore discriminante. Stiamo misurano quando una coppia di pattern si assomiglia, inoltre dare una metrica pone un bias rilevante sulla soluzione e la metrica dipende da un dominio (es due stringhe in un linguaggio). Possiamo imparare in qualche modo la metrica? Si (NN, Learning K...). 
+
+\section{Unsupervised Learning (ripasso)}
+Nel Unsupervised Learning non abbiamo esempi etichettati, e quindi con un output associato, siamo noi come sistema di apprendimento che dobbiamo trovare correlazioni tra i dati e raggrupparli (clustering). Dobbiamo quindi ripartire i dati, in cluster (sottoinsiemi di dati simili). Il goal che ci poniamo é ripartire in modo ottimo una distribuzione sconosciuta di dati, in uno spazio di dimensione x, in regioni (approssimando poi usando un cluster). In questo caso H é un insieme di quantizzatori di vettori $x\rightarrow c(x)$ cioè dato un vettore in input voglio sapere a quale cluster appartiene. Passiamo da uno spazio continuo ad uno spazio spazio discreto. \newline 
+Una funzione di Loss comune é \[L(h(x_i))=||x_i-c(x_i)||^2\] cioè la distanza tra x e il centroide. Il valore medio sulla distribuzione degli input è l'errore di quantizzazione. \newline
+Unsupervised Learning viene spesso usato in Data Analysis per scoprire caratteristiche comuni tra i dati, viene anche usato per il Preprocessing dei dati da utilizzare poi in seguito per altri approcci di ML. Inoltre dobbiamo notare il fatto che raccogliere dati non etichettati é più "economico", rispetto a trovarne labeled.
+
+\subsection{K-means}
+K-means fa parte del Unsupervised Learning. Il K-means è l'algoritmo più semplice e più comunemente usato che utilizza un criterio di errore al quadrato. L'algoritmo K-means è popolare perché è facile da implementare ed è generalmente efficiente, tuttavia, presenta diversi inconvenienti e limitazioni che vedremo dopo...
+\begin{enumerate}
+    \item Scegliere k centri di cluster in modo che coincidano con k modelli scelti casualmente (o k punti definiti casualmente all'interno dell'ipervolume contenente il set di pattern) \newline
+    $c_1...c_k$ con k fissato che scegliamo noi.
+    \item Assegnare ad ogni modello il centro del cluster più vicino (il vincitore) \newline
+    per ogni x calcoliamo
+    \[i^*(x)=argmin_i||x-c_i||^2=\sum_{j\rightarrow n}(x_j-c_{ij})^2\]
+    cioè provo tutti i $c_i$ e quello che ha distanza minima é il vincitore (mi interessa l'indice del vincitore $i^*$). Adesso x appartiene al cluster $i^*$
+    \item Ricalcolare i centri del cluster (centroide) utilizzando le nuove appartenenze al cluster corrente
+    \[c_i=\frac{1}{|\text{num di membri cluster}_{i}|}\sum_{x_j \in cluster_i}x_j\]
+    \item Se non viene soddisfatto un criterio di convergenza, andare al passaggio 2 (criteri come nessuna (o minima) riassegnazione di schemi a nuovi centri di cluster o una minima diminuzione dell'errore quadratico)
+\end{enumerate}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.25]{Images/k-means-1.png}
+\includegraphics[scale=0.25]{Images/k-means-2.png}
+\includegraphics[scale=0.25]{Images/k-means-3.png}
+\includegraphics[scale=0.25]{Images/k-means-4.png}
+\includegraphics[scale=0.25]{Images/k-means-5.png}
+\end{figure}
+
+\subsection{Limitazioni K-means}
+Il numero di cluster da trovare deve essere fornito (questo porta a fare trial and error per trovare il K che fitta meglio). I minimi locali della Loss rendono il metodo dipendente dall'inizializzazione, si esegue più volte da diverse inizializzazioni casuali (ci sono anche dei metodi che inizializzano con un'euristica). K-means può funzionare bene per cluster compatti, ma non consente di proiettare i dati in uno spazio di dimensione minore. \newline
+Come viene valutato l'output di un algoritmo di clustering? Che cosa caratterizza un risultato di raggruppamento "buono" e uno "scarso"? Nel clustering esiste ben poco in termini di "standard di riferimento", tranne nei sottodomini specifici in cui conosco la metrica (conosco bene il problema e so riconoscere una classificazione sensata). Misure oggettive (non trattate qui) come ad esempio l'errore di quantizzazione. Noi sappiamo a quali classi appartengono i dati, ma usiamo un algoritmo di clustering, e controlliamo che le classi corrispondano. È un modo sbagliato per valutare la bontà di un algoritmo di clustering!
+
+\subsection{Preprocessing dei dati}
+Abbiamo visto che Unsupervised Learning viene utilizzato per il preprocessing dei dati, ma in che modo?
+Menzioniamo la riduzione della dimensionalità cioè trasformare la dimensione dei dati in una più piccola. (non é importante la quantità, bensì la dimensione dei dati!) \newline
+$<x_1, x_2, ..., x_n> \rightarrow <x'_1, x'_2, ..., x'_m>$ con $n>m$. \newline
+Un esempio é il PCA (principal component analysis) dove i nuovi assi sono calcolati nella direzione di massima varianza dei dati 
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{Images/PCA.png}
+\end{figure}
+Un altro approccio per il preprocessing dei dati é la feature selection: é una particolare tecnica di riduzione della dimensionalità nella quale scelgo le variabili più significative per il task, anziché trasformarle. In pratica scegliamo un sottoinsieme di tutte le caratteristiche. Un ultimo approccio dal preprocessing che vediamo é Outlier detection: si cercano valori inusuali dei dati che non sono consistenti con gli altri (valori scorretti a causa di misurazioni errate).
+
+\section{Altri Task del Machine Learning}
+Altri task che non fanno parte del supervised o unsupervised learning.
+\begin{itemize}
+    \item Reinforcement Learning: si utilizza come metodo di adattamento per sistemi autonomi (in particolare in robotica). L'algoritmo apprende un criterio su come agire data un'osservazione del mondo. Ogni azione ha un certo impatto sull'ambiente e l'ambiente fornisce un feedback che guida l'algoritmo di apprendimento. Invece di avere una supervisione per ogni passaggio, abbiamo informazioni su vittorie / perdite per lo stato finale. Le azioni devono massimizzare la quantità di vittorie ricevute. L'apprendimento decide quali azioni sono state maggiormente responsabili di vittorie / perdite.
+    \item Semi-Supervised Learning: combina esempi etichettati e non etichettati (in genere in numero maggiore) per generare una funzione o un classificatore appropriati.
+    \item Learn to Rank: (utilizzato per i motori di ricerca) quando l'input è un insieme di oggetti e l'output desiderato è una classifica (un ranking) di tali oggetti.
+    \item On-Line Learning: nuovi esempi sono imparati al momento
+    \item Structured domain learning and relational learning: il dominio di input e output può essere strutturato sotto forma di sequenze (segnali, serie temporali, ...) o in modo più complesso: alberi, grafici, reti sociali.
+\end{itemize}
+
+\section{Altri Modelli del Machine Learning}
+\subsection{Reti Neurali}
+Vengono utilizzate sia nel Supervised che nel Unsupervised Learning. Sono simili alla visione del Linear Threshold Unit, una rete neurale é una rete di modelli non lineari con una capacità di approssimazione universale e capacità predittive. Gli strati interni sono "nascosti", e ogni unità é non lineare, fornendo alla rete neurale la capacità di estrarre (imparando) una nuova rappresentazione dei dati. Questa nuova rappresentazione semplifica il compito di classificazione nell'ultimo livello della rete. \newline 
+Abbiamo una espansione della base non lineare in w, e le $\phi$ sono imparate automaticamente, ma purtroppo questo scaturisce in un problema di ottimizzazione non lineare. 
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{Images/NN.png}
+\end{figure}
+\subsection{Deep Learning}
+Quando si parla di Deep Learning si fa riferimento a reti neurali multistrato profonde, nel senso che abbiamo molteplici layer di unità di processing non lineari. Indipendentemente se si usa il Supervised o Unsupersised Learning per la rappresentazione di caratteristiche in ogni livello, i vari livelli vanno a formare una gerarchia di caratteristiche / rappresentazioni da basso livello ad alto livello (diversi livelli di astrazione).
+Imparare automaticamente come rappresentare i dati, e capire come classificarli aumenta il livello di astrazione tra i vari layer. Ad esempio, un'immagine può essere rappresentata in molti modi: come un vettore di pixel o in un modo più astratto come un insieme di bordi, regioni di forma particolare, ecc... Per questo il Deep Learning funziona meglio quando i dati in input hanno una sorta di struttura: spaziale, temporale, linguistica ecc...
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{Images/deeplearningimage.png}
+\end{figure}
+I vantaggi del Deep Learning sono svariati, come ad esempio la possibilità di sfruttare la composizionalitá della rappresentazione interna: guadagno esponenziale nel potere di rappresentazione. I concetti più semplici vengono rappresentati in uno strato della rete, i quali poi possono essere sfruttati come dati primitivi dal livello successivo, per rappresentare concetti più complessi. Sono necessari meno esempi per raggiungere una buona capacità di generalizzazione! Le Deep Networks erano difficili da addestrare in passato, ma combinando tecniche per l'addestramento di modelli grandi, HPC (ad esempio GPU) e grandi raccolte di dati da applicazioni reali (ad esempio milioni di immagini), al giorno d'oggi lavorano molto bene conseguendo una rivoluzione nell'approccio AI alle soluzioni del mondo reale.
+
+
+
+
 
 
 
