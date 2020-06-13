@@ -574,21 +574,21 @@ Le concettualizzazioni possibili sono infinite, un aspetto importante è il live
     \item Funzione $\rightarrow Hat | + | - ...$
     \item Predicato $\rightarrow On | Clear | > | < | ...$
 \end{itemize}
-L'arità è il numero di "parametri" della funzione o del predicato.
+L'arietà è il numero di "parametri" della funzione o del predicato.
 \subsubsection{Termini}
 \begin{itemize}
-    \item Termine $\rightarrow Costante | Variabile | Funzione(Termine,...)$
+    \item Termine $\rightarrow$ Costante | Variabile | Funzione(Termine,...)
 \end{itemize}
 \subsubsection{Formule}
 \begin{itemize}
-    \item Formula\_Atomica $ \rightarrow True | False | Termine=Termine | Predicato(Termine,...)$
-    \item Formula $\rightarrow Formula\_Atomica | Formula\_Connettivo\_Formula |$ \newline $Quantificatore\_Variabile\_Formula | \neg Formula$
+    \item Formula-Atomica $\rightarrow$ True | False | Termine=Termine | Predicato(Termine,...)
+    \item Formula $\rightarrow$ Formula-Atomica | Formula Connettivo Formula | Quantificatore Variabile Formula | $\neg$ Formula
 \end{itemize}
 Di solito le variabili sono usate nell'ambito di quantificatori. In tal caso le occorrenze si dicono legate. Se non sono legate, si dicono libere. \newline
     Mela(x) $\Rightarrow$ Rossa(x) \quad x è libera in entrambe le occorrenze \newline
 	$\forall$ x Mela(x) $\Rightarrow$ Rossa(x) \quad x è legata \newline
 	Mela(x) $\Rightarrow \exists$x Rossa(x) \quad la prima x è libera, la seconda legata \newline
-Formula chiusa: una formula che non contiene occorrenze di variabili libere, altrimenti è detta aperta.\newline
+Formula chiusa: una formula che non contiene occorrenze di variabili libere (altrimenti è detta aperta).\newline
 Formula ground: una formula che non contiene variabili.
 
 \subsubsection{Interpretazione}
@@ -615,7 +615,7 @@ Il significato di un termine o di una formula composta è determinato in funzion
 \subsubsection{Semantica Standard VS Semantica Database}
 \begin{itemize}
     \item Standard: ci permette di inferire.
-    \item Database: simboli distinti, oggetti distinti, mondo chiuso cioè tutto ciò di cui non si sa che è vero è falso, infine esistono solo gli oggetti di cui si parla.
+    \item Database: abbiamo simboli distinti, oggetti distinti, tutto ciò di cui non si sa che è vero è falso, infine esistono solo gli oggetti di cui si parla.
 \end{itemize}
 
 \subsection{Interazione con la KB tramite FOL}
@@ -623,14 +623,14 @@ Il significato di un termine o di una formula composta è determinato in funzion
     \item Asserzioni: vengono aggiunte le informazioni alla KB, esempio TELL(KB, King(John)) oppure TELL(KB, $\forall x$ King(x) $\Rightarrow$ Person(x))
     \item Conseguenze logiche: ASK(KB, Person(John)) risponde si, se KB $\models$ Person(John). Un altro esempio è ASK(KB, $\exists$ x Person(x)) risponde con una lista di sostituzioni o legami: [\{x/John\} \{x/George\} ...]
 \end{itemize}
-Il metodo di risoluzione per FOL si basa sulla trasformazione in forma a clausole e poi sull'unificazione. Ci sono dei metodi particolari che vedremo alla fine: il "Backward chaining" insieme alla programmazione logica e il "Forward chaining" con basi di dati deduttive.
+Il metodo di risoluzione per FOL si basa sulla trasformazione in forma a clausole e sull'unificazione. Ci sono anche altri metodi particolari, chiamati sistemi a regole, che vedremo alla fine: il "Backward chaining" insieme alla programmazione logica e il "Forward chaining" con basi di dati deduttive.
 
 \subsection{Regola di inferenza per $\forall$}
 Istanziazione dell’Universale (eliminazione del $\forall$) \quad
 \infer{A[g]}{
     \forall x A[x]
 } \newline
-dove g è un termine ground (ovvero un termine che non contiene variabili) e A[g] è il risultato della sostituzione di g per x in A.\newline
+dove g è un termine ground (ovvero un termine che non contiene variabili) e A[g] è il risultato della sostituzione di g al posto di x in A.\newline
 Esempio: $\forall x King(x) \land Greedy(x) \Rightarrow Evil(x)$ si ottiene $ King(John) \land Greedy(John) \Rightarrow Evil(John)$
 
 \subsection{Regola di inferenza per $\exists$}
@@ -641,13 +641,13 @@ Istanziazione dell'esistenziale (eliminazione del $\exists$) \quad
 dove $\exists$ non compare nell'ambito di $\forall$ e k è una costante nuova (costante di Skolem) \newline
 Esempio: $\exists x Padre(x,G)$ diventa Padre(k,G). \newline
 Nel caso di variabili quantificate universalmente va introdotta una funzione (di Skolem) \newline
-Esempio $\forall x \exists y Padre(x, y)$ diventa $\forall x Padre(x, p(x))$
+Esempio: $\forall x \exists y Padre(x, y)$ diventa $\forall x Padre(x, p(x))$
 
 \subsection{Riduzione a inferenza proposizionale}
-Per la riduzione utilizziamo un meccanismo di proposizionalizzazione. Creare tante istanze delle formule quantificate universalmente quanti sono gli oggetti menzionati ed eliminare i quantificatori esistenziali "skolemizzando". A questo punto possiamo trattare la KB come proposizionale e applicare gli algoritmi visti. Ci possono essere dei problemi? Si, le costanti sono in numero finito ma se ci sono funzioni il numero di istanze da creare è infinito: John, Padre(John), Padre(Padre(John))... In aiuto ci viene il Teorema di Herbrand.
+Per semplificare il simbolo di quantificazione potremmo sfruttare un meccanismo di proposizionalizzazione, cioè creare tante istanze delle formule quantificate universalmente quanti sono gli oggetti menzionati ed eliminare i quantificatori esistenziali "skolemizzando". A questo punto possiamo trattare la KB come proposizionale e applicare gli algoritmi visti. Però c'è un ovvio problema: le costanti sono in numero finito ma se ci sono funzioni il cui numero di istanze da creare è infinito, come si procede? In aiuto viene il Teorema di Herbrand.
 
-\subsection{Teorema di Herbrand} 
-Se KB $\models$ A allora c'è una dimostrazione che coinvolge solo un sotto-insieme finito della KB proposizionalizzata. Si può procedere in modo incrementale, iniziando col creare le istanze con le costanti, creare poi quelle con un solo livello di annidamento Padre(John), Madre(John) ed infine quelle con due livelli di annidamento Padre(Padre(John)), Padre(Madre(John))... Se KB $\nvDash$ A il processo non termina (Semidecidibile).
+\subsubsection{Teorema di Herbrand} 
+Se KB $\models$ A allora c'è una dimostrazione che coinvolge solo un sotto-insieme finito della KB proposizionalizzata. Si può procedere in modo incrementale, iniziando col creare le istanze con le costanti, creare poi quelle con un solo livello di annidamento Padre(John), Madre(John) ed infine quelle con due livelli di annidamento Padre(Padre(John)), Padre(Madre(John)), ecc... Se KB $\nvDash$ A il processo non termina (problema semidecidibile).
 
 \subsection{Verso un metodo di risoluzione per il FOL}
 Per trovare un metodo di risoluzione, come abbiamo fatto per il PROP, dobbiamo estendere al FOL la trasformazione in forma a clausole e dobbiamo introdurre il concetto di unificazione.
@@ -655,8 +655,8 @@ Per trovare un metodo di risoluzione, come abbiamo fatto per il PROP, dobbiamo e
 \subsubsection{Forma a clausole}
 Una clausola è un insieme di letterali, che rappresenta la loro disgiunzione.
 \begin{itemize}
-    \item Clausola $\rightarrow$ {Letterale, ..., Letterale}
-    \item Letterale $\rightarrow$ Formula\_Atomica $| \neg$ Formula\_Atomica
+    \item Clausola $\rightarrow$ \{Letterale, ..., Letterale\}
+    \item Letterale $\rightarrow$ Formula-Atomica $| \neg$ Formula-Atomica
 \end{itemize}
 Una KB è un insieme di clausole.
 \begin{quote}
@@ -665,7 +665,8 @@ Una KB è un insieme di clausole.
 \clearpage
 
 \subsubsection{Esempio di trasformazione (passo passo)}
-Esempio di trasformazione in dettaglio per la frase “Tutti coloro che amano tutti gli animali sono amati da qualcuno” \newline 
+Esempio di trasformazione in dettaglio per la frase: \newline
+“Tutti coloro che amano tutti gli animali sono amati da qualcuno” \newline 
 La nostra formula di partenza è: $\forall x ( \forall y Animale(y) \Rightarrow Ama(x,y)) \Rightarrow (\exists y Ama(y, x))$
 \begin{enumerate}
     \item Eliminazione delle implicazioni ($\Rightarrow, \Leftrightarrow$):
@@ -689,7 +690,7 @@ La nostra formula di partenza è: $\forall x ( \forall y Animale(y) \Rightarrow 
     $\forall x (\exists y Animale(y) \land \neg Ama(x,y)) \lor (\exists y Ama(y, x))$
     \item Standardizzazione delle variabili: ogni quantificatore una variabile diversa \newline
     $\forall x (\exists y Animale(y) \land \neg Ama(x,y)) \lor (\exists z Ama(z, x))$
-    \item Skolemizzazione: eliminazione dei quantificatori esistenziali \newline
+    \item Skolemizzazione: eliminazione dei quantificatori esistenziali. \newline
     In questo caso essendo che i due quantificatori esistenziali sono nell'ambito di uno universale dobbiamo introdurre due funzioni di Skolem. \newline
     $\forall x (Animale(F(x)) \land \neg Ama(x,F(x))) \lor (Ama(G(x), x))$
     \item Eliminazione quantificatori universali: possiamo portarli tutti davanti e poi eliminarli usando la convenzione che le variabili libere sono quantificate universalmente. \newline
@@ -704,16 +705,18 @@ La nostra formula di partenza è: $\forall x ( \forall y Animale(y) \Rightarrow 
 
 \subsection{Sostituzione}
 Possiamo eseguire la sostituzione in un insieme finito di associazioni tra variabili e termini, in cui ogni variabile compare una sola volta sulla sinistra. Ad esempio $\{x_1/A, x_2/f(x_3), x_3/B\}$, significa che $x_1$ va sostituita con A , $x_2$ va sostituito con f($x_3$) e $x_3$ con B (nota: sulla sinistra sono solo variabili!)\newline
-Sia $\sigma$ una sostituzione e A un'espressione: $A \sigma$ è l'istanza generata dalla sostituzione (delle variabili con le corrispondenti espressioni). Possiamo scriverlo anche come Subst($\sigma$, A). Esempio: \newline
+Sia $\sigma$ una sostituzione e A un'espressione: $A \sigma$ è l'istanza generata dalla sostituzione (delle variabili con le corrispondenti espressioni). Possiamo scriverlo anche come Subst($\sigma$, A). \newline Esempio: \newline
 Subst(\{x/A, y/f(B), z/W\}, P(x, x, y, v)) = P(A, A, f(B), v) \newline
 Subst(\{x/g(y), y/z, z/f(x)\}, Q(x, y, z)) = Q(g(y), z, f(x))
 
 \subsection{Unificazione}
-L'unificazione è una operazione mediante la quale si determina se due espressioni possono essere rese identiche mediante una sostituzione di termini a variabili. Il risultato è la sostituzione che rende le due espressioni identiche detta unificatore, oppure restituisce FAIL se le espressioni non sono unificabili. \newline
-Ad esempio: P(A, y, z) e P(x, B, z) sono unificabili con $\tau$=\{x/A, y/B, z/C\} possiamo notare come $\tau$ sia un unificatore, ma non l'unico, un altro è $\sigma$=\{x/A, y/B\}. Possiamo infine notare come $\sigma$ è più generale di $\tau$ cioè istanzia 'meno' variabili. Noi però vorremmo l’unificatore più generale di tutti (MostGeneralUnifier - MGU) e abbiamo un teorema che dice che l’unificatore più generale è unico, a parte i nomi delle variabili (l’ordine non conta).
+L'unificazione è una operazione che ci permette di determinare se due espressioni possono essere rese identiche mediante una sostituzione di termini a variabili. Il risultato è la sostituzione che rende le due espressioni identiche detta unificatore, oppure restituisce FAIL se le espressioni non sono unificabili. \newline
+Esempio: P(A, y, z) e P(x, B, z) sono unificabili con $\tau$=\{x/A, y/B, z/C\} \newline
+possiamo notare come $\tau$ sia un unificatore, ma non l'unico, un altro è $\sigma$=\{x/A, y/B\}. \newline 
+Possiamo infine notare come $\sigma$ è più generale di $\tau$, cioè istanzia "meno" variabili. Noi però vorremmo l’unificatore più generale di tutti (MostGeneralUnifier - MGU) e abbiamo un teorema che dice che l’unificatore più generale è unico, a parte i nomi delle variabili (l’ordine non conta).
 
 \subsubsection{Algoritmo di unificazione}
-L’algoritmo di unificazione prende in input due espressioni p, q e restituisce un MGU $\Theta$ se esiste. Possiamo chiamare l'algoritmo come UNIFY(p, q) = $\Theta$ tale che SUBST($\Theta$, p) = SUBST($\Theta$, q), altrimenti FAIL. L’algoritmo esplora in parallelo le due espressioni e costruisce l’unificatore strada facendo. Appena trova espressioni non unificabili fallisce. Una causa di fallimento sono sostituzioni del tipo x=f(x), cioè sostituzioni in cui x occorre già all'interno dell'espressione. Questo controllo si chiama Occurr-Check e in tal caso FAIL. (È un controllo di complessità quadratica)
+L’algoritmo di unificazione prende in input due espressioni p, q e restituisce un MGU $\Theta$ se esiste. UNIFY(p, q) = $\Theta$ tale che SUBST($\Theta$, p) = SUBST($\Theta$, q), altrimenti FAIL. L’algoritmo esplora in parallelo le due espressioni e costruisce l’unificatore strada facendo. Appena trova espressioni non unificabili fallisce. Una causa di fallimento sono sostituzioni del tipo x=f(x), cioè sostituzioni in cui x occorre già all'interno dell'espressione. Questo controllo si chiama Occurr-Check() e in tal caso restituisce FAIL (è un controllo di complessità quadratica).
 \subsubsection{Esempi}
 Esempio 1
 \begin{itemize}
@@ -777,7 +780,7 @@ Un esempio è \{ \} $\models$ \{P, $\neg$P\} ma non è vero che \{ \} $\vdash _{
 \subsection{Refutazione}
 Come per PROP, il teorema di refutazione ci suggerisce un metodo alternativo completo. 
 Il teorema di refutazione dice che $\Gamma \cup \{\neg A\}$ è insoddisfacibile sse $\Gamma \models A$. \newline
-Possiamo dire quindi che $\Gamma$ è insoddisfacibile sse $\Gamma \vdash _{RES} \{\}$. Abbiamo quindi un metodo meccanizzabile, corretto e completo: basta aggiungere il negato della formula da dimostrare e provare a generare la clausola vuota.
+Possiamo dire quindi che $\Gamma$ è insoddisfacibile sse $\Gamma \vdash _{RES} \{\}$. \newline Abbiamo quindi un metodo meccanizzabile, corretto e completo: basta aggiungere il negato della formula da dimostrare e provare a generare la clausola vuota.
 
 \subsubsection{Esempio di Refutazione}
 La nostra KB è formata da:
@@ -792,13 +795,14 @@ Il nostro goal è sapere se A è genitore di J, in forma a clausole se \{(A, J)\
 \centering
 \includegraphics[scale=0.4]{Images/refutazioneesempio.png}
 \end{figure}
-E per domande del tipo "trova...?" come ad esempio "chi sono i genitori di J? \newline
+E per domande del tipo "chi sono i genitori di J?" \newline
 Si cerca di dimostrare che $\exists z G(z,J) \rightarrow \{\neg G(z,J)\}$ e la risposta sono tutti i possibili legami per z che consentono di ottenere la clausola vuota.
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.4]{Images/refutazioneesempio2.png}
 \end{figure}
 
+%Lezione 9
 \subsection{Risoluzione efficiente per FOL}
 Come si può rendere più efficiente il metodo di risoluzione per FOL? Sfrutteremo tecniche per esplorare in maniera efficiente il grafo di risoluzione, possibilmente senza perdere completezza. Distingueremo tra:
 \begin{itemize}
