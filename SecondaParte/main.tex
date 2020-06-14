@@ -813,25 +813,26 @@ Come si può rendere più efficiente il metodo di risoluzione per FOL? Sfruttere
 \subsubsection{Strategie di cancellazione}
 Si tratta di rimuovere dalla KB (ai fini della dimostrazione) certe clausole che non potranno mai essere utili nel processo di risoluzione.
 \begin{itemize}
-    \item Clausole con letterali puri: sono quelle clausole che non hanno il loro negato nella KB, ad esempio in \{$\neg P, \neg Q, R\}  \{\neg P, S\}  \{\neg Q, S\} \{P\} \{Q\} \{\neg R\}$  la seconda e terza clausola contengono il letterale puro S. Le clausole con letterali puri non potranno mai essere risolte con altre clausole per ottenere \{ \}, tanto vale eliminarle che non si perdono soluzioni.
+    \item Clausole con letterali puri: sono quelle clausole che non hanno il loro negato nella KB, ad esempio in \{$\neg P, \neg Q, R\}  \{\neg P, \textcolor{red}{S}\}  \{\neg Q, \textcolor{red}{S}\} \{P\} \{Q\} \{\neg R\}$  la seconda e terza clausola contengono il letterale puro S. Le clausole con letterali puri non potranno mai essere risolte con altre clausole per ottenere \{ \}, tanto vale eliminarle che non si perdono soluzioni.
     \item Tautologie: la tautologie vengono rappresentate da quelle clausole che contengono due letterali identici e complementari. Ad esempio: $\{P(A), \neg P(A), ...\}$ oppure $\{P(x), Q(y), \neg Q(y)\}$. La loro rimozione non influenza la soddisfacibilità. \newline 
     NOTA: Le tautologie possono essere generate, quindi è un controllo da fare ad ogni passo.
-    \item Clausole sussunte\footnote{sussume significa “è più generale di” o “implica”}: dovremo eliminare le clausole implicate. In generale: $\alpha$ sussume $\beta$ sse $\exists \sigma . \alpha \sigma \subseteq \beta$ cioè se un’istanza di $\alpha$ con la sostituzione $\sigma$ è un sottoinsieme di $\beta$. \newline
-    Ad esempio: \{P(x), Q(y)\} sussume \{P(A), Q(v), R(w)\} infatti \newline \{P(x), Q(y)\}\{x/A, y/v\}=\{P(A), Q(v)\} $\subseteq$ \{P(A), Q(v), R(w)\}. Concludendo, $\beta$ può essere ricavata da $\alpha$, quindi $\beta$ può essere eliminata senza perdere soluzioni. \newline 
+    \item Clausole sussunte\footnote{sussume significa “è più generale di” o “implica”}: dovremo eliminare le clausole implicate. In generale: $\alpha$ sussume $\beta$ se solo se $\exists \sigma$ tale che  $\alpha \sigma \subseteq \beta$ cioè se un'istanza di $\alpha$ con la sostituzione $\sigma$ è un sottoinsieme di $\beta$. \newline
+    Ad esempio: \{P(x), Q(y)\} sussume \{P(A), Q(v), R(w)\} infatti \newline \{P(x), Q(y)\}\{x/A, y/v\}=\{P(A), Q(v)\} $\subseteq$ \{P(A), Q(v), R(w)\}. \newline 
+    Concludendo, $\beta$ può essere ricavata da $\alpha$, quindi $\beta$ può essere eliminata senza perdere soluzioni. \newline 
     NOTA: Le clausole sussunte possono essere generate, quindi è un altro controllo da fare ad ogni passo.
 \end{itemize}
 
 \subsubsection{Strategie di restrizione}
 Ad ogni passo si sceglie tra un sottoinsieme delle possibili clausole e si applica l'algoritmo su di esse. Tra le strategie di restrizione possibili:
 \begin{itemize}
-    \item Risoluzione unitaria: almeno una delle due clausole è unitaria (contiene un solo letterale)
+    \item Risoluzione unitaria: almeno una delle clausole è unitaria (contiene un solo letterale)
         \begin{figure}[H]
         \centering
         \includegraphics[scale=0.4]{Images/risoluzioneunitaria.png}
         \end{figure}
         Facile da implementare, converge rapidamente ma la strategia non è completa. \newline 
-        Esempio: \{P, Q\} \{$\neg$P, Q\} \{P, $\neg$Q\} \{ $\neg$P, $\neg$Q\} $\vdash _{RES}$ \{ \} ma non con la risoluzione a clausole unitarie. \newline
-        La strategia però è completa per clausole Horn cioè quelle clausole con al massimo un letterale positivo (ma possono avere più letterali nella stessa clausola), nell'esempio di prima \{P, Q\} non è una clausola Horn!
+        Esempio: \{P, Q\} \{$\neg$P, Q\} \{P, $\neg$Q\} \{ $\neg$P, $\neg$Q\} $\vdash _{RES}$ \{ \}, ma non otteniamo lo stesso risultato con la risoluzione a clausole unitarie. \newline
+        La strategia però è completa per clausole Horn, cioè quelle clausole con al massimo un letterale positivo (ma possono avere più letterali nella stessa clausola), nell'esempio di prima \{P, Q\} non è una clausola Horn! \clearpage
     \item Risoluzione lineare: sfruttiamo l'ultima clausola generata con una clausola da input (dalla KB iniziale) oppure una clausola antenata. La risoluzione è completa se applicata insieme ad una refutazione.
         \begin{figure}[H]
         \centering
@@ -859,8 +860,8 @@ Ogni clausola è un insieme ordinato di letterali e si possono unificare solo i 
 \subsection{Sistemi a regole}
 Le clausole Horn definite sono quelle clausole con esattamente un letterale positivo\footnote{Clausole Horn: possono avere più letterali ma al massimo uno solo positivo \newline Clausole Horn Definite: possono avere più letterali ma hanno esattamente un letterale positivo}. Possono essere riscritte come fatti e regole, cioè \newline
 $\neg P_1 \lor ... \lor \neg P_k \lor Q$ \quad viene riscritta come \newline
-$\neg (P_1 \land ... \land P_k) \lor Q$\quad quindi \newline
-$(P_1 \land ... \land P_k) \Rightarrow Q$ con Q chiamato fatto. \newline
+$\neg (P_1 \land ... \land P_k) \lor Q$ \quad quindi \newline
+$(P_1 \land ... \land P_k) \Rightarrow Q$ \quad con Q chiamato fatto. \newline
 Se la KB contiene solo clausole Horn definite, i meccanismi inferenziali sono molto più semplici senza rinunciare alla completezza. Ovviamente è un sistema restrittivo, non può coincidere con FOL.
 
 \subsubsection{Regole in avanti e indietro}
@@ -873,18 +874,18 @@ Se la KB contiene solo clausole Horn definite, i meccanismi inferenziali sono mo
 I programmi logici sono KB costituiti da clausole Horn definite, vengono espressi come fatti e regole, con una sintassi alternativa:
 \begin{quote}
     A \quad fatto \newline
- 	A :- $B_1, B_2, ... , B_n$ \quad regola, con testa A, il resto è il conseguente
+ 	A :- $B_1, B_2, ... , B_n$ \quad regola, con testa (la conseguenza) A
 \end{quote}
-Come convenzione, in programmazione logica, le variabili sono indicate con lettere maiuscole mentre le costanti con lettere minuscole.
-Esempio: \newline
-Se $B_1 \land B_2 \land ... \land B_n$ \quad è il goal, \newline
+Come convenzione, in programmazione logica, le variabili sono indicate con lettere maiuscole mentre le costanti con lettere minuscole. \newline
+Esempio: Se\newline
+$B_1 \land B_2 \land ... \land B_n$ \quad è il goal, \newline
 $\neg (B_1 \land B_2 \land ... \land B_n) \lor False$ \quad è il goal negato, ovvero \newline
 $(B_1 \land B_2 \land ... \land B_n) \Rightarrow False$ \quad che viene scritto \newline
 :-$B_1, B_2, ..., B_n$ \quad omettendo il conseguente. \clearpage
 
 Nei programmi logici abbiamo due tipi di interpretazione per le regole:
 \begin{enumerate}
-    \item Interpretazione dichiarativa:	A :- $B_1, B_2, ..., B_n$ quindi A è vero se sono veri $B_1, B_2, ..., B_n$ in accordo al significato logico dell'implicazione.
+    \item Interpretazione dichiarativa: A :- $B_1, B_2, ..., B_n$ quindi A è vero se sono veri $B_1, B_2, ..., B_n$ (in accordo al significato logico dell'implicazione).
     \item Interpretazione procedurale: la testa può essere vista come una chiamata di procedura e il corpo come una serie di procedure da eseguire in sequenza.
 \end{enumerate}
 
@@ -894,15 +895,17 @@ La risoluzione SLD (Selection Linear Definite-clauses) è una strategia ordinata
 \subsubsection{Alberi di risoluzione SLD}
 Dato un programma logico P, l’albero SLD per un goal G è definito come segue:
 \begin{itemize}
-    \item ogni nodo dell'albero corrisponde a un goal
+    \item ogni foglia dell'albero corrisponde a un goal
     \item la radice è :- $G_1, G_2, ..., G_k$ che è il nostro goal
     \item sia :- $G_1, G_2, ..., G_k$ un nodo dell'albero; il nodo ha tanti discendenti quanti sono i fatti e le regole in P la cui testa è unificabile con $G_1$. \newline 
-    Se A :- $B_1, ..., B_k$ e A è unificabile con $G_1$ e $\gamma$ = MGU(A, $G_1$) un discendente è il goal :-($B_1, ..., B_k, G_2, ..., G_k) \gamma$
+    Se A :- $B_1, ..., B_k$ e A è unificabile con $G_1$ e $\gamma$ = MGU(A, $G_1$) \newline 
+    un discendente è il goal :-($B_1, ..., B_k, G_2, ..., G_k) \gamma$
     \item i nodi che sono clausole vuote sono successi
     \item i nodi che non hanno successori sono fallimenti
 \end{itemize}
 
 \subsubsection{Esempio di albero SLD}
+Abbiamo le seguenti regole:
 \begin{enumerate}
     \item Genitore(X, Y) :- Padre(X, Y).
     \item Genitore(X, Y) :- Madre(X, Y).
@@ -911,24 +914,24 @@ Dato un programma logico P, l’albero SLD per un goal G è definito come segue:
     \item Padre(gio, mark).
     \item Padre(gio, luc).
     \item Madre(lia, gio).
-    \item :- Antenato(lia, mark). \quad (goal negato)
+    \item :- Antenato(lia, mark). \quad (goal negato, quindi radice del nostro albero)
 \end{enumerate}
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.4]{Images/SLDtreeesempio.png}
+\includegraphics[scale=0.44]{Images/SLDtreeesempio.png}
 \caption{Albero SLD per il goal antenato(lia,mark)}
 \end{figure}
-La strategia è completa per clausole Horn definite. Se $P \cup \{\neg G\}$ è insoddisfacibile, allora una delle foglie deve essere la clausola vuota (successo). La sostituzione corrispondente è la risposta calcolata. \newline
-A seconda di come l’albero viene visitato si potrebbe anche non trovare la clausola vuota: la strategia di ricerca può essere responsabile dell'incompletezza! In PROLOG, il più famoso linguaggio di programmazione logica, la visita dell'albero di risoluzione avviene con una ricerca in profondità, con backtracking in caso di fallimento. Quindi la strategia di PROLOG non è completa, le regole vengono applicate nell'ordine in cui sono immesse, infine PROLOG omette l’Occur-Check per motivi di efficienza.
+La strategia è completa per clausole Horn definite. Se $P \cup \{\neg G\}$ è insoddisfacibile, allora una delle foglie deve essere la clausola vuota (successo).\newline
+A seconda di come l’albero viene visitato si potrebbe anche non trovare la clausola vuota, poiché potremmo trovare un cammino infinito e non trovare mai la soluzione. La strategia di ricerca può essere responsabile dell'incompletezza! In PROLOG, il più famoso linguaggio di programmazione logica, la visita dell'albero di risoluzione avviene con una ricerca in profondità, con backtracking in caso di fallimento. La strategia di PROLOG non è completa, le regole vengono applicate nell'ordine in cui sono immesse, infine PROLOG omette l’Occur-Check per motivi di efficienza.
 
 \subsection{Sistemi a regole in avanti (Forward Chaining - FOL\_FC\_Ask)}
-Modus Ponens generalizzato: \quad
+Conosciamo la regola del Modus Ponens generalizzato: \quad
 \infer{ (q) \Theta}{
     p'_{1}, p'_{2}, ..., p'_{n}
     & \deduce{(p_1 \land p_2 \land ... \land p_n \Rightarrow q)}
-}
+} \newline
 con $\Theta$ = MGU($p'_{i}, p_{i}$), per ogni i \newline
-In realtà per applicare la regola dovremo: istanziare gli universali, istanziare le regole e poi applicare il Modus Ponens classico. \newline
+ma in realtà per applicare la regola dovremo: istanziare gli universali, istanziare le regole e poi applicare il Modus Ponens classico. \newline
 Supponiamo di avere nella KB: King(John), Greedy(y) e King(x) $\land$ Greedy(x) $\Rightarrow$ Evil(x). \newline 
 Con  $\Theta$=\{x/John, y/John\} si ottiene: \newline 
 $King(John), Greedy(John)$ e $King(John) \land Greedy(John) \Rightarrow Evil(John)$. \newline 
@@ -938,6 +941,7 @@ Quindi la conclusione della regola è Evil(John).
 \begin{quote}
     È un crimine per un Americano vendere armi a una nazione ostile. Il paese Nono, un nemico dell’America, ha dei missili, e tutti i missili gli sono stati venduti dal colonnello West, un Americano.
 \end{quote}
+\clearpage
 Dimostrare che West è un criminale.
 Formalizzazione:
 \begin{itemize}
@@ -953,11 +957,17 @@ Un semplice processo inferenziale chiamato FOL\_FC\_Ask, applica ripetutamente i
 Come si procede:
 \begin{enumerate}
     \item $Possiede(Nono, M_1) \land Missile(M_1)$
-    \item $Missile(x) \land Possiede(Nono,x) \Rightarrow Vende(West,x,Nono)$ è soddisfatta con $\{x/M-1\}$ e viene aggiunto $Vende(West, M_1, Nono)$
+    \item $Missile(x) \land Possiede(Nono,x) \Rightarrow Vende(West,x,Nono)$ è soddisfatta con $\{x/M_1\}$ e viene aggiunto $Vende(West, M_1, Nono)$
     \item $Missile(x) \Rightarrow Arma(x)$ è soddisfatta con $\{x/M_1\}$ e viene aggiunto $Arma(M_1)$
     \item sappiamo che $Nemico(Nono, America)$ quindi $Nemico(x, America) \Rightarrow Ostile(x)$ viene soddisfatta con $\{x/Nono\}$ e viene aggiunto $Ostile(Nono)$
     \item per finire: $Americano(x) \land Arma(y) \land Vende(x, y, z) \land Ostile(z) \Rightarrow Criminale(x)$ è soddisfatta con la sostituzione $\{x/West, y/M_1, z/Nono\}$ e $Criminale(West)$ viene aggiunto.
 \end{enumerate}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{Images/FC-fol-ask.png}
+\caption{Processo di dimostrazione in avanti}
+\end{figure}
+
 \subsubsection{Analisi di FOL\_FC\_Ask}
 Il processo è corretto perché il Modus Ponens generalizzato è corretto. E' completo per KB di clausole Horn definite. Diventa completo e convergente per calcolo proposizionale e per KB di tipo DATALOG (senza funzioni) perché la chiusura deduttiva è un insieme finito. Completo anche con funzioni, ma il processo potrebbe non terminare (il problema diventa semidecidibile).
 
