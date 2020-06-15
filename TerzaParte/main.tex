@@ -24,22 +24,22 @@
 \clearpage
 
 \section{Introduzione - Machine Learning}
-Il problema dell'apprendimento è uno dei problemi principali dell'intelligenza sia artificiale che biologica. L'apprendimento è un obiettivo complesso con un campo di ricerca in continua crescita. L'apprendimento automatico (Machine Learning) è emerso come un'area di ricerca che combina gli obiettivi della creazione di macchine in grado di apprendere e strumenti statistici/adattivi. Perché le macchine dovrebbero imparare da sole? Poiché c'è una crescente necessità di analizzare dati empirici difficili da gestire con la normale programmazione (paradima DATA-DRIVEN). Il compito dell'apprendimento automatico è la creazione di sistemi intelligenti adattivi, in grado di analizzare dati.
+Il problema dell'apprendimento è uno dei problemi principali dell'intelligenza sia artificiale che biologica. L'apprendimento automatico (Machine Learning) è emerso come un'area di ricerca che combina gli obiettivi della creazione di macchine in grado di apprendere e strumenti statistici/adattivi. Perché le macchine dovrebbero imparare da sole? Poiché c'è una crescente necessità di analizzare dati empirici difficili da gestire con la normale programmazione (paradigma DATA-DRIVEN). Il compito dell'apprendimento automatico è la creazione di sistemi intelligenti adattivi, in grado di analizzare grandi quantità di dati.
 
 \subsection{Un esempio concreto}
-Esempi concreti di applicazione di ML possono essere la classificazione delle email spam oppure il riconoscimento di caratteri scritti a mano, dei visi o del parlato. Non ci sono regole o conoscenza pregressa per trovare la soluzione, ma diventa più facile avendo una fonte di esperienza per apprendere (dati di cui conosciamo giá il risultato). Ad esempio nel riconoscimento facciale si combinano reti neurali e altri approcci di ML partendo da milioni di immagini facciali appartenenti a diversi individui. 
+Esempi concreti di applicazione di ML possono essere la classificazione delle email spam oppure il riconoscimento di caratteri scritti a mano, dei visi o del parlato. Non ci sono regole o conoscenza pregressa per trovare la soluzione, ma diventa più facile avendo una fonte di esperienza per apprendere (dati di cui conosciamo già il risultato). Ad esempio nel riconoscimento facciale si combinano reti neurali e altri approcci di ML partendo da milioni di immagini facciali appartenenti a diversi individui. 
 
 \subsection{Quando usare il machine learning?}
 Il machine learning è una grande opportunità ma deve essere controllato. Usiamo l'apprendimento automatico quando:
 \begin{itemize}
     \item non abbiamo conoscenza per spiegare il fenomeno oppure è difficile formalizzarlo
     \item abbiamo dati incerti, rumorosi o incompleti, che ostacolano la formalizzazione di soluzioni
-    \item ci troviamo in ambienti dinamici non conosciuti in anticipo
+    \item ci troviamo in ambienti dinamici non conosciuti in precedenza
 \end{itemize}
-Abbiamo però anche dei requisiti per poter applicare ML ai nostri problemi. É necessaria una fonte di esperienza formativa ma è difficile raccogliere molti dati rappresentativi, per esempio per una malattia rara. Dobbiamo anche considerare una tolleranza sulla precisione dei dati (se accettiamo di dare pochi dati in input, o poco significativi, dobbiamo anche tollerare una certa percentuale di errore, che però in alcuni casi non può essere accettata).
+Abbiamo però anche dei requisiti per poter applicare ML ai nostri problemi. É necessaria una fonte di esperienza formativa, ma spesso è difficile raccogliere molti dati rappresentativi (basti pensare alla raccolta di dati riguardanti una malattia rara). Dobbiamo anche considerare una tolleranza sulla precisione dei dati (se accettiamo di dare pochi dati in input, o poco significativi, dobbiamo anche tollerare una certa percentuale di errore, che però in alcuni casi non può essere accettata).
 
 \subsection{Perché usare il machine learning?}
-É una opportunità per conoscere nuovi paradigmi informatici con un approccio differente dalla programmazione standard, algoritmica e dall'IA classica. Serve per trovare soluzioni approssimate a problemi molto difficili, ma non è una metodologia approssimativa, è un approccio rigoroso per trovare funzioni approssimative per affrontare problemi complessi. 
+É una opportunità per conoscere nuovi paradigmi informatici con un approccio differente dalla programmazione standard, algoritmica e dall'IA classica. Serve per trovare soluzioni approssimate a problemi molto difficili. Non è una metodologia approssimativa, è un approccio rigoroso per trovare funzioni approssimative per affrontare problemi complessi. 
 
 \section{Overview di un sistema ML}
 \begin{figure}[H]
@@ -53,7 +53,7 @@ Abbiamo però anche dei requisiti per poter applicare ML ai nostri problemi. É 
     \begin{itemize}
         \item TASK: Supervised o Unsupervised Learning
         \item LEARNING ALGORITHM: algoritmo che cerca la soluzione in uno spazio di stati
-        \item VALIDATION: valutazione statistica del modello (quanto riesce ad essere accuratosui dati futuri). 
+        \item VALIDATION: valutazione statistica del modello (quanto riesce ad essere accurato sui dati futuri). 
     \end{itemize}
     \item PREDICTION: è l'output restituito dal modello
 \end{itemize} 
@@ -65,13 +65,13 @@ Un esempio "pilota" che possiamo fare è il riconoscimento di caratteri scritti 
     \centering
     \includegraphics[scale=0.5]{Images/caratteririconoscimento.png}
 \end{figure}
-Non sappiamo quale sia la funzione, perché in quel caso la scriveremmo direttamente in un algoritmo. Cerchiamo quindi di approssima una funzione facendo restituire come output una classificazione della matrice di pixel. Il problema di classificazione è dato dalla formalizzazione della soluzione esatta, poiché ci possiamo trovare con dati rumorosi o ambigui. Risulta però facile raccogliere collezioni di esempi etichettati, cioè esempi con soluzioni associate. \newline
-Generalizzando il problema possiamo usare la tecnica del Supervised Learning. In particolare abbiamo in input uno spazio x di dati etichettati, dobbiamo costruire una funzione generale a partire dagli esempi e come output dare una categoria o valori reali. 
+Non sappiamo quale sia la funzione, perché in quel caso la scriveremmo direttamente in un algoritmo. Cerchiamo quindi di approssimare una funzione facendo restituire come output una classificazione della matrice di pixel. Il problema di classificazione è dato dalla formalizzazione della soluzione esatta, poiché ci possiamo trovare con dati rumorosi o ambigui. Risulta però facile raccogliere collezioni di esempi etichettati, cioè esempi con soluzioni associate. \newline
+Generalizzando il problema possiamo usare la tecnica del Supervised Learning. In particolare abbiamo in input uno spazio contentente "x" dati etichettati, dobbiamo costruire una funzione generale a partire dagli esempi e come output dare una categoria o valori reali. 
 
 \subsection{TASK: Supervised Learning}
-Il Supervised Learnin è una tecnica di apprendimento automatico che mira a istruire un sistema informatico in modo da consentirgli di elaborare automaticamente previsioni sui valori di uscita di un sistema rispetto ad un input sulla base di una serie di esempi ideali, costituiti da coppie di input e di output, che gli vengono inizialmente forniti. \newline
+Il Supervised Learning è una tecnica di apprendimento automatico che mira a istruire un sistema informatico, in modo da consentirgli di elaborare automaticamente previsioni sui valori di uscita di un sistema rispetto ad un input sulla base di una serie di esempi ideali, costituiti da coppie di input e di output, che gli vengono inizialmente forniti. \newline
 Quindi vengono dati esempi di training nella forma di coppie $<input,output>$ = $<x,d>$ (esempi etichettati) per la creazione di una funzione sconosciuta f. Definiamo il valore target come il valore "d" che vogliamo ottenere come output (e che ci viene dato tramite gli esempi). \newline
-Bisogna trovare una buona approssimazione di f, cioè una ipotesi h che può essere usata per predire l'output sui dati sconosciuti x'. \newline
+Bisogna trovare una buona approssimazione di f, cioè una ipotesi h che può essere usata per predire l'output sui dati sconosciuti $x'$. \newline
 L'obiettivo è dare in output una etichetta numerica o la classificazione del dato. 
 \begin{itemize}
     \item Classificazione: la funzione a valori discreti f(x) restituisce la presunta classe corretta per x.
@@ -93,7 +93,7 @@ L'apprendimento non supervisionato è una tecnica di apprendimento automatico ch
 \end{figure}
 
 \subsection{MODEL}
-Il compito è quello di catturare e descrivere le relazioni tra i dati sulla base del TASK. Il modello definisce la classe delle funzioni che la macchina può implementare (cioé definisce lo spazio delle ipotesi). \newline
+Il compito è quello di catturare e descrivere le relazioni tra i dati sulla base del TASK. Il modello definisce la classe delle funzioni che la macchina può implementare (cioè definisce lo spazio delle ipotesi H). \newline
 Concetti utili: 
 \begin{itemize}
     \item Training examples: fanno parte del Supervised Learning ed é un insieme di esempi nella forma (x,f(x)) dove x è un vettore di caratteristiche e f(x) è il valore obiettivo.
@@ -105,7 +105,7 @@ I linguaggi per le ipotesi h devono saper esprimere modelli di ML: ad esempio la
 
 \subsubsection{Esempi di Modelli}
 \begin{itemize}
-    \item Modelli Lineari: la rappresentazione di H definisce uno spazio continuo parametrizzato di potenziali ipotesi. Come parametro abbiamo w, ed ogni assegnamento di w è una ipotesi differente. (es: $h_w(x)=w_1x+w_0$)
+    \item Modelli Lineari: la rappresentazione dello spazio delle ipotesi H definisce uno spazio continuo parametrizzato di potenziali ipotesi. Come parametro abbiamo w, ed ogni assegnamento di w è una ipotesi differente. (es: $h_w(x)=w_1x+w_0$)
     \item Regole simboliche: lo spazio delle ipotesi è basato su rappresentazioni discrete, sono possibili differenti regole come ad esempio: if ($x_1$=0 and $x_2$=1) then h(x)=1 else h(x)=0
     \item Modelli probabilistici: stimare p(x,y)
     \item Approcci basati sull'istanza: confronta le nuove istanze del problema con le istanze osservate durante l'addestramento, che sono state memorizzate. Si chiama basato sull'istanza perché costruisce ipotesi direttamente dalle istanze di addestramento stesse.
@@ -122,27 +122,28 @@ Gli algoritmi di apprendimento si basano su DATA, TASK e MODEL. L'euristica cons
 L'apprendimento può essere quindi definito come la ricerca una buona funzione, in uno spazio di funzioni restituito da dati conosciuti. "Buona funzione" considerando l'errore di generalizzazione (o capacità di generalizzazione) cioè quanto accuratamente il modello prevede nuovi campioni di dati. La generalizzazione è cruciale in ML $\rightarrow$ strumenti corretti di ML.
 \begin{itemize}
     \item Fase di apprendimento (training, fitting): costruire il modello dai dati di training conosciuti (Training Set).
-    \item Fase predittiva (test): si applica la funzione costruita a un nuovo esempio. Si prende in input x, si computa la risposta dal modello e confrontiamo l'output con il nostro target (che il modello non ha mai visto). Si esegue una valutazione dell'ipotesi predittiva, ad esempio la valutazione della capacità di generalizzazione (valutazione statistica del modello, quanto riesce ad essere accurato sui dati futuri). É bene notare che essere performanti in ML significa predire accuratamente, cioé la performance é stimata dagli errori effettuati calcolando la funzione sul Test Set (che é diverso dal Training set!).
+    \item Fase predittiva (test): si applica la funzione costruita a un nuovo esempio. Si prende in input x, si computa la risposta dal modello e confrontiamo l'output con il nostro target (che il modello non ha mai visto). Si esegue una valutazione dell'ipotesi predittiva, ad esempio la valutazione della capacità di generalizzazione (valutazione statistica del modello, quanto riesce ad essere accurato sui dati futuri). É bene notare che essere performanti in ML significa predire accuratamente, cioè la performance é stimata dagli errori effettuati calcolando la funzione sul Test Set (che é diverso dal Training set!).
 \end{itemize}
 
 \section{Concept Learning}
-Il Concept Learning anche noto come apprendimento di categoria é definito come "la ricerca di attributi che possono essere utilizzati per distinguere i modelli dai non modelli di varie categorie". Più semplicemente, i concetti sono le categorie che ci aiutano a classificare oggetti, eventi o idee, basandoci sul fatto che ogni oggetto, evento o idea ha un insieme di caratteristiche rilevanti comuni. In un compito di Concept Learning, una macchina viene addestrata per classificare gli oggetti mostrandole una serie di oggetti di esempio insieme alle loro etichette di classe. La macchina semplifica ciò che ha osservato "condensandolo" sotto forma di un esempio. Questa versione semplificata di ciò che è stato appreso viene quindi applicata a esempi futuri. \newline
-Lavoriamo in uno spazio discreto strutturato come lo spazio delle ipotesi, useremo come rappresentazione la congiunzione di letterali e vedremo algoritmi come Find-S ed Candidate Elimination. Praticamente in questa sezione andremo ad vedere in cosa consiste la classificazione del Supervised Learning, cioé come la funzione f(x) restituisce la presunta classe corretta per x.
+Il Concept Learning anche noto come apprendimento di categoria é definito come "la ricerca di attributi che possono essere utilizzati per distinguere i modelli dai non modelli di varie categorie". Più semplicemente, i concetti sono le categorie che ci aiutano a classificare oggetti, eventi o idee, basandoci sul fatto che ogni oggetto, evento o idea ha un insieme di caratteristiche rilevanti comuni. In un compito di Concept Learning, una macchina apprende come classificare degli oggetti mostrandole prima una serie di esempi associati alle loro etichette di classe. La macchina semplifica quello che ha osservato "condensandolo" sotto forma di un esempio. Questa versione semplificata di ciò che è stato appreso viene quindi applicata a esempi futuri. \newline
+Lavoriamo in uno spazio discreto strutturato come lo spazio delle ipotesi, useremo come rappresentazione la congiunzione di letterali e vedremo algoritmi come Find-S ed Candidate Elimination. Praticamente in questa sezione andremo ad vedere in cosa consiste la classificazione del Supervised Learning, cioè come la funzione f(x) restituisce la presunta classe corretta per x.
 
 \begin{quote}
     Concept Learning: dedurre una funzione booleana (con dominio X e codominio \{t,f\}) da esempi di allenamento positivi e negativi (dove X é lo spazio che contiene le istanze)
 \end{quote}
-Un Training example é definito come coppia <x,c(x)> (le coppie sono contenute nel Training Set). \newline
-L'ipotesi h:$X \rightarrow {0,1}$ soddisfa x se h(x)=1. \newline
-Una ipotesi h é consistente con un esempio di allenamento <x,c(x)> se h(x)=c(x) con x appartenete a X. É consistente anche con D\footnote{é sempre il Training Set insieme degli esempi} se h(x)=c(x) per ogni esempio di allenamento <x,c(x)> in D.
+Un Training Example é definito come coppia <x,c(x)> (le coppie sono contenute nel Training Set). \newline
+L'ipotesi h: $X \rightarrow \{0,1\}$ soddisfa x se h(x)=1. \newline
+Una ipotesi h é consistente con un esempio di allenamento <x,c(x)> se h(x)=c(x) con x appartenente a X. É consistente anche con D\footnote{é sempre il Training Set insieme degli esempi} se h(x)=c(x) per ogni esempio di allenamento <x,c(x)> in D.
+\clearpage
 
 \subsubsection{Esempio: Apprendimento Funzione Booleana}
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.4]{Images/esempiofunzionebooleana.png}
 \end{figure}
-Questo é un problema mal posto poiché potremmo violare l'esistenza, unicità o stabilità della soluzione. Come possiamo vedere dall'immagine abbiamo in input 4 variabili e in output un singolo valore. Nella tabella troviamo il nostro training set (D) e il nostro compito é quello di trovare la funzione che dati in input quei valori restiutisce l'output definito dalla tabella. Ci sono $2^{2^4}$ possibili funzioni booleane per 4 ingressi, questo perché abbiamo $2^4$ possibili ingressi e per ognuno possiamo rispondere 0 o 1. Non possiamo sapere quale sia la funzione corretta fino a che non abbiamo visto tutte le possibili coppie di input/output. Dopo aver analizzato i nostri 7 esempi ci rimangono ancora $2^9$ possibilità. Nel caso generale per input/output binari la formula é $|H| = 2^{numeroistanze} = 2^{2^n}$ dove $|H|$ é la dimensione dello spazio delle ipotesi ed n é la dimensione dell'input. \newline
-Lavoreremo con uno spazio delle ipotesi ristretto: partiamo scegliendo uno spazio delle ipotesi H che é considerevolmente più piccolo dello spazio di tutte le possibili funzioni. Vedremo: 
+Questo é un problema mal posto poiché potremmo violare l'esistenza, unicità o stabilità della soluzione. Come possiamo vedere dall'immagine abbiamo in input 4 variabili e in output un singolo valore. Nella tabella troviamo il nostro training set (D) e il nostro compito é quello di trovare la funzione che dati in input quei valori restituisce l'output definito dalla tabella. Ci sono $2^{2^4}$ possibili funzioni booleane per 4 ingressi, questo perché abbiamo $2^4$ possibili ingressi e per ognuno possiamo rispondere 0 o 1. Non possiamo sapere quale sia la funzione corretta fino a che non abbiamo visto tutte le possibili coppie di input/output. Dopo aver analizzato i nostri 7 esempi ci rimangono ancora $2^9$ possibilità. Nel caso generale per input/output binari la formula é $|H| = 2^{numeroistanze} = 2^{2^n}$ dove $|H|$ é la dimensione dello spazio delle ipotesi ed n é la dimensione dell'input. \newline
+Lavoreremo con uno spazio delle ipotesi ristretto: partiamo scegliendo uno spazio delle ipotesi H che é considerevolmente più piccolo dello spazio di tutte le possibili funzioni. \newline Vedremo: 
 \begin{itemize}
     \item proposizioni formate da solo "and" (regole congiuntive) in uno spazio di ipotesi H finito e discreto
     \item funzioni lineari, in uno spazio di ipotesi H continuo e infinito
@@ -153,7 +154,7 @@ Quante h diverse possiamo avere? Cioè quante semplici regole congiuntive? \newl
 Nel caso generale:
 \begin{itemize}
     \item Letterali positivi: ad esempio $h_1 = l_2$, $h_2=(l_1 \land l_2)$, $h_3 = true$ ecc... sono semplici regole congiuntive. Abbiamo ridotto lo spazio delle ipotesi così da ottenere $|H| = 2^n$ basti immaginare $l_i$ come una stringa di bit di lunghezza n.
-    \item Letterali: (di cui fa parte anche il not($l_i$) ottenendo uno spazio delle ipotesi di dimensione $3^n+1$
+    \item Letterali: (di cui fa parte anche il not($l_i$)) ottenendo uno spazio delle ipotesi di dimensione $3^n+1$
 \end{itemize}
 Vedremo come organizzare e cercare in modo efficiente attraverso uno spazio di ipotesi, sfruttando algoritmi per un insieme di ipotesi molto limitato semplificandoci il lavoro usando dati non rumorosi.
 
@@ -205,7 +206,7 @@ Sky & Temp & Humid & Wind & Water & Forecast \\ \hline
 Vengono dati:
 \begin{itemize}
     \item Le istanze X: i possibili giorni vengono descritti da attributi Sky, Temp, Humid, Wind, Water e Forecast.
-    \item Funzione Target: c:EnjoySport $X \rightarrow{0,1}$.
+    \item Funzione Target: c: EnjoySport $X \rightarrow \{0,1\}$.
     \item Spazio delle ipotesi (H): insieme finito di coniunzioni di letterali
     \item Esempi di allenamento (D): esempi positivi e negativi: $<x_1, c(x_1)>, ..., <x_n, c(x_n)>$
 \end{itemize}
@@ -217,7 +218,7 @@ L'apprendimento sta nella ricerca nello spazio delle ipotesi H.
 
 \subsection{Apprendimento Induttivo}
 \begin{quote}
-    Assunzione: "Qualsiasi ipotesi trovata per approssimare la funzione target sugli esempi di allenamento, approssimerà anche la funzione target sugli esempi non osservati". Non è detto che il Training Set sia corretto (dati rumorosi, ...)
+    Ipotesi Apprendimento Induttivo: "Qualsiasi ipotesi trovata per approssimare la funzione target sugli esempi di allenamento, approssimerà anche la funzione target sugli esempi non osservati". Ma purtroppo non è detto che il Training Set sia corretto (dati rumorosi, ...)
 \end{quote}
 Quindi h(x)=c(x) per ogni x in D (funzione consistente con il training set) ma h(x)=c(x) per ogni x in X? Problema fondamentale del ML.
 
@@ -232,7 +233,7 @@ Quindi h(x)=c(x) per ogni x in D (funzione consistente con il training set) ma h
 \end{itemize}
 La scelta della rappresentazione di H determina lo spazio di ricerca! \newline
 Numero di possibili istanze: 3*2*2*2*2*2 = 96 \newline
-Numero di concetti distinti: $2^96 = 2^{numeroistanze}$ \newline
+Numero di concetti distinti: $2^{96} = 2^{numeroistanze}$ \newline
 Numero di ipotesi sintatticamente distinte: 5*4*4*4*4*4 (poiché per ogni attributo devo aggiungere 0 o ?) \newline
 Numero di ipotesi semanticamente distinte: 1+4*3*3*3*3*3 (poiché le ipotesi con almeno uno 0 sono equivalenti a false, i valori sono in and!) \newline
 Strutturare uno spazio di ricerca può aiutare a cercare in modo piú efficiente.
@@ -243,11 +244,11 @@ Consideriamo due ipotesi
     \item $h_1$ = $<Sunny,?,?,Strong,?,?>$
     \item $h_2$ = $<Sunny,?,?,?,?,?>$
 \end{enumerate}
-L'insieme di istanze coperte da $h_1$ e da $h_2$ sono differenti, infatti $h_2$ impone meno vincoli rispetto a $h_1$ e quindi classifica più istanze x positive (h(x)=1).
+L'insieme di istanze coperte da $h_1$ e da $h_2$ sono differenti, infatti $h_2$ impone meno vincoli rispetto a $h_1$ e quindi classifica più istanze x positive ($h_2(x)$=1).
 \begin{quote}
-    Siano $h_j$ e $h_k$ funzioni booleane definite su X. $h_j$ é più generale o equivalente a $h_k$ ($h_j \geq h_k$) se solo se $\forall x \in X : [(h_k(x)=1) \rightarrow (h_j(x)=1)$
+    Siano $h_j$ e $h_k$ funzioni booleane definite su X. $h_j$ é più generale o equivalente a $h_k$ ($h_j \geq h_k$) se solo se $\forall x \in X : [(h_k(x)=1) \rightarrow (h_j(x)=1)]$
 \end{quote}
-Un esempio sulle ipotesi binarie: $l_1 \geq (l_1 \land l_2)$ non sono comparabili, la relazione $\geq$ impone un ordine parziale sullo spazio delle ipotesi H. Possiamo sfruttare questo ordine parziale per organizzare più efficientemente la nostra ricerca in H.
+Possiamo sfruttare questo ordine parziale per organizzare più efficientemente la nostra ricerca in H.
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.4]{Images/partialorder.png}
@@ -280,7 +281,7 @@ L'algoritmo parte dall'ipotesi più specifica, poi scende in maniera conservativ
 \subsubsection{Esempio su Enjoy Sport}
 \begin{enumerate}
     \item $h_0 = <0, 0, 0, 0, 0, 0>$
-    \item $x_1 = <Sunny, Warm, Normal, Strong, Warm, Same>$ \quad questo esempio é positivo\footnote{l'esempio é preso dalla tabella a pagina 9} e $h_0$ non é soddisfatta perché False. Quindi devo prendere i vincoli più generali da $x_1$ e metterli in h, in questo caso sono le singole istanze poiché tutte piú generali di 0.
+    \item $x_1 = <Sunny, Warm, Normal, Strong, Warm, Same>$ \quad questo esempio é positivo\footnote{l'esempio é preso dalla tabella a pagina 10} e $h_0$ non é soddisfatta perché False. Quindi devo prendere i vincoli più generali da $x_1$ e metterli in h, in questo caso sono le singole istanze poiché tutte piú generali di 0.
     \item $h_1 = <Sunny, Warm, Normal, Strong, Warm, Same>$
     \item $x_2 = <Sunny, Warm, \textcolor{red}{High}, Strong, Warm, Same>$ \quad esempio positivo, notiamo che High é in constrasto con Normal. Quindi cambio quell'attributo con uno piú generale, in questo caso é "?".
     \item $h_2 = <Sunny, Warm, ?, Strong, Warm, Same>$
@@ -291,38 +292,43 @@ L'algoritmo parte dall'ipotesi più specifica, poi scende in maniera conservativ
 \end{enumerate}
 
 \subsubsection{Proprietà di Find-S}
-Lo spazio delle ipotesi é rappresentato come congiunzione di attributi (molto limitativo), l'algoritmo darà in output l'ipotesi più specifica, nello spazio H, che é consistente con gli esempi positivi del training set. L'ipotesi di output h sarà anche consistente con gli esempi negativi, a condizione che il concetto target sia contenuto in H.
+Lo spazio delle ipotesi é rappresentato come congiunzione di attributi (molto limitativo), l'algoritmo darà in output l'ipotesi più specifica, nello spazio H, che é consistente con gli esempi positivi del training set. L'ipotesi di output h sarà anche consistente con gli esempi negativi, a condizione che il concetto target sia contenuto in H. Scegliamo l'ipotesi più specifica poichè nel caso in cui ci fossero diverse ipotesi consistenti con gli esempi di training, Find-S trova la più specifica.
+
 \subsubsection{Aspetti negativi di Find-S}
 Non so se il sistema di apprendimento converga con il concetto target, nel senso che non è in grado di determinare se ha trovato l'unica ipotesi coerente con gli esempi di allenamento. Inoltre non so quando i dati di allenamento sono incoerenti, in quanto ignora gli esempi di allenamento negativi $\rightarrow$ nessuna tolleranza al rumore sui dati!
 
 \subsection{Version Spaces}
-Find-S fornisce una ipotesi da H che è coerente con gli esempi di allenamento, questa è solo una delle tante ipotesi da H che potrebbero adattarsi ugualmente bene ai dati di allenamento. L'idea é quindi quella di dare in output l'insieme di tutte le possibili h consistenti con D.
+Find-S fornisce una singola ipotesi da H che è coerente con gli esempi di allenamento, questa è solo una delle tante ipotesi da H che potrebbero adattarsi ugualmente bene ai dati di allenamento. L'idea é quindi quella di dare in output l'insieme di tutte le possibili h consistenti con D.
 \begin{quote}
-    Il Version Space $VS_{H,D}$ rispetto allo spazio delle ipotesi H e il training set D, é il sottoinsieme delle ipotesi prese da h coerenti con tutti gli esempi di training: $VS_{H,D} = {h \in H | Consistent(h,D) }$ dove $Consistent(h,D) = \forall<x,c(x)> \in D | h(x)=c(x)$
+    Il Version Space $VS_{H,D}$ rispetto allo spazio delle ipotesi H e il training set D, é il sottoinsieme delle ipotesi prese da h coerenti con tutti gli esempi di training: \newline $VS_{H,D} = \{h \in H | Consistent(h,D)\}$ \newline 
+    dove $Consistent(h,D) = \forall<x,c(x)> \in D | h(x)=c(x)$
 \end{quote}
-Si dice che un esempio x soddisfa l'ipotesi h quando h(x) = 1, indipendentemente dal fatto che x sia un esempio positivo o negativo del concetto target. Tuttavia, se un tale esempio sia coerente con h dipende dal concetto target e, in particolare, se h(x) = c(x).
+Si dice che un esempio x soddisfa l'ipotesi h quando h(x)=1, indipendentemente dal fatto che x sia un esempio positivo o negativo del concetto target. Tuttavia, se un tale esempio sia coerente con h dipende dal concetto target e, in particolare, se h(x)=c(x).
+\clearpage
 
-\subsubsection{Esempio di Version Space }
+\subsection{Algoritmo List-Then-Eliminate}
+L'algoritmo List-Then-Eliminate inizializza il Version Space con tutte le ipotesi contenute in H eliminando volta per volta tutte le ipotesi che non sono consistenti con gli esempi di training. Il Version Space si riduce quindi man mano che si osservano più esempi, fino a quando idealmente rimane solo un'ipotesi coerente con tutti gli esempi osservati, presumibilmente, questo è il concetto target desiderato. Se non sono disponibili dati sufficienti per restringere lo spazio l'algoritmo può generare l'intero insieme di ipotesi coerenti con i dati osservati. L'algoritmo List-Then-Eliminate può essere applicato ogni volta che lo spazio di ipotesi H è finito. Ha molti vantaggi, tra cui il fatto che è garantito il risultato di tutte le ipotesi coerenti con i dati di allenamento. Sfortunatamente, richiede un elenco esaustivo di tutte le ipotesi in H, un requisito non realistico per tutti gli spazi di ipotesi tranne quelli più banali.
+\begin{enumerate}
+    \item Iniziamo impostando il nostro Version Space con una lista contente ogni ipotesi in H
+    \item Per ogni esempio di allenamento $<x,c(x)>$ rimuoviamo dal Version Space ogni ipotesi che é inconsistente con gli esempi di allenamento cioé $h(x)!\neq c(x)$
+    \item Viene dato in output la lista delle ipotesi ora contenute nel Version Space
+\end{enumerate}
+
+\subsubsection{Esempio di Version Space}
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.4]{Images/versionspacegs.png}
 \end{figure}
 Il Version Space dell'algoritmo viene rappresentato solo dal suo membro più generale G e dal più specifico S (che é la soluzione di Find-S!).
 \begin{quote}
-    Teorema: ogni membro del Version Space si trova tra: $VS_{H,D} = \{h \in H| (\exists s \in S) (\exists g \in G) (g \geq h \geq s)\}$
+    Teorema: ogni membro del Version Space si trova tra: \newline 
+    $VS_{H,D} = \{h \in H| (\exists s \in S) (\exists g \in G) (g \geq h \geq s)\}$
 \end{quote}
 dove $x \geq y$ significa x é piú generale o uguale a y.
-
-\subsection{Algoritmo List-Then-Eliminate}
-Il Version Space si riduce quindi man mano che si osservano più esempi, fino a quando idealmente rimane solo un'ipotesi coerente con tutti gli esempi osservati, presumibilmente, questo è il concetto target desiderato. Se non sono disponibili dati sufficienti per restringere lo spazio l'algoritmo può generare l'intero insieme di ipotesi coerenti con i dati osservati. L'algoritmo List-Then-Eliminate può essere applicato ogni volta che lo spazio di ipotesi H è finito. Ha molti vantaggi, tra cui il fatto che è garantito il risultato di tutte le ipotesi coerenti con i dati di allenamento. Sfortunatamente, richiede un elenco esaustivo di tutte le ipotesi in H, un requisito non realistico per tutti gli spazi di ipotesi tranne quelli più banali.
-\begin{enumerate}
-    \item Iniziamo impostando il nostro Version Space con una lista contente ogni ipotesi in H
-    \item Per ogni esempio di allenamento $<x,c(x)>$ rimuoviamo dal Version Space ogni ipotesi che é inconsistente con gli esempi di allenamento cioé $h(x)!\neq(x)$
-    \item Viene dato in output la lista delle ipotesi ora contenute nel Version Space
-\end{enumerate}
+\clearpage
 
 \subsection{Algoritmo Candidate Elimination}
-L'algoritmo di Candidate Elimination calcola il Version Space contenente tutte le ipotesi di H che sono coerenti con una sequenza osservata di esempi di addestramento. L'algoritmo di eliminazione dei candidati calcola la descrizione di questo set senza elencare esplicitamente tutti i suoi membri. Ciò si ottiene utilizzando l'ordinamento più generale che parziale e mantenendo una rappresentazione compatta dell'insieme di ipotesi coerenti. \newline
+L'algoritmo di Candidate Elimination calcola il Version Space contenente tutte le ipotesi di H che sono coerenti con una sequenza osservata di esempi di addestramento. L'algoritmo calcola il Version Space senza elencarne esplicitamente tutti i suoi membri, ciò si ottiene utilizzando l'ordinamento più generale che parziale e mantenendo una rappresentazione compatta dell'insieme di ipotesi coerenti. \newline
 Inizia inizializzando il Version Space sull'insieme di tutte le ipotesi in H, cioè inizializzando il set di limiti G per contenere l'ipotesi più generale in H $G_0 = <?, ?, ?, ?, ?, ?>$ e inizializzando il set di limiti S per contenere l'ipotesi più specifica $S_0 = <0, 0, 0, 0, 0, 0>$. Questi due insiemi di limiti delimitano l'intero spazio delle ipotesi, poiché ogni altra ipotesi in H è sia più generale di $S_0$ sia più specifica di $G_0$. Dopo che tutti gli esempi sono stati elaborati, lo spazio versione calcolato contiene tutte le ipotesi coerenti con questi esempi.
 \begin{enumerate}
     \item Inizializza G con l'insieme di ipotesi massimamente generali in H $G_0 = <?, ?, ?, ?, ?, ?>$
@@ -368,20 +374,21 @@ $x_1 = <Sunny, Warm, Normal, Strong, Cool, Change>$ (positivo) \newline
 $x_2 = <Cloudy, Warm, Normal, Strong, Cool, Change>$ (positivo) \newline
 troveremo che $S = \{ <?, Warm, Normal, Strong, Cool, Change> \}$ \newline
 che é inconsistente con l'esempio $x_3 = <Rainy, Warm, Normal, Strong, Cool, Change >$ (negativo) \newline
-trovando $S = \{\}$, cioé S collassa, perché la funzione target è fatta solo di and \newline
-PROBLEMA: abbiamo vincolato il sistema di apprendimento considerando solo ipotesi congiuntive. Abbiamo bisogno di uno spazio di ipotesi più espressivo. Supponiamo che lo spazio delle ipotesi H contenga il concetto target c. In altre parole, che c può essere descritta da una congiunzione di letterali.
+trovando $S = \{\}$, cioé S collassa, perché la funzione target è fatta solo di and. \newline
+PROBLEMA: abbiamo vincolato il sistema di apprendimento considerando solo ipotesi congiuntive. Abbiamo bisogno di uno spazio di ipotesi più espressivo.
 
 \subsection{Sistema di apprendimento Unbiased}
-La ovvia soluzione al problema di assicurare che il concetto target sia nello spazio di ipotesi H è di fornire uno spazio di ipotesi in grado di rappresentare ogni concetto insegnabile. \newline
-Significa che H è l'insieme di tutti i possibili sottoinsiemi di X: l'insieme di potenza P(X). In EnjoySport $|H|=96$, $|P(X)|=2^96$ concetti distinti. Un'ipotesi può essere rappresentata con disgiunzioni, congiunzioni e negazioni delle nostre precedenti ipotesi. H sicuramente contiene il concetto target. Con questa modifica quali sono i nostri G e S? \newline
-NUOVO PROBLEMA: il nostro algoritmo di apprendimento dei concetti non è ora in grado di generalizzare oltre gli esempi osservati. Assumiamo tre esempi positivi $(x_l, x_2, x_3)$ e due esempi negativi $(x_4, x_5)$. $S = \{(x_1 \lor x_2 \lor x_3) \}$ e $G = \{\neg (x_4 \lor x_5)\}$ $\rightarrow$ Non abbiamo generalizzazione! Gli unici esempi classificati in modo non ambiguo sono gli stessi esempi di addestramento.
+La soluzione ovvia al problema di assicurare che il concetto target sia nello spazio di ipotesi H è di fornire uno spazio di ipotesi in grado di rappresentare ogni concetto insegnabile. \newline
+Significa che H è l'insieme di tutti i possibili sottoinsiemi di X (questo insieme viene chiamato anche l'insieme di potenza P(X)). In EnjoySport $|H|=96$, $|P(X)|=2^{96}$ concetti distinti. Un'ipotesi può essere rappresentata con disgiunzioni, congiunzioni e negazioni delle nostre precedenti ipotesi. H sicuramente contiene il concetto target. Con questa modifica quali sono i nostri G e S? \newline
+NUOVO PROBLEMA: il nostro algoritmo di apprendimento dei concetti non è ora in grado di generalizzare oltre gli esempi osservati. Assumiamo tre esempi positivi $(x_l, x_2, x_3)$ e due esempi negativi $(x_4, x_5)$. $S = \{(x_1 \lor x_2 \lor x_3) \}$ e $G = \{\neg (x_4 \lor x_5)\}$ $\rightarrow$ Non abbiamo generalizzazione, S sarà sempre la disgiunzione degli esempi positivi e G la disgiunzione di quelli negativi!
 \begin{quote}
-    Proprietà: un sistema di apprendimento imparziale non è in grado di generalizzare \newline
-    Prova: ogni istanza non osservata verrà classificata positivamente precisamente da metà delle ipotesi in Version Space e negativa dell'altra metà. Infatti $\forall h$ consistente con $x_i(test)$, $\exists h'$ identico ad h con eccezione che $h'(x_i) \neq h(x_i)$ cioé $h \in VS \rightarrow h' \in VS$ (sono identici in D)
+    Proprietà: un sistema di apprendimento non vincolato non è in grado di generalizzare \newline
+    Prova: ogni nuova istanza verrà classificata positivamente precisamente da metà delle ipotesi nel Version Space e negativa dell'altra metà. Poiché H è l'insieme di potenza di X e sia $x_i$ una istanza non vista precedentemente, $\forall h$ consistente con $x_i(test)$, $\exists h'$ identico ad h con eccezione che $h'(x_i) \neq h(x_i)$ cioè $h \in VS \rightarrow h' \in VS$ (sono identici in D)
 \end{quote}
 
 \subsubsection{Il learning Unbiased é utile?}
-Un sistema di apprendimento che non fa assunzioni preliminari riguardo all'identità del concetto target non ha basi razionali per classificare eventuali istanze non conosciute. Uno sistema di apprendimento dovrebbe essere in grado di generalizzare i dati di allenamento usando presupposti precedenti al fine di classificare istanze invisibili. La generalizzazione è nota come salto induttivo e le nostre assunzioni precedenti sono il vincolo induttivo del sistema di apprendimento. Il bias non è solo assunto per efficienza, ma è necessario per la generalizzazione, tuttavia non ci dice quale sia la migliore soluzione per la generalizzazione.
+Un sistema di apprendimento che non fa assunzioni preliminari riguardo all'identità del concetto target non ha basi razionali per classificare eventuali istanze non conosciute. Un sistema di apprendimento dovrebbe essere in grado di generalizzare a partire dai dati di allenamento al fine di classificare istanze mai viste precedentemente. Il "bias" non è solo assunto per efficienza, ma è necessario per la generalizzazione, tuttavia non ci dice quale sia la migliore soluzione per la generalizzazione.
+
 \subsection{Definizione Formale di Inductive Bias}
 Consideriamo:
 \begin{itemize}
@@ -400,6 +407,7 @@ Consideriamo:
     \centering
     \includegraphics[scale=0.4]{Images/sistemiinduttdedutt.png}
 \end{figure}
+Il comportamento input-output dell'algoritmo Candidate Elimination usando uno spazio delle ipotesi H è lo stesso di un sistema deduttivo in cui diamo come input l'asserzione "H contiene il concetto target". Questa asserzione è chiamata Bias Induttivo dell'algoritmo. \newline
 Il Bias è l'insieme delle asserzioni che ci permette di trasformare il problema da induttivo a deduttivo.
 \subsection{Tre (algoritmi) sistemi di apprendimento con Bias differenti}
 \begin{enumerate}
@@ -1382,7 +1390,8 @@ Abbiamo una espansione della base non lineare in w, e le $\phi$ sono imparate au
 \includegraphics[scale=0.4]{Images/NN.png}
 \end{figure}
 \subsection{Deep Learning}
-Quando si parla di Deep Learning si fa riferimento a reti neurali multistrato profonde, nel senso che abbiamo molteplici layer di unità di processing non lineari. Indipendentemente se si usa il Supervised o Unsupersised Learning per la rappresentazione di caratteristiche in ogni livello, i vari livelli vanno a formare una gerarchia di caratteristiche / rappresentazioni da basso livello ad alto livello (diversi livelli di astrazione).
+Il Deep Learning è quel campo di ricerca dell'apprendimento automatico (machine learning) e dell'intelligenza artificiale che si basa su diversi livelli di rappresentazione, corrispondenti a gerarchie di caratteristiche di fattori o concetti, dove i concetti di alto livello sono definiti sulla base di quelli di basso. In altre parole, si intende un insieme di tecniche basate su reti neurali artificiali organizzate in diversi strati, dove ogni strato calcola i valori per quello successivo affinché l'informazione venga elaborata in maniera sempre più completa. \newline
+Piú tecnincamente, quando si parla di Deep Learning, si fa riferimento a reti neurali multistrato profonde, nel senso che abbiamo molteplici layer di unità di processing non lineari. Indipendentemente se si usa il Supervised o Unsupersised Learning per la rappresentazione di caratteristiche in ogni livello, i vari livelli vanno a formare una gerarchia di caratteristiche / rappresentazioni da basso livello ad alto livello (diversi livelli di astrazione).
 Imparare automaticamente come rappresentare i dati, e capire come classificarli aumenta il livello di astrazione tra i vari layer. Ad esempio, un'immagine può essere rappresentata in molti modi: come un vettore di pixel o in un modo più astratto come un insieme di bordi, regioni di forma particolare, ecc... Per questo il Deep Learning funziona meglio quando i dati in input hanno una sorta di struttura: spaziale, temporale, linguistica ecc...
 \begin{figure}[H]
 \centering
