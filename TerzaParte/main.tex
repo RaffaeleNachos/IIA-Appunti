@@ -1110,27 +1110,27 @@ Se prendiamo un polinomio con grado alto, ma abbiamo molti dati in più, predico
 \subsection{Statistical Learning Theory}
 Mettendo insieme: 
 \begin{itemize}
-    \item La capacità di generalizzazione (misurata come errore di test) di un modello rispetto all'errore di addestramento delineando le zone di overfitting o underfitting
+    \item La capacità di generalizzazione (misurata come errore di test) di un modello rispetto all'errore di training, delineando le zone di overfitting o underfitting
     \item Il ruolo della complessità del modello
     \item Il ruolo del numero di dati
 \end{itemize}
 troviamo la Statistical Learning Theory (SLT):
 \begin{itemize}
     \item si approssima una funzione sconosciuta f(x)
-    \item si minimizza la funzione di rischio $R=\int L(t,h(x))dP(x,t)$ (Integrale della loss su tutti i dati).
-    \item vengono dati un valore target $t$, una probabilitá di distribuzione $P(x,t)$ e una funzione Loss del tipo $L(h(x),t)=(t-h(x))^2$
-    \item dobbiamo cercare h nello spazio delle ipotesi H, dove il valore di rischio generale R é minimo, ma noi abbiamo solo un data set finito $TR(x_i,t_i)$ con i=1...l
+    \item si cerca di minimizzare la funzione di rischio $R=\int Loss(t,h(x))\text{ }dP(x,t)$ (Integrale della Loss su tutti i dati).
+    \item vengono dati un valore target $t$, una probabilità di distribuzione $P(x,t)$ e una funzione Loss del tipo $L(h(x),t)=(t-h(x))^2$
+    \item il compito finale é quello di cercare una ipotesi h nello spazio delle ipotesi H, dove il valore di rischio generale R é minimo, ma noi abbiamo solo un data set finito $TR(x_i,t_i)$ con i=1...l
     \item per cercare h dobbiamo quindi minimizzare l'errore empirico (training error) trovando il miglior valore per il modello con parametri liberi w. \[R_{emp}=\frac{1}{l}\sum_{i = 1}^l (t_i-h(x_i))^2\]
 \end{itemize}
 Questo si chiama principio induttivo della minimizzazione del rischio empirico (Empirical Risk Minimization). La domanda che dobbiamo porci é: possiamo usare $R_{emp}$ per approssimare R?
 
 \subsection{Teoria di Vapnik-Chervonenkis + SLT}
 \begin{itemize}
-    \item VC-dim é una misura per la complessità dello spazio delle ipotesi H (flessibilità per fittare i dati, come ad esempio il numero di parametri per modelli lineari/ grado del polinomio)
+    \item VC-dimension é una misura per la complessità dello spazio delle ipotesi H (flessibilità per fittare i dati, come ad esempio il numero di parametri per modelli lineari/grado del polinomio)
     \item VC-bounds afferma che con una probabilità di $1-\delta$ che \[ R \leq R_{emp} + \epsilon(\frac{1}{l},VC,\frac{1}{\delta})\]
-    cioè che il rischio generale R ha un limite superiore definito dal rischio empirico (che decresce con la complessità dei modelli) più il VC-confidence. Il VC-confidence ($\epsilon$) aumenta all'aumentare della complessità del modello (indicata da VC) e diminuisce quando il numero dei dati aumenta. ($1/\delta$ indica la probabilitá che valga questo bound)
+    cioè che il rischio generale R ha un limite superiore definito dal rischio empirico (che decresce con la complessità dei modelli) più il VC-confidence. Il VC-confidence ($\epsilon$) aumenta all'aumentare della complessità del modello (indicata da VC) e diminuisce quando il numero dei dati aumenta. ($1/\delta$ indica la probabilità che valga questo bound)
 \end{itemize}
-Possiamo usare il rischio empirico per approssimare R? Sì, il Machine Learning è ben fondato, l'intuizione sta nel fatto che un numero alto di dati portano ad un R basso, e un alto VC-dim abba $R_{emp}$ ma potrebbe alzare R (overfitting).
+Possiamo usare il rischio empirico per approssimare R? Sì, il Machine Learning è ben fondato, l'intuizione sta nel fatto che un numero alto di dati portano ad un R basso, mentre un alto VC-dim abbassa $R_{emp}$ ma potrebbe alzare R (overfitting).
 \subsection{Structural Risk Minimization}
 \begin{figure}[H]
 \centering
@@ -1139,22 +1139,22 @@ Possiamo usare il rischio empirico per approssimare R? Sì, il Machine Learning 
 Sfruttiamo il concetto di controllo della complessità del modello, eseguiamo un trade-off tra la complessità del modello e l'accuratezza sul TR set.
 
 \subsection{Conclusioni}
-La STL permette di inquadrare formalmente il del problema della generalizzazione e overfitting, fornendo limitazioni superiori analitiche e quantitative al rischio R di predizione su tutti i dati, indipendentemente dal tipo di learning algorithm o dettagli del modello. Il ML e ben fondato, il rischio del learning (e l'errore di generalizzazione) può essere analiticamente limitato! Si puó trovare un buona approssimazione della f target da esempi, pur di avere un buon numero di dati e una adeguata complessità del modello (misurabile formalmente con la VC-dim). Questo ci porta a nuovi modelli (SVM) (e altri metodi che direttamente considerino il controllo della complessità nella costruzione del modello). Fonda uno dei principi induttivi sul controllo della complessità. \newline
-Alcuni esempi di controllo della complessità sui modelli lineari sono il numero di parametri liberi w o la dimensione in input. Mentre per i decision trees il numero di nodi. Vedremo un approccio diretto alla complessità attraverso il modello SVM.
+La STL permette di inquadrare formalmente il problema della generalizzazione e overfitting, fornendo limitazioni superiori analitiche e quantitative al rischio R di predizione su tutti i dati, indipendentemente dal tipo di learning algorithm o dettagli del modello. Il ML e ben fondato, il rischio del learning (e dell'errore di generalizzazione) può essere analiticamente limitato! Si puó trovare un buona approssimazione della f target da esempi, a patto di avere un buon numero di dati e una adeguata complessità del modello (misurabile formalmente con la VC-dim). Questo ci porta a nuovi modelli (SVM) (e altri metodi che direttamente considerino il controllo della complessità nella costruzione del modello). La STL fonda uno dei principi induttivi sul controllo della complessità. \newline
+Alcuni esempi di controllo della complessità sui modelli lineari sono il numero di parametri liberi w o la dimensione in input. Mentre per i Decision Trees il numero di nodi. Vedremo un approccio diretto alla complessità attraverso il modello SVM.
 
 \section{Support Vector Machine}
-Il Support Vector Machine (o SVM) é l'approccio più famoso per il supervised learning. É un classificatore derivato dalla statistical learning theory, dopo anni di sviluppi teorici, SVM é diventato famoso quando, usando immagini come input, dava una accuratezza comparabile a reti neurali.
+Il Support Vector Machine (o SVM) é l'approccio più famoso per il supervised learning. É un classificatore derivato dalla Statistical Learning Theory, dopo anni di sviluppi teorici, SVM é diventato famoso quando, usando immagini come input, dava una accuratezza comparabile a reti neurali.
 
 \subsubsection{Obiettivi utilizzo SVM}
 \begin{enumerate}
-    \item Controllare la complessità del modello attraverso un approccio di ottimizzazione, approssimando la minimizzazione del rischio strutturale.
-    \item Usare efficientemente l'espansione lineare via kernel in modo tale da ottenere un approccio flessibile per il supervised learning non lineare.
+    \item Controllare la complessità del modello attraverso un approccio di ottimizzazione, approssimando la minimizzazione del rischio strutturale (Max Margin Classifier).
+    \item Usare efficientemente l'espansione lineare via kernel in modo tale da ottenere un approccio flessibile per il Supervised Learning non lineare (Kernel).
     \item Evitare di utilizzare SVM nel modo sbagliato.
 \end{enumerate}
 \clearpage
 
 \subsection{Maximum Margin Classifier (controllo complessità)}
-Viene utilizzato nella classificazione binaria di problemi, mettiamoci nel caso in cui abbiamo un sistema linearmente separabile, non tutti gli iper-parametri che risolvono la soluzione sono uguali
+Viene utilizzato nella classificazione binaria di problemi, mettiamoci nel caso in cui abbiamo un sistema linearmente separabile, non tutti gli iper-parametri che risolvono il problema sono uguali
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.4]{Images/svmmultiplesolution.png}
@@ -1187,19 +1187,24 @@ Tutti i punti sono classificati correttamente se $(w^Tx_i+b)y_i \geq 1 \quad \fo
 \clearpage
 
 \subsection{Verso l'ottimizzazione del margine}
-Consideriamo il problema di apprendere un modello lineare per classificazione binaria \newline ($h(x)=sign(wx+b)$). Il problema consiste nel trovare i vettori (w,b) in modo tale che tutti i punti sono classificati correttamente e il margine é massimizzato. \newline
+Consideriamo il problema di apprendere un modello lineare per classificazione binaria \newline $h(x)=sign(wx+b)$. Il problema consiste nel trovare il vettore w e il valore b in modo tale che tutti i punti sono classificati correttamente e il margine é massimizzato. \newline
 La rappresentazione canonica dell'iperpiano é definita come:
 \begin{quote}
     Il punto $(x_i,y_i)$ é classificato correttamente per tutti gli i (tutti gli esempi del training set) se:
     \begin{itemize}
         \item $w^Tx_i+b \geq 0$ se $y_i=1$
-        \item $w^Tx_i+b \leq 0$ se $y_i=-1$
+        \item $w^Tx_i+b < 0$ se $y_i=-1$
     \end{itemize}
-    é possibile scalare w e b in modo tale che i punti più vicini all'iperpiano soddisfino \newline $|w^Tx_i+b|=1$
+    é possibile scalare w e b in modo tale che i punti più vicini all'iperpiano soddisfino \newline $|w^Tx_i+b|=1$ e quindi
+    \begin{itemize}
+        \item $w^Tx_i+b \geq 1$ se $y_i=1$
+        \item $w^Tx_i+b \leq -1$ se $y_i=-1$
+    \end{itemize}
 \end{quote}
 Due fatti a noi utili sono:
 \begin{enumerate}
-    \item Margine = $2/|w|$ e sappiamo anche che $|w|^2=(w^Tw)$. Quindi per massimizzare il margine $\rightarrow$ minimizzare $|w|$ $\rightarrow$ minimizzare $|w|^2/2$
+    \item Margine = $2/|w|$ e sappiamo anche che $|w|^2=(w^Tw)$. \newline
+    Quindi per massimizzare il margine $\rightarrow$ minimizzare $|w|$ $\rightarrow$ minimizzare $|w|^2/2$
     \item Il VC-dim del SVM é inversamente proporzionale al margine, quindi cotrolliamo la complessitá del modello utilizzando il margine
 \end{enumerate}
 Come abbiamo accennato precedentemente, l'iperpiano ottimo é l'iperpiano che massimizza il margine e ovviamente risolve il problema di training. 
@@ -1207,9 +1212,10 @@ Come abbiamo accennato precedentemente, l'iperpiano ottimo é l'iperpiano che ma
 \subsection{Problema di ottimizzazione quadratico}
 Il nostro problema é quindi diventato
 \begin{quote}
-    minimizzare $|w|^2/2$ in modo tale che $(w^Tx_i+b)y_i\geq1$ per tutti gli i
+    minimizzare $|w|^2/2$ in modo tale che $(w^Tx_i+b)y_i\geq1$ per tutti gli i.
 \end{quote}
-Nota: minimizzazione diretta della complessità del modello (funzione di ottimizzazione). Essendo il problema linearmente separabile, dobbiamo mantenere la soluzione tramite i vincoli. In relazione alla SLT minimizzando la VC-dim, diminuiamo anche il bound di errore.
+Questa é la nostra forma primale del problema, ne esiste anche una duale.
+Nota: cerchiamo la minimizzazione diretta della complessità del modello (funzione di ottimizzazione). Essendo il problema linearmente separabile, dobbiamo mantenere la soluzione tramite i vincoli. In relazione alla SLT minimizzando la VC-dim, diminuiamo anche il bound di errore.
 
 \subsection{Nuovo classificatore h(x) (Problema Duale)}
 La soluzione ottima può essere trovata anche massimizzando
@@ -1220,7 +1226,8 @@ Il nostro compito é cercare un vettore $\alpha$ ottimale, dopo averlo trovato (
 \begin{equation}
     h(x)=sign(w^Tx+b)=sign(\sum_{i=1}^l \alpha_iy_ix_i^Tx+b)=sign(\sum_{i \in SV} \alpha_iy_ix_i^T x+b)
 \end{equation}
-$x_i^Tx$ é il prodotto scalare tra le x dei vettori di supporto (presi ovviamente dal training set) e la x da classificare. Una proprietà importante é che
+$x_i^Tx$ é il prodotto scalare tra le x dei vettori di supporto (presi ovviamente dal training set) e la x da classificare. \clearpage
+Una proprietà importante é che
 \begin{quote}
     i pesi $\alpha_i$ associati ad ogni dato sono diversi da zero ad eccezione dei Support Vector. Cioè se $\alpha_i!=0$ allora $x_i$ é un Support Vector.
 \end{quote}
@@ -1231,7 +1238,7 @@ La soluzione é sparsa e formulata solo nei termini dei Support Vectors, in poch
 \end{figure}
 
 \subsection{Margine Soft}
-Purtroppo però, nella realtà, non abbiamo quasi mai dei problemi che sono linearmente separabili e con zero errore di classificazione. Anche se il problema fosse linearmente separabile, rischieremmo di avere un margine piccolissimo, quindi una VC-dimension molto alta, con tutti i problemi che ne conseguono. Ammettiamo quindi errore introducendo le slack-variables (variabili di rilassamento). 
+Purtroppo però, nella realtà, non abbiamo quasi mai dei problemi che sono linearmente separabili e con zero errore di classificazione. Anche se il problema fosse linearmente separabile, rischieremmo di avere un margine piccolissimo. Ammettiamo quindi errore introducendo le slack-variables (variabili di rilassamento). 
 \begin{quote}
     Le variabili slack $\xi_i$ possono essere aggiunte per permettere classificazioni errate o punti "molto rumorosi"
 \end{quote}
@@ -1239,23 +1246,26 @@ Purtroppo però, nella realtà, non abbiamo quasi mai dei problemi che sono line
 \centering
 \includegraphics[scale=0.35]{Images/slackvar.png}
 \end{figure}
-Il nostro problema quindi é diventato 
+\clearpage
+Modifichiamo il nostro problema in forma primale: 
 \begin{quote}
     minimizzare $|w|^2/2+C\sum_i\xi_i$ tale che $(wx_i+b)y_i\geq 1-\xi_i$ e $\xi_i\geq0$ per ogni i
 \end{quote}
-Possiamo vedere $\xi$ come la distanza tra il vettore di supporto e il punto che stiamo analizzando, mentre $C>0$ gestisce il numero di errori permessi (C é un valore definito dall'utente). Con un C basso stiamo accettando tanti errori sul TR e quindi sfociare in un possibile underfitting. Con un C alto non permettiamo errori sul TR e quindi sfociare un un possibile overfitting. 
+Possiamo vedere $\xi$ come la distanza tra il vettore di supporto e il punto che stiamo analizzando, mentre $C>0$ gestisce il numero di errori permessi (C é un valore definito dall'utente). Con un C basso stiamo accettando tanti errori sul TR Set (perché gli $\xi$ possono crescere molto) e quindi potremmo sfociare in un possibile underfitting. Con un C alto non permettiamo errori sul TR Set e quindi potremmo cascare in overfitting. 
 
 \subsection{Mapping per Spazi Dimensionali Ampi}
-Cosa succede in casi non lineari? Dobbiamo utilizzare efficientemente l'espansione della base via kernel in modo tale da ottenere un approccio flessibile anche per il supervised learning non lineare. Mappare i dati in uno spazio dimensionale più grande permette di rendere linearmente separabili gli esempi.
+Il compito di SVM é quello di creare un iperpiano che separa linearmente i dati, ma spesso non é possibile dividere linearmente un problema in una certo spazio dimensionale... ed é in questi casi che viene utilizzato il "kernel trick". Cioè spesso i dati non sono linearmente separabili nello spazio dimensionale in input, ma potrebbero essere divisibili in uno spazio dimensionale più grande. \newline
+Abbiamo visto cosa succede in casi non lineari: dobbiamo utilizzare efficientemente l'espansione della base via kernel in modo tale da ottenere un approccio flessibile anche per il Supervised Learning non lineare.
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.35]{Images/Mappingtohighdim.png}
 \end{figure}
 Ma questo lo sapevamo già, quando usavamo la funzione $\phi(x)$ al posto di x. 
 \[ h_w(x)=sign(\sum_kw_k\phi_k(x))\]
-Sappiamo che l'utilizzo di spazi ad alta dimensione (funzioni di espansione della base) può essere non conveniente nel calcolo dal punto di vista computazionale e può facilmente portare a un overfitting, nel caso in cui non controlliamo la dimensione dello spazio e la complessità del classificatore (la complessità in questo caso é correlata alla dimensionalità dell'input). Useremo l'approccio del Kernel per gestire (implicitamente) lo spazio nel contesto della modellizzazione regolarizzata (la complessità dipende dal margine). Pertanto, grazie alla regolarizzazione automatizzata di SVM, la complessità del classificatore può essere mantenuta ridotta indipendentemente dalla dimensionalità nel nuovo spazio. \newline
-In SVM non é necessario calcolare w e nemmeno calcolare direttamente la $\phi$. Poiché sfruttiamo il Kernel. Il Kernel è il risultato del prodotto scalare. Non ci importa di come è fatta la phi: non ho bisogno di espanderla per poi fare il prodotto scalare, ma mi basta il risultato.
-\[ h(x)=sign(\sum_{i\in SV} \alpha_iy_i\phi^T(x_i)\phi(x)) = sign(\sum_{i\in SV} \alpha_iy_iK(x_i,x))\]
+Sappiamo anche che l'utilizzo di spazi ad alta dimensione (funzioni di espansione della base) può essere non conveniente nel calcolo dal punto di vista computazionale e può facilmente portare a un overfitting, nel caso in cui non controlliamo la dimensione dello spazio e la complessità del classificatore (la complessità in questo caso é correlata alla dimensionalità dell'input). \newline 
+Useremo l'approccio del Kernel per gestire (implicitamente) lo spazio nel contesto della modellizzazione regolarizzata (la complessità dipende dal margine). Pertanto, grazie alla regolarizzazione automatizzata di SVM, la complessità del classificatore può essere mantenuta ridotta indipendentemente dalla dimensionalità nel nuovo spazio. \newline
+In SVM non é necessario calcolare w e nemmeno calcolare direttamente la $\phi$. Poiché sfruttiamo il Kernel. Il Kernel è il risultato del prodotto scalare. Non ci importa di come è fatta la phi: non ho bisogno di espanderla per poi fare il prodotto scalare, ma mi basta il risultato di $K(x_j,x_k)$.
+\[ h(x)=sign(\sum_{i\in SV} \alpha_iy_i\phi(x_i)^T\phi(x)) = sign(\sum_{i\in SV} \alpha_iy_iK(x_i,x))\]
 
 \subsubsection{Esempi di Kernel}
 \begin{itemize}
@@ -1268,7 +1278,7 @@ In SVM non é necessario calcolare w e nemmeno calcolare direttamente la $\phi$.
         (molto potente sul TR ma puó portare ad overfitting)
 \end{itemize}
 
-\subsection{Riassunto procedimento SVM}
+\subsection{Riassunto procedimento SVM con Kernel Fun.}
 \begin{itemize}
     \item Scegliamo un parametro C (trade-off)
     \item Scegliamo una funzione di Kernel K (e i suoi parametri)
@@ -1277,16 +1287,17 @@ In SVM non é necessario calcolare w e nemmeno calcolare direttamente la $\phi$.
 \end{itemize}
 
 \subsection{Utilizzare bene SVM}
-Evitare errori di interpretazione tipici nell'uso di SVM. È possibile che si verifichi un overfitting senza un'attenta selezione dei parametri: C, funzione Kernel, parametri del Kernel, ecc... Il trattamento implicito dello spazio grande deve avvenire nello spazio delle caratteristiche e non in quello di input. Anche la tecnica di validation vista fino ad ora per la selezione del modello e la valutazione del modello devono essere utilizzate rigorosamente.\clearpage
+Evitare errori di interpretazione tipici nell'uso di SVM. È possibile che si verifichi un overfitting senza un'attenta selezione dei parametri: C, funzione Kernel, parametri del Kernel, ecc... Il trattamento implicito dello spazio dimensionale ampio deve avvenire nello spazio delle caratteristiche e non in quello di input. Anche la tecnica di validation vista fino ad ora per la selezione del modello e la valutazione del modello devono essere utilizzate rigorosamente.
 Quindi:
 \begin{itemize}
     \item Trasformare i dati in un formato leggibile da un software SVM (ad esempio \{red, green, blue\} $\rightarrow$ (0,0,1), (0,1,0), (1,0,0))
     \item Eseguire una semplice scalatura dei dati (ad esempio in un intervallo da [-1,1] o [0,1]
     \item Considerare il kernel $K(x_i,x_j)=e^{-||x_i-x_j||^2/2\sigma^2}$
     \item Usare la cross-validation per trovare i migliori parametri C e $\sigma$
-    \item Riutilizzare il TR set peró con i migliori C e $\sigma$ trovati
+    \item Riutilizzare il TR set però con i migliori C e $\sigma$ trovati
     \item Eseguire il testing su un Test Set esterno
 \end{itemize}
+\clearpage
 
 \section{K-Nearest Neighbors}
 K-NN fa parte del supervised learning, vediamo la forma piú semplice di questo metodo basato su istanze.
