@@ -1300,50 +1300,51 @@ Quindi:
 \clearpage
 
 \section{K-Nearest Neighbors}
-K-NN fa parte del supervised learning, vediamo la forma piú semplice di questo metodo basato su istanze.
+I modelli precedenti che abbiamo visto sono modelli parametrici, nel senso che sono modelli che si comportano in modi diversi in base ad alcuni parametri modificabili. Esistono anche i modelli non parametrici, cioè quei modelli che non sono caratterizzabili/vincolabili attraverso dei parametri. K-NN fa parte del Supervised Learning, ed é un modello basato su istanze (é una sorta di algoritmo table lookup efficiente).
 
 \subsection{1-Nearest Neighbor}
 Questo algoritmo non impara, ma sfrutta tutti i valori del training set.
 \begin{itemize}
-    \item Salvare i dati di training nella forma $<x_j,y_j>$ con j=1...l
-    \item Dato un input x di dimensione n:
-    \begin{itemize}
-        \item Trovare l'esempio di training più vicino $x_i$ tale che $d(x,x_i)$ é minimo \newline
+    \item Salviamo i dati di training nella forma $<x_j,y_j>$ con j=1...l
+    \item Dato un input x di dimensione n dobbiamo trovare l'esempio di training più vicino $x_i$ tale che $d(x,x_i)$ é minimo \newline
         dove \[d(x,x_j)=\sqrt{\sum_{t=q}^n(x_t-x_{jt})^2}=||x-x_j||\] $x_t$ é la componente t-esima di x, $x_{jt}$ é la componente t-esima di $x_j$
-    \end{itemize}
-    \item Diamo come output $y_i$ (in pratica stiamo vedendo l'esempio che piú assomiglia ai nostri dati e rispondiamo come ha risposto lui
+    \item Diamo come output $y_i$ (in pratica stiamo vedendo l'esempio che più assomiglia ai nostri dati e rispondiamo come ha risposto lui)
 \end{itemize}
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.4]{Images/1-nn.png}
 \end{figure}
-É molto flessibile, non c'è errore di classificazione sui dati di TR, il decision boundary non é piú lineare e potrebbe portare all'overfitting?
+É molto flessibile, non c'è errore di classificazione sui dati del TR Set... ma il Decision Boundary non é più lineare, potrebbe portare all'overfitting?
+\clearpage
 
 \subsection{K-NN}
+É la versione in cui si "guarda" il comportamento dei K vicini.
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.4]{Images/5-nn.png}
 \end{figure}
-Vediamo già come si comporta in questo caso 1-nn risponderebbe + per $x_q$, valutando invece con 5-nn viene restituito - per $x_q$. Come succedeva con il polinomio di alto grado che andava in overfitting, anche qui dobbiamo renderlo più "smooth" valutando su un insieme di vicini. \newline
-Per questo possiamo "dare un occhiata" a tot (k) vicini e restituire una media: \[avg_k(x)=\frac{1}{k}\sum_{x_i\in N_k(x)} y_i\] dove $N_k(x)$ é il vicinato di x che contiene esattamente k vicini. Se c'è una chiara dominanza di una delle classi nel vicinato di x, allora é probabile che anche x appartenga a quella classe. Quindi la regola di classificazione è la maggioranza che vota tra i membri di $N_k (x)$. \[h(x)=1 \text{ se } avg_k(x)>0.5 \text{      0 altrimenti}\]
+In questo caso 1-NN risponderebbe + per $x_q$, valutando invece con 5-NN viene restituito - per $x_q$. Come succedeva con il polinomio di alto grado che andava in overfitting, anche qui dobbiamo renderlo più "smooth" valutando su un insieme di vicini. \newline
+Per questo possiamo "dare un occhiata" a tot (K) vicini e restituire una media: \[avg_k(x)=\frac{1}{k}\sum_{x_i\in N_k(x)} y_i\] dove $N_k(x)$ é il vicinato di x che contiene esattamente K vicini. Se c'è una chiara dominanza di una delle classi nel vicinato di x, allora é probabile che anche x appartenga a quella classe. Quindi la regola di classificazione è la maggioranza che vota tra i membri di $N_k (x)$. \[h(x)=1 \text{ se } avg_k(x)>0.5 \quad \text{, 0 altrimenti}\]
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.4]{Images/15-nn.png}
 \end{figure}
 
-Dobbiamo trovare il giusto trade-off tra underfitting e overfitting trovando il giusto valore k. (Nota: é possibile usare k-nn anche se ci sono piú classi). \newline
-\subsection{Considerazioni su K-nn}
-Non c'è una ipotesi globale per tutte le istanze: non c'é quindi nessun modello da allenare. Dobbiamo semplicemente memorizzare gli esempi di input, inoltre il modello non é parametrico. Si tratta di una stima lineare globale della funzione target (sullo spazio dell'istanza). É un metodo basato sulla memoria, sull'istanza e sulla distanza, Bias induttivo! scegli il risultato in base alla distanza. \newline
-Notare che k-nn fa una approssimazione locale della funzione target per ogni nuovo esempio da classificare, il costo computazionale é tutto contenuto nella fase di predizione. Inoltre é molto costosto a livello computazionale perché per ogni nuovo input bisogna calcolare le distanze dall'esempio a tutti i vettori memorizzati. Il tempo è proporzionale al numero di modelli memorizzati, questo ci fa notare che anche il costo per lo spazio é alto, dato che tutti i dati sono memorizzati. \newline
-Quando abbiamo molte variabili in input k-nn spesso fallisce a causa del "curse of dimensionality": quando la dimensione aumenta, il volume dello spazio aumenta in modo tale che i dati disponibili diventano sparsi. Ad esempio la quantitá di dati che servono per supportare un risultato spesso cresce esponenzialmente con la dimensione. Troviamo anche il problema denominato "curse of noisy": se il target dipende da poche altre variabili, potremmo trovarci un "modello simile" con la somiglianza dominata dal gran numero di funzioni irrilevanti. 
+Dobbiamo trovare il giusto trade-off tra underfitting e overfitting trovando il giusto valore K. (Nota: é possibile usare K-NN anche se ci sono più classi).
 
-\subsection{Distance Based methods}
-Quando utilizzo degli approcci basati su distanza (come k-nn o alcune funzioni kernel) devo assicurarmi che la distanza calcolata sia davvero un fattore discriminante. Stiamo misurano quando una coppia di pattern si assomiglia, inoltre dare una metrica pone un bias rilevante sulla soluzione e la metrica dipende da un dominio (es due stringhe in un linguaggio). Possiamo imparare in qualche modo la metrica? Si (NN, Learning K...). 
+\subsection{Considerazioni su K-NN}
+Non c'è una ipotesi globale per tutte le istanze: non c'è quindi nessun modello da allenare. Dobbiamo semplicemente memorizzare gli esempi di input, infatti é un metodo basato sulla memoria, sull'istanza e sulla distanza. Il Bias induttivo é scegliere il risultato in base alla distanza. \newline
+Notare che K-NN fa una approssimazione locale della funzione target per ogni nuovo esempio da classificare, il costo computazionale é tutto contenuto nella fase di predizione. Inoltre é molto costoso a livello computazionale perché per ogni nuovo input bisogna calcolare le distanze dall'esempio a tutti i vettori memorizzati. Il tempo è proporzionale al numero di modelli memorizzati, questo ci fa notare che anche il costo per lo spazio é alto, dato che tutti i dati sono memorizzati. \newline
+Quando abbiamo molte variabili in input K-NN spesso fallisce a causa del "curse of dimensionality": quando la dimensione aumenta, il volume dello spazio aumenta in modo tale che i dati disponibili diventano sparsi. Ad esempio la quantità di dati che servono per supportare un risultato spesso cresce esponenzialmente con la dimensione. Troviamo anche il problema denominato "curse of noisy": se il target dipende da poche altre variabili, potremmo trovarci un "modello simile" con la somiglianza dominata dal gran numero di funzioni irrilevanti. 
+
+\subsection{Distance Based Methods}
+Quando utilizzo degli approcci basati su distanza (come K-NN o alcune funzioni Kernel) devo assicurarmi che la distanza calcolata sia davvero un fattore discriminante. Stiamo misurano quando una coppia di pattern si assomiglia, inoltre dare una metrica pone un Bias rilevante sulla soluzione. Possiamo imparare in qualche modo la metrica? Si (Reti Neurali, Learning K...). 
 
 \section{Unsupervised Learning (ripasso)}
-Nel Unsupervised Learning non abbiamo esempi etichettati, e quindi con un output associato, siamo noi come sistema di apprendimento che dobbiamo trovare correlazioni tra i dati e raggrupparli (clustering). Dobbiamo quindi ripartire i dati, in cluster (sottoinsiemi di dati simili). Il goal che ci poniamo é ripartire in modo ottimo una distribuzione sconosciuta di dati, in uno spazio di dimensione x, in regioni (approssimando poi usando un cluster). In questo caso H é un insieme di quantizzatori di vettori $x\rightarrow c(x)$ cioè dato un vettore in input voglio sapere a quale cluster appartiene. Passiamo da uno spazio continuo ad uno spazio spazio discreto. \newline 
-Una funzione di Loss comune é \[L(h(x_i))=||x_i-c(x_i)||^2\] cioè la distanza tra x e il centroide. Il valore medio sulla distribuzione degli input è l'errore di quantizzazione. \newline
+Nel Unsupervised Learning non abbiamo esempi etichettati, quindi senza un output associato, siamo noi come sistema di apprendimento che dobbiamo trovare correlazioni tra i dati e raggrupparli (clustering). Dobbiamo quindi ripartire i dati, in cluster (sottoinsiemi di dati simili). Il goal che ci poniamo é ripartire in modo ottimo una distribuzione sconosciuta di dati, in uno spazio di dimensione x, in regioni (approssimando poi usando un cluster). \newline 
+Se dovessimo lavorare sullo spazio delle ipotesi H, lo rappresenteremmo come un insieme di quantizzatori di vettori $x\rightarrow c(x)$ cioè dato un vettore in input voglio sapere a quale cluster appartiene. Passiamo da uno spazio continuo ad uno spazio spazio discreto. \newline 
+Una funzione di Loss comune é \[L(h(x_i))=||x_i-c(x_i)||^2\] cioè la distanza tra x e il centroide. Il valore medio sulla distribuzione degli input si chiama errore di quantizzazione. \newline
 Unsupervised Learning viene spesso usato in Data Analysis per scoprire caratteristiche comuni tra i dati, viene anche usato per il Preprocessing dei dati da utilizzare poi in seguito per altri approcci di ML. Inoltre dobbiamo notare il fatto che raccogliere dati non etichettati é più "economico", rispetto a trovarne labeled.
 
 \subsection{K-means}
@@ -1353,11 +1354,11 @@ K-means fa parte del Unsupervised Learning. Il K-means è l'algoritmo più sempl
     $c_1...c_k$ con k fissato che scegliamo noi.
     \item Assegnare ad ogni modello il centro del cluster più vicino (il vincitore) \newline
     per ogni x calcoliamo
-    \[i^*(x)=argmin_i||x-c_i||^2=\sum_{j\rightarrow n}(x_j-c_{ij})^2\]
+    \[i^*(x)=argmin_i||x-c_i||^2_2=\sum_{j\rightarrow n}(x_j-c_{ij})^2\]
     cioè provo tutti i $c_i$ e quello che ha distanza minima é il vincitore (mi interessa l'indice del vincitore $i^*$). Adesso x appartiene al cluster $i^*$
     \item Ricalcolare i centri del cluster (centroide) utilizzando le nuove appartenenze al cluster corrente
     \[c_i=\frac{1}{|\text{num di membri cluster}_{i}|}\sum_{x_j \in cluster_i}x_j\]
-    \item Se non viene soddisfatto un criterio di convergenza, andare al passaggio 2 (criteri come nessuna (o minima) riassegnazione di schemi a nuovi centri di cluster o una minima diminuzione dell'errore quadratico)
+    \item Se non viene soddisfatto un criterio di convergenza, andare al passaggio 2 (criteri come nessuna o minima riassegnazione di schemi a nuovi centri di cluster oppure una minima diminuzione dell'errore quadratico)
 \end{enumerate}
 \begin{figure}[H]
 \centering
@@ -1395,21 +1396,22 @@ Altri task che non fanno parte del supervised o unsupervised learning.
 
 \section{Altri Modelli del Machine Learning}
 \subsection{Reti Neurali}
-Vengono utilizzate sia nel Supervised che nel Unsupervised Learning. Sono simili alla visione del Linear Threshold Unit, una rete neurale é una rete di modelli non lineari con una capacità di approssimazione universale e capacità predittive. Gli strati interni sono "nascosti", e ogni unità é non lineare, fornendo alla rete neurale la capacità di estrarre (imparando) una nuova rappresentazione dei dati. Questa nuova rappresentazione semplifica il compito di classificazione nell'ultimo livello della rete. \newline 
+Vengono utilizzate sia nel Supervised che nel Unsupervised Learning. Sono simili alla visione del Linear Threshold Unit, una rete neurale é una rete di modelli non lineari con una capacità di approssimazione universale e capacità predittive. Gli strati interni sono "nascosti" e ogni unità é non lineare, fornendo alla rete neurale la capacità di estrarre (imparando) una nuova rappresentazione dei dati. Questa nuova rappresentazione semplifica il compito di classificazione nell'ultimo livello della rete. \newline 
 Abbiamo una espansione della base non lineare in w, e le $\phi$ sono imparate automaticamente, ma purtroppo questo scaturisce in un problema di ottimizzazione non lineare. 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.4]{Images/NN.png}
+\includegraphics[scale=0.47]{Images/NN.png}
 \end{figure}
+
 \subsection{Deep Learning}
-Il Deep Learning è quel campo di ricerca dell'apprendimento automatico (machine learning) e dell'intelligenza artificiale che si basa su diversi livelli di rappresentazione, corrispondenti a gerarchie di caratteristiche di fattori o concetti, dove i concetti di alto livello sono definiti sulla base di quelli di basso. In altre parole, si intende un insieme di tecniche basate su reti neurali artificiali organizzate in diversi strati, dove ogni strato calcola i valori per quello successivo affinché l'informazione venga elaborata in maniera sempre più completa. \newline
-Piú tecnincamente, quando si parla di Deep Learning, si fa riferimento a reti neurali multistrato profonde, nel senso che abbiamo molteplici layer di unità di processing non lineari. Indipendentemente se si usa il Supervised o Unsupersised Learning per la rappresentazione di caratteristiche in ogni livello, i vari livelli vanno a formare una gerarchia di caratteristiche / rappresentazioni da basso livello ad alto livello (diversi livelli di astrazione).
+Il Deep Learning è quel campo di ricerca dell'apprendimento automatico (machine learning) e dell' intelligenza artificiale che si basa su diversi livelli di rappresentazione, corrispondenti a gerarchie di caratteristiche di fattori o concetti, dove i concetti di alto livello sono definiti sulla base di quelli di basso. In altre parole, si intende un insieme di tecniche basate su reti neurali artificiali organizzate in diversi strati, dove ogni strato calcola i valori per quello successivo affinché l'informazione venga elaborata in maniera sempre più completa. \newline
+Più tecnicamente, quando si parla di Deep Learning, si fa riferimento a reti neurali multistrato profonde, nel senso che abbiamo molteplici layer di unità di processing non lineari. Indipendentemente se si usa il Supervised o Unsupersised Learning per la rappresentazione di caratteristiche in ogni livello, i vari livelli vanno a formare una gerarchia di caratteristiche / rappresentazioni da basso livello ad alto livello (diversi livelli di astrazione).
 Imparare automaticamente come rappresentare i dati, e capire come classificarli aumenta il livello di astrazione tra i vari layer. Ad esempio, un'immagine può essere rappresentata in molti modi: come un vettore di pixel o in un modo più astratto come un insieme di bordi, regioni di forma particolare, ecc... Per questo il Deep Learning funziona meglio quando i dati in input hanno una sorta di struttura: spaziale, temporale, linguistica ecc...
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.4]{Images/deeplearningimage.png}
+\includegraphics[scale=0.47]{Images/deeplearningimage.png}
 \end{figure}
-I vantaggi del Deep Learning sono svariati, come ad esempio la possibilità di sfruttare la composizionalitá della rappresentazione interna: guadagno esponenziale nel potere di rappresentazione. I concetti più semplici vengono rappresentati in uno strato della rete, i quali poi possono essere sfruttati come dati primitivi dal livello successivo, per rappresentare concetti più complessi. Sono necessari meno esempi per raggiungere una buona capacità di generalizzazione! Le Deep Networks erano difficili da addestrare in passato, ma combinando tecniche per l'addestramento di modelli grandi, HPC (ad esempio GPU) e grandi raccolte di dati da applicazioni reali (ad esempio milioni di immagini), al giorno d'oggi lavorano molto bene conseguendo una rivoluzione nell'approccio AI alle soluzioni del mondo reale.
+I vantaggi del Deep Learning sono svariati, come ad esempio la possibilità di sfruttare la composizionalità della rappresentazione interna che porta ad un guadagno esponenziale nel potere di rappresentazione. I concetti più semplici vengono rappresentati in uno strato della rete, i quali poi possono essere sfruttati come dati primitivi dal livello successivo per rappresentare concetti più complessi. Sono necessari meno esempi per raggiungere una buona capacità di generalizzazione. Le Deep Networks erano difficili da addestrare in passato, ma combinando tecniche per l'addestramento di modelli grandi, HPC (ad esempio GPU) e grandi raccolte di dati da applicazioni reali (ad esempio milioni di immagini), al giorno d'oggi lavorano molto bene conseguendo una rivoluzione nell'approccio AI alle soluzioni del mondo reale.
 
 
 
