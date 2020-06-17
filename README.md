@@ -6,4 +6,4 @@ Parte 1: Terminata, ci potrebbe essere qualche piccolo errore ✅ (Final v0.1)
 
 Parte 2: Terminata, la parte sui sistemi a regole (5.15) non é per nulla chiara nemmeno sulle slide ✅ (Final v0.1)
 
-Parte 3: Terminata, fino agli Alberi di decisione inclusi dovrebbe essere tutto corretto, anche se alcune cose non mi hanno convinto particolamente 🤯
+Parte 3: Terminata, anche se alcune cose non mi hanno convinto particolamente (fate attenzione) ✅ (Final v0.1)
