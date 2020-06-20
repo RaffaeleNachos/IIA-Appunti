@@ -119,7 +119,7 @@ Gli algoritmi di apprendimento si basano su DATA, TASK e MODEL. L'euristica cons
 \end{figure}
 
 \subsection{VALIDATION - Generalizzazione}
-L'apprendimento può essere quindi definito come la ricerca una buona funzione, in uno spazio di funzioni restituito da dati conosciuti. "Buona funzione" considerando l'errore di generalizzazione (o capacità di generalizzazione) cioè quanto accuratamente il modello prevede nuovi campioni di dati. La generalizzazione è cruciale in ML $\rightarrow$ strumenti corretti di ML.
+L'apprendimento può essere quindi definito come la ricerca di una buona funzione, in uno spazio di funzioni restituito da dati conosciuti. "Buona funzione" considerando l'errore di generalizzazione (o capacità di generalizzazione) cioè quanto accuratamente il modello prevede nuovi campioni di dati. La generalizzazione è cruciale in ML $\rightarrow$ strumenti corretti di ML.
 \begin{itemize}
     \item Fase di apprendimento (training, fitting): costruire il modello dai dati di training conosciuti (Training Set).
     \item Fase predittiva (test): si applica la funzione costruita a un nuovo esempio. Si prende in input x, si computa la risposta dal modello e confrontiamo l'output con il nostro target (che il modello non ha mai visto). Si esegue una valutazione dell'ipotesi predittiva, ad esempio la valutazione della capacità di generalizzazione (valutazione statistica del modello, quanto riesce ad essere accurato sui dati futuri). É bene notare che essere performanti in ML significa predire accuratamente, cioè la performance é stimata dagli errori effettuati calcolando la funzione sul Test Set (che é diverso dal Training set!).
@@ -220,7 +220,7 @@ L'apprendimento sta nella ricerca nello spazio delle ipotesi H.
 \begin{quote}
     Ipotesi Apprendimento Induttivo: "Qualsiasi ipotesi trovata per approssimare la funzione target sugli esempi di allenamento, approssimerà anche la funzione target sugli esempi non osservati". Ma purtroppo non è detto che il Training Set sia corretto (dati rumorosi, ...)
 \end{quote}
-Quindi h(x)=c(x) per ogni x in D (funzione consistente con il training set) ma h(x)=c(x) per ogni x in X? Problema fondamentale del ML.
+Quindi h(x)=c(x) per ogni x in D (funzione consistente con il training set) ma h(x)=c(x) per ogni x in X? Cioè la nostra ipotesi classificherà in modo corretto tutte le istanze possibili? (Problema fondamentale del ML).
 
 \subsection{Qual é il numero di istanze, concetti e ipotesi di un problema?}
 \begin{itemize}
@@ -246,7 +246,8 @@ Consideriamo due ipotesi
 \end{enumerate}
 L'insieme di istanze coperte da $h_1$ e da $h_2$ sono differenti, infatti $h_2$ impone meno vincoli rispetto a $h_1$ e quindi classifica più istanze x positive ($h_2(x)$=1).
 \begin{quote}
-    Siano $h_j$ e $h_k$ funzioni booleane definite su X. $h_j$ é più generale o equivalente a $h_k$ ($h_j \geq h_k$) se solo se $\forall x \in X : [(h_k(x)=1) \rightarrow (h_j(x)=1)]$
+    Siano $h_j$ e $h_k$ funzioni booleane definite su X. $h_j$ é più generale o equivalente a $h_k$ ($h_j \geq h_k$) se solo se $\forall x \in X : [(h_k(x)=1) \rightarrow (h_j(x)=1)]$ \newline
+    In questo caso $h_2 \geq h_1$
 \end{quote}
 Possiamo sfruttare questo ordine parziale per organizzare più efficientemente la nostra ricerca in H.
 \begin{figure}[H]
@@ -425,7 +426,7 @@ Abbiamo visto che lo spazio delle ipotesi H costituisce l’insieme delle funzio
 Sia la regressione che la classificazione (quest'ultima vista nel Concept Learning) appartengono alla categoria delle tecniche di Supervised Learning, ovvero un tipo di apprendimento che fornisce a priori una serie di dati e informazioni al sistema, prima che questo cominci ad apprendere. Andremo a vedere come i Modelli lineare possono essere usati sia per la regressione (Regressione lineare) sia per la classificazione. La regressione lineare si differenzia nettamente dalla classificazione, poiché la classificazione si limita a discriminare gli elementi in un determinato numero di classi, mentre nella regressione l’input è un dato e il sistema ci restituisce un output reale approssimando una funzione. La regressione è un processo statistico che cerca di stabilire una relazione tra due o più variabili. Fornendo a un modello di regressione un valore x, questo restituirà il corrispondente valore y generato dall'elaborazione di x.
 
 \subsection{Esempio di regressione}
-La regressione come abbiamo detto é un processo di stima di una funzione a valori reali sulla base di una serie finita di campioni "rumorosi" (conosciamo le coppie (x , f(x)+random noise).
+La regressione come abbiamo detto é un processo di stima di una funzione a valori reali sulla base di una serie finita di campioni "rumorosi" (conosciamo le coppie (x , f(x)+random noise)).
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.4]{Images/esempioregressione.png}
@@ -524,12 +525,12 @@ Le nostre regole di correzione dell'errore (chiamate delta-rule) cambiano i valo
     \item se $(output>y_{target})$ cioè $(y-h)<0$ vuol dire che l'output trovato é troppo alto quindi:
         \begin{itemize}
             \item $\Delta w_0$ negativo $\rightarrow$ riduco $w_0$
-            \item se $(x_{input}>0$ e $\Delta w_1$ negativo $\rightarrow$ riduco $w_1$ altrimenti incremento $w_1$
+            \item se $(x_{input}>0)$ e $\Delta w_1$ negativo $\rightarrow$ riduco $w_1$ altrimenti incremento $w_1$
         \end{itemize}
     \item se $(output<y_{target})$ cioè $(y-h)>0$ vuol dire che l'output trovato é troppo basso quindi: %non sono sicuro su questa parte
         \begin{itemize}
             \item $\Delta w_0$ negativo $\rightarrow$ aumento $w_0$
-            \item se $(x_{input}<0$ e $\Delta w_1$ positivo $\rightarrow$ aumento $w_1$ altrimenti diminuisco $w_1$
+            \item se $(x_{input}<0)$ e $\Delta w_1$ positivo $\rightarrow$ aumento $w_1$ altrimenti diminuisco $w_1$
         \end{itemize}
 \end{itemize}
 Questo ci permette la ricerca in uno spazio delle ipotesi infinito, e può essere applicato facilmente per spazi H continui e con funzione di Loss differenziabile (altrimenti non posso calcolare il gradiente!). Per questo motivo il valore assoluto è scomodo: potrebbe rendere non differenziabile la funzione. \newline
@@ -601,7 +602,7 @@ Notiamo che $h_w(X)=w_1x+w_0$ definita "lineare" non significa che é una linea 
 \end{equation}
 
 \subsubsection{Esempio}
-Rispetto all'equazione scritta precedenete in questo caso abbiamo M=2. La funzione non deve essere lineare nell'argomento (variabili in input) ma solo nei parametri che sono determinati per dare il miglior adattamento. 
+Rispetto all'equazione scritta precedentemente in questo caso abbiamo M=2. La funzione non deve essere lineare nell'argomento (variabili in input) ma solo nei parametri che sono determinati per dare il miglior adattamento. 
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.35]{Images/quadraticfit.png}
@@ -623,7 +624,7 @@ La funzione $\phi$ puó essere espressa come rappresentazioni polinomiali del ti
     regressione polinomiale ad 1 dimensione (K=M)
     \item $\phi(x)=\phi([x_1,x_2])$
     \begin{equation}
-    h(x) = w_0+w_1x_1+w_2x_2+w_3x_1x_2+w_4x_1^2
+    h(x) = w_0+w_1x_1+w_2x_2+w_3x_1x_2+w_4x_1x_1+w_5x_2x_2
     \end{equation}
 \end{itemize}
 Quale $\phi$ scegliere? Adottiamo un modello in stile dizionario? I punti a favore sono la maggiore espressività poiché può modellare relazioni più complesse di quelle lineari. I punti contro sono l'avere una grossa base di funzioni che richiedono metodi per controllare la complessità del modello, vediamo perché...
@@ -758,7 +759,7 @@ Nella derivata ignoriamo il 2 che viene fuori dal quadrato. È una costante che 
 \centering
 \includegraphics[scale=0.4]{Images/errorcorrection.png}
 \end{figure}
-Se un input viene classificato erroneamente dalla funzione $h(x)=segno(w^Tx)$, quindi ad esempio il $\Delta$ negativo per $w_1$ e $w_3$, bisogna aumentare $w_1$ e $w_3$ proporzionalmente (con il coefficiente eta). Eseguiamo una correzione d'errore alzando i valori dove sono troppo bassi, e viceversa.
+Se un input viene classificato erroneamente dalla funzione $h(x)=segno(w^Tx)$, quindi ad esempio il $\Delta$ negativo per $w_1$ e $w_3$, bisogna diminuire\footnote{notare il meno nella formula di $\Delta w_i$ quando si esegue $y_p-(x_p^Tw)$} $w_1$ e $w_3$ proporzionalmente (con il coefficiente eta). Eseguiamo una correzione d'errore alzando i valori di $\Delta w$ dove sono troppo bassi, e viceversa.
 
 \subsection{Classificazione dei pattern}
 Il modello viene $allenato$ su un insieme di esempi con il calcolo LMS su $w^Tx$ dall'algoritmo di discesa del gradiente, usato per la regressione lineare. Il modello viene $utilizzato$ per la classificazione applicando la funzione di soglia $h(x)=segno(w^Tx)$. L'errore può essere calcolato come errore di classificazione o numero di pattern classificati erroneamente. 
@@ -893,7 +894,7 @@ dove
 \begin{equation}
     SplitInformation(S,Attr)=-\sum_{i=1}^c \frac{|S_i|}{|S|}log_2\frac{|S_i|}{|S|}
 \end{equation}
-dove c é il numero di variabili possibili per quell'attributo. $S_i$ sono gli insiemi ottenuti partizionando sul valore i di Attr. \newline 
+dove c é il numero di valori possibili per quell'attributo. $S_i$ sono gli insiemi ottenuti partizionando sul valore i di Attr. \newline 
 SplitInformation misura l'entropia di S rispetto ai valori di A. Più i dati sono dispersi in modo uniforme, più è alto. GainRatio penalizza gli attributi che dividono gli esempi in tante piccole classi come per l'esempio dell'attributo della data. Sia $| S | = numerodate$ divide gli esempi in n sottogruppi.
 \begin{equation}
     SplitInformation(S, Date)= -[(\frac{1}{n} log_2 \frac{1}{n})+...+ (\frac{1}{n}log_2 \frac{1}{n})]= - log_2\frac{1}{n} =log_2n
@@ -1229,7 +1230,7 @@ Il nostro compito é cercare un vettore $\alpha$ ottimale, dopo averlo trovato (
 $x_i^Tx$ é il prodotto scalare tra le x dei vettori di supporto (presi ovviamente dal training set) e la x da classificare. \clearpage
 Una proprietà importante é che
 \begin{quote}
-    i pesi $\alpha_i$ associati ad ogni dato sono diversi da zero ad eccezione dei Support Vector. Cioè se $\alpha_i!=0$ allora $x_i$ é un Support Vector.
+    i pesi $\alpha_i$ associati ad ogni dato sono uguali a zero ad eccezione dei Support Vector. Cioè se $\alpha_i!=0$ allora $x_i$ é un Support Vector.
 \end{quote}
 La soluzione é sparsa e formulata solo nei termini dei Support Vectors, in poche parole l'iperpiano dipende solo dai Support Vectors! Inoltre é una forma speciale della soluzione in cui non dobbiamo calcolare esplicitamente (w,b) per classificare i punti.
 \begin{figure}[H]
