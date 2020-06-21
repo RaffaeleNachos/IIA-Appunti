@@ -89,7 +89,7 @@ Definire un problema per un agente significa caratterizzare l'ambiente in cui l'
     \item Performance (prestazione, obiettivo)
     \item Envoirment (ambiente, dove attua le sue azioni)
     \item Actuators (attuatori, meccanismi con cui agisco sull'ambiente)
-    \item Sensor (sensori, percezioni)
+    \item Sensors (sensori, percezioni)
 \end{itemize}
 \begin{figure}[H]
     \centering
@@ -389,7 +389,7 @@ Ad ogni iterazione aumento il limite della ricerca in profondità limitata (DL) 
 \subsubsection{Analisi complessità ID}
 \begin{itemize}
     \item Strategia Completa: SI
-    \item Strategia Ottimale: se gli operatori hanno tutti lo stesso costo
+    \item Strategia Ottimale: SI se gli operatori hanno tutti lo stesso costo
     \item Complessità Tempo: $O(b^d)$
     \item Complessità Spazio: $O(b*d)$
 \end{itemize}
@@ -593,7 +593,7 @@ Più informata significa più efficiente:
 \begin{quote}
     Se $h_1 \leq h_2$, i nodi espansi da $A^*$ con $h_2$ sono un sottoinsieme di quelli espansi da $A^*$ con $h_1$. Cioè $A^*$ con $h_2$ è almeno efficiente quanto $A^*$ con $h_1$. (In questo caso si dice che $h_2$ domina su $h_1$)
 \end{quote}
-Una euristica più informata (accurata) riduce lo spazio di ricerca ma è tipicamente più costosa da calcolare. 
+Una euristica più informata (accurata) riduce lo spazio di ricerca ma è tipicamente più costosa da calcolare (più informata $\rightarrow$ taglia di più). 
 
 \subsection{Valutare Algoritmi di ricerca euristica}
 Un modo per caratterizzare la qualità di una euristica é il fattore di diramazione effettivo $b^*$. \newline
@@ -704,7 +704,7 @@ Tenere un solo nodo in memoria può sembrare una soluzione estrema al problema d
     \item Se si trova un goal ci si ferma
     \item Altrimenti si prosegue con i K migliori tra quelli della lista completa
 \end{itemize}
-É diverso dalla Beam Search normale perché tengo in memoria solo i K migliori del passo corrente e non di tutta la storia. Possiamo notare come se K=1 abbiamo Hill-Climbing Greedy mentre se K=$\infty$ ho Hill-Climbing a salita rapida.
+É diverso dalla Beam Search normale perché tengo in memoria solo i K migliori del passo corrente e non di tutta la storia. Possiamo notare come se K=1 abbiamo Hill-Climbing con prima scelta mentre se K=$\infty$ ho Hill-Climbing a salita rapida.
 
 \subsubsection{Local Beam Search Stocastica}
 Si introduce un elemento di casualità. Al posto di scegliere i migliori K successori dalla lista completa, si scelgono i K successori in modo randomico ma con probabilità maggiore di prendere i migliori.
@@ -713,7 +713,7 @@ Si introduce un elemento di casualità. Al posto di scegliere i migliori K succe
 Gli algoritmi genetici sono varianti della Beam Search Stocastica in cui gli stati successori sono ottenuti combinando due stati genitore. Chiamiamo fitness il valore della funzione obiettivo. \newline
 Abbiamo una popolazione iniziale, cioè un insieme di K stati iniziali, generati casualmente. Ogni individuo (stato) è rappresentato da una stringa definita su un alfabeto finito. Ogni individuo viene valutato da una funzione di fitness, si selezionano gli individui per gli accoppiamenti sulla base di una probabilità proporzionale alla fitness. Le coppie scelte\footnote{Nel problema delle regine scegliamo le coppie che non si "attaccano"} danno vita ad una "generazione" successiva con la combinazione di due metodi:
 \begin{itemize}
-    \item Crossover (combinando materiale genetico): per ogni coppia viene scelto un punto di crossing over e vengono divisi ottenendo 4 parti, vengono poi generati due figli scambiandosi i pezzi ottenuti.
+    \item Crossover (combinando materiale genetico): per ogni coppia viene scelto un punto di crossing over e ogni stato viene diviso in due parti ottenendo in totale 4 parti. Vengono poi generati due figli scambiandosi i pezzi ottenuti.
     \item Con un meccanismo casuale aggiuntivo di mutazione genetica: viene infine effettuata una mutazione casuale che dà luogo alla prossima generazione
 \end{itemize}
 La popolazione ottenuta dovrebbe esser migliore.
@@ -736,7 +736,7 @@ Se la funzione è continua e differenziabile, il minimo e il massimo può essere
     Data f obiettivo:
     \[
     \nabla f = (\frac{\partial f}{\partial x_1}, \frac{\partial f}{\partial x_2}, \frac{\partial f}{\partial x_3})
-    \] \newline dove $\partial$ è la derivata parziale e $\nabla$ è inteso come calcolo vettoriale. In alcuni casi possiamo trovare il massimo risolvendo l'equazione $\nabla f=0$, ma in altri casi non é possibile risolverla in forma chiusa.\newline
+    \] \newline dove $\partial$ è la derivata parziale e $\nabla$ è inteso come calcolo vettoriale. In alcuni casi possiamo trovare il massimo risolvendo l'equazione $\nabla f=0$ (calcolo la derivata, vedo dove si annulla e ottengo i punti di min/max), ma in altri casi non é possibile risolverla in forma chiusa.\newline
     Definiamo Hill-Climbing iterativo come
     \[
         x_{new} = x_{old} + \eta \nabla f(x)
