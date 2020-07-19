@@ -87,7 +87,7 @@ Definire un problema per un agente significa caratterizzare l'ambiente in cui l'
 \subsection{Descrizione PEAS dei problemi}
 \begin{itemize}
     \item Performance (prestazione, obiettivo)
-    \item Envoirment (ambiente, dove attua le sue azioni)
+    \item Environment (ambiente, dove attua le sue azioni)
     \item Actuators (attuatori, meccanismi con cui agisco sull'ambiente)
     \item Sensors (sensori, percezioni)
 \end{itemize}
@@ -378,10 +378,10 @@ Ancora più efficiente in occupazione di memoria perché mantiene in memoria sol
 Il fallimento della ricerca DF in uno spazio di stati infinito viene mitigato in parte se si procede in profondità fino ad un certo livello predefinito l.
 \subsubsection{Analisi complessità DL}
 \begin{itemize}
-    \item Strategia Completa: solo per problemi in cui si conosce un limite superiore per la profondità della soluzione cioè se $l>d$. Se scegliamo $l < d$ la ricerca risulta incompleta.
+    \item Strategia Completa: SI solo per problemi in cui si conosce un limite superiore per la profondità della soluzione cioè se $l>d$. Se scegliamo $l < d$ la ricerca risulta incompleta.
     \item Strategia Ottimale: NO
     \item Complessità Tempo: $O(b^l)$
-    \item Complessità Spazio: $O(bl)$
+    \item Complessità Spazio: $O(b*l)$
 \end{itemize}
 
 \subsection{Approfondimento Iterativo - ID}
@@ -599,11 +599,11 @@ Una euristica più informata (accurata) riduce lo spazio di ricerca ma è tipica
 Un modo per caratterizzare la qualità di una euristica é il fattore di diramazione effettivo $b^*$. \newline
 Se:
 \begin{itemize}
-    \item N: numero di nodi generati da $A^*$
-    \item d: profondità della soluzione
+    \item $N$: numero di nodi generati da $A^*$
+    \item $d$: profondità della soluzione
 \end{itemize}
-allora $b^*$ é il fattore di diramazione effettivo che avrebbe un albero uniforme di profondità d per ottenere un albero con N+1 nodi. \newline
-N+1 = $1 + b^* + (b^*)^2 + ... + (b^*)^d$ \newline
+allora $b^*$ é il fattore di diramazione effettivo che avrebbe un albero uniforme di profondità $d$ per ottenere un albero con $N+1$ nodi. \newline
+$N+1 = 1 + b^* + (b^*)^2 + ... + (b^*)^d$ \newline
 Ad esempio, se $A^*$ trovasse una soluzione alla profondità 5, usando 52 nodi, il fattore di diramazione effettivo $b^*$ sarebbe di 1.92. \newline
 Sperimentalmente una buona euristica ha un $b^*$ abbastanza vicino a 1 ($< 1.5$) in modo tale da rendere problemi con dimensionalità alta, risolvibili in un tempo computazionale ragionevole.\newline
 Possiamo vedere come cambia in base ad alcuni dati:
@@ -630,7 +630,7 @@ Sono algoritmi che si preoccupano di occupare meno memoria\footnote{Le limitazio
 La Beam Search salva in frontiera ad ogni passo solo i k nodi più promettenti dove k è l'ampiezza del raggio (in pratica nella frontiera abbiamo i k migliori di tutta la storia dell'algoritmo), ovviamente l'algoritmo non è più completo così facendo.
 
 \subsubsection{$A^*$ con approfondimento iterativo - $IDA^*$}
-$IDA^*$ combina $A^*$ con ID, ad ogni iterazione si ricerca in profondità con un limite (cuf-off) dato dal valore della funzione f(n) e non dalla profondità. Il valore f-limit viene aumentato ad ogni iterazione fino a trovare la soluzione (come in ID si aumenta di un livello alla volta). Ma di quanto aumento? 
+$IDA^*$ combina $A^*$ con ID, ad ogni iterazione si ricerca in profondità con un limite (cut-off) dato dal valore della funzione f(n) e non dalla profondità. Il valore f-limit viene aumentato ad ogni iterazione fino a trovare la soluzione (come in ID si aumenta di un livello alla volta). Ma di quanto aumento? 
 \begin{itemize}
     \item Nel caso di costo fisso di ogni azione il limite viene aumentato di questo costo.
     \item Nel caso in cui i costi siano variabili il limite viene aumentato del costo minimo oppure ad ogni passo scelgo il valore minimo delle f(n) scartate perchè in quanto superavano il limite all'iterazione precedente.
@@ -645,7 +645,7 @@ $IDA^*$ occupa $O(b*d)$ memoria.
 \clearpage
 
 \subsubsection{Best-First ricorsivo - RBFS}
-L'algoritmo é strutturalmente simile a Depth-First Ricorsivo ma cerca di usare meno memoria facendo del lavoro in più, in pratica cerca di imitare Best-First ma usando spazio lineare. Ad ogni livello tengo traccia del migliore percorso alternativo sfruttando la variabile f-limit confrontata con l'f-value\footnote{valore della funzione f(n)} del cammino. Invece di fare Backtracking, in caso di fallimento interrompe l'esplorazione quando trova un nodo meno promettente secondo f(n). Nel tornare indietro si ricorda del migliore nodo che ha trovato nel sottoalbero esplorato, per poterci eventualmente tornare. L'occupazione di memoria è lineare nella profondità della soluzione ottima $O(d)$.
+L'algoritmo é strutturalmente simile a Depth-First Ricorsivo ma cerca di usare meno memoria facendo del lavoro in più, in pratica cerca di imitare Best-First ma usando spazio lineare. Ad ogni livello tengo traccia del migliore percorso alternativo sfruttando la variabile f-limit confrontata con l'f-value\footnote{valore della funzione f(n)} del cammino. In caso di fallimento interrompe l'esplorazione quando trova un nodo meno promettente secondo f(n). Nel tornare indietro si ricorda del migliore nodo che ha trovato nel sottoalbero esplorato, per poterci eventualmente tornare. L'occupazione di memoria è lineare nella profondità della soluzione ottima $O(d)$.
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.5]{Images/rbfsalg.png}
@@ -722,7 +722,7 @@ La popolazione ottenuta dovrebbe esser migliore.
     \includegraphics[scale=0.5]{Images/alggeneticicross.png}
     \caption{Esempio crossover + mutazione casuale}
 \end{figure}
-Gli algoritmi genetici combinano la tendenza a salire della Beam Search Stocastica e la possibilità di interscambio di informazioni tra thread paralleli. Pero il punto critico di questi algoritmi è la rappresentazione del problema in stringhe.
+Gli algoritmi genetici combinano la tendenza a salire della Beam Search Stocastica e la possibilità di interscambio di informazioni tra thread paralleli. Però il punto critico di questi algoritmi è la rappresentazione del problema in stringhe.
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.5]{Images/alggenscacchi.png}
